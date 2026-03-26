@@ -44,7 +44,15 @@ namespace Inbentarioa.formularioak
 
         private void IRTEN_Click(object sender, EventArgs e)
         {
+            this.Hide();
+            Menua mintegiak = new Menua();
+            mintegiak.ShowDialog();
             this.Close();
+        }
+
+        private void GAILUAK_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

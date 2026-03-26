@@ -40,33 +40,35 @@
             ERABILTZAILEAK.BackColor = Color.Navy;
             ERABILTZAILEAK.Font = new Font("Arial", 18F, FontStyle.Bold, GraphicsUnit.Point);
             ERABILTZAILEAK.ForeColor = Color.AliceBlue;
-            ERABILTZAILEAK.Location = new Point(1116, 563);
+            ERABILTZAILEAK.Location = new Point(1056, 567);
             ERABILTZAILEAK.Name = "ERABILTZAILEAK";
             ERABILTZAILEAK.Size = new Size(291, 130);
             ERABILTZAILEAK.TabIndex = 29;
             ERABILTZAILEAK.Text = "EZABATU";
             ERABILTZAILEAK.UseVisualStyleBackColor = false;
+            ERABILTZAILEAK.Click += this.ERABILTZAILEAK_Click;
             // 
             // SARRERA
             // 
             SARRERA.AutoSize = true;
             SARRERA.Font = new Font("Segoe UI", 36F, FontStyle.Bold, GraphicsUnit.Point);
-            SARRERA.Location = new Point(929, 293);
+            SARRERA.Location = new Point(869, 297);
             SARRERA.Name = "SARRERA";
             SARRERA.Size = new Size(368, 81);
             SARRERA.TabIndex = 28;
             SARRERA.Text = "MINTEGIAK";
+            SARRERA.Click += this.SARRERA_Click;
             // 
             // IRTEN
             // 
             IRTEN.BackColor = Color.Crimson;
             IRTEN.Font = new Font("Arial", 18F, FontStyle.Bold, GraphicsUnit.Point);
             IRTEN.ForeColor = SystemColors.ButtonHighlight;
-            IRTEN.Location = new Point(1116, 419);
+            IRTEN.Location = new Point(1056, 423);
             IRTEN.Name = "IRTEN";
             IRTEN.Size = new Size(291, 130);
             IRTEN.TabIndex = 27;
-            IRTEN.Text = "IRTEN";
+            IRTEN.Text = "ATZERA";
             IRTEN.UseVisualStyleBackColor = false;
             IRTEN.Click += IRTEN_Click;
             // 
@@ -75,24 +77,26 @@
             EZABATUTAKOAK.BackColor = Color.Navy;
             EZABATUTAKOAK.Font = new Font("Arial", 18F, FontStyle.Bold, GraphicsUnit.Point);
             EZABATUTAKOAK.ForeColor = SystemColors.ButtonHighlight;
-            EZABATUTAKOAK.Location = new Point(808, 563);
+            EZABATUTAKOAK.Location = new Point(748, 567);
             EZABATUTAKOAK.Name = "EZABATUTAKOAK";
             EZABATUTAKOAK.Size = new Size(250, 130);
             EZABATUTAKOAK.TabIndex = 25;
             EZABATUTAKOAK.Text = "GEHITU";
             EZABATUTAKOAK.UseVisualStyleBackColor = false;
+            EZABATUTAKOAK.Click += this.EZABATUTAKOAK_Click;
             // 
             // GAILUAK
             // 
             GAILUAK.BackColor = Color.Navy;
             GAILUAK.Font = new Font("Arial", 18F, FontStyle.Bold, GraphicsUnit.Point);
             GAILUAK.ForeColor = Color.AliceBlue;
-            GAILUAK.Location = new Point(808, 419);
+            GAILUAK.Location = new Point(748, 423);
             GAILUAK.Name = "GAILUAK";
             GAILUAK.Size = new Size(250, 130);
             GAILUAK.TabIndex = 24;
             GAILUAK.Text = "IKUSI";
             GAILUAK.UseVisualStyleBackColor = false;
+            GAILUAK.Click += GAILUAK_Click;
             // 
             // Mintegiak
             // 

@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Inbentarioa")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+9b9f81c939f0292763799732e76a1673419d8267")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+bba8b7857635aeabbf9fd83d4092db4a8e35da5f")]
 [assembly: System.Reflection.AssemblyProductAttribute("Inbentarioa")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Inbentarioa")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
