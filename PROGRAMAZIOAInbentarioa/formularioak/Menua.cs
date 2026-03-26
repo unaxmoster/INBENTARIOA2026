@@ -42,5 +42,10 @@ namespace Inbentarioa.formularioak
                 e.Graphics.FillRectangle(brush, this.ClientRectangle);
             }
         }
+
+        private void IRTEN_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
     }
 }
