@@ -41,7 +41,7 @@
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI", 28.2F, FontStyle.Regular, GraphicsUnit.Point);
             label1.ForeColor = Color.Coral;
-            label1.Location = new Point(235, 189);
+            label1.Location = new Point(214, 130);
             label1.Name = "label1";
             label1.Size = new Size(137, 62);
             label1.TabIndex = 0;
@@ -53,7 +53,7 @@
             label2.AutoSize = true;
             label2.Font = new Font("Segoe UI", 28.2F, FontStyle.Regular, GraphicsUnit.Point);
             label2.ForeColor = Color.Coral;
-            label2.Location = new Point(150, 263);
+            label2.Location = new Point(129, 232);
             label2.Name = "label2";
             label2.Size = new Size(222, 62);
             label2.TabIndex = 1;
@@ -63,7 +63,7 @@
             // 
             button1.BackColor = SystemColors.Window;
             button1.ForeColor = SystemColors.ControlDarkDark;
-            button1.Location = new Point(364, 370);
+            button1.Location = new Point(442, 408);
             button1.Name = "button1";
             button1.Size = new Size(193, 78);
             button1.TabIndex = 2;
@@ -72,31 +72,31 @@
             // 
             // textBox1
             // 
-            textBox1.Location = new Point(403, 217);
+            textBox1.Location = new Point(483, 161);
             textBox1.Name = "textBox1";
             textBox1.Size = new Size(255, 27);
             textBox1.TabIndex = 3;
             // 
             // textBox2
             // 
-            textBox2.Location = new Point(403, 284);
+            textBox2.Location = new Point(483, 263);
             textBox2.Name = "textBox2";
             textBox2.Size = new Size(255, 27);
             textBox2.TabIndex = 4;
             // 
-            // Form1
+            // Sarrera
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ControlDarkDark;
-            ClientSize = new Size(1427, 666);
+            ClientSize = new Size(1012, 612);
             Controls.Add(textBox2);
             Controls.Add(textBox1);
             Controls.Add(button1);
             Controls.Add(label2);
             Controls.Add(label1);
             Icon = (Icon)resources.GetObject("$this.Icon");
-            Name = "Form1";
+            Name = "Sarrera";
             Text = "Hasiera";
             Load += Sarrera_kargatu;
             ResumeLayout(false);

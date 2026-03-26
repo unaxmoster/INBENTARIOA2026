@@ -12,8 +12,8 @@
       }
     ],
     "additionalProbingPaths": [
-      "C:\\Users\\Anarcocapitalista90\\.dotnet\\store\\|arch|\\|tfm|",
-      "C:\\Users\\Anarcocapitalista90\\.nuget\\packages",
+      "C:\\Users\\unaxm\\.dotnet\\store\\|arch|\\|tfm|",
+      "C:\\Users\\unaxm\\.nuget\\packages",
       "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
     ],
     "configProperties": {
