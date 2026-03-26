@@ -47,7 +47,7 @@ namespace Inbentarioa
         }
 
         private void button1_Click(object sender, EventArgs e)
-        {
+        {//
             // Ocultamos primero el formulario actual
             this.Hide();
 
