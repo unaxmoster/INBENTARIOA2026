@@ -47,6 +47,7 @@
             ERABILTZAILEAK.TabIndex = 23;
             ERABILTZAILEAK.Text = "ERABILTZAILEAK";
             ERABILTZAILEAK.UseVisualStyleBackColor = false;
+            ERABILTZAILEAK.Click += ERABILTZAILEAK_Click;
             // 
             // SARRERA
             // 

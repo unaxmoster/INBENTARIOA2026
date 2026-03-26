@@ -37,7 +37,7 @@
             // dataGridView1
             // 
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Location = new Point(179, 112);
+            dataGridView1.Location = new Point(655, 287);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.RowHeadersWidth = 51;
             dataGridView1.RowTemplate.Height = 29;
@@ -48,7 +48,7 @@
             // 
             EZABATUTAKOAK.AutoSize = true;
             EZABATUTAKOAK.Font = new Font("Segoe UI", 36F, FontStyle.Bold, GraphicsUnit.Point);
-            EZABATUTAKOAK.Location = new Point(176, 9);
+            EZABATUTAKOAK.Location = new Point(652, 184);
             EZABATUTAKOAK.Name = "EZABATUTAKOAK";
             EZABATUTAKOAK.Size = new Size(728, 81);
             EZABATUTAKOAK.TabIndex = 23;
@@ -60,12 +60,13 @@
             ATZERA.BackColor = Color.Crimson;
             ATZERA.Font = new Font("Arial", 18F, FontStyle.Bold, GraphicsUnit.Point);
             ATZERA.ForeColor = SystemColors.ButtonHighlight;
-            ATZERA.Location = new Point(415, 431);
+            ATZERA.Location = new Point(891, 606);
             ATZERA.Name = "ATZERA";
             ATZERA.Size = new Size(250, 130);
             ATZERA.TabIndex = 24;
             ATZERA.Text = "ATZERA";
             ATZERA.UseVisualStyleBackColor = false;
+            ATZERA.Click += ATZERA_Click;
             // 
             // EzabatutakoGailuak
             // 

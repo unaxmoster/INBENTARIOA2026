@@ -46,7 +46,6 @@
             ERABILTZAILEAK.TabIndex = 29;
             ERABILTZAILEAK.Text = "EZABATU";
             ERABILTZAILEAK.UseVisualStyleBackColor = false;
-            ERABILTZAILEAK.Click += this.ERABILTZAILEAK_Click;
             // 
             // SARRERA
             // 
@@ -57,7 +56,6 @@
             SARRERA.Size = new Size(368, 81);
             SARRERA.TabIndex = 28;
             SARRERA.Text = "MINTEGIAK";
-            SARRERA.Click += this.SARRERA_Click;
             // 
             // IRTEN
             // 
@@ -83,7 +81,7 @@
             EZABATUTAKOAK.TabIndex = 25;
             EZABATUTAKOAK.Text = "GEHITU";
             EZABATUTAKOAK.UseVisualStyleBackColor = false;
-            EZABATUTAKOAK.Click += this.EZABATUTAKOAK_Click;
+            EZABATUTAKOAK.Click += EZABATUTAKOAK_Click;
             // 
             // GAILUAK
             // 

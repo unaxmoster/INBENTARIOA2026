@@ -42,5 +42,18 @@ namespace Inbentarioa.formularioak
         {
             this.WindowState = FormWindowState.Maximized;
         }
+
+        private void ATZERA_Click(object sender, EventArgs e)
+        {
+            // Ocultamos primero el formulario actual
+            this.Hide();
+
+            // Creamos y abrimos el nuevo formulario
+            Menua mintegiak = new Menua();
+            mintegiak.ShowDialog();
+
+            // Cuando el usuario cierre Menua, cerramos definitivamente este formulario
+            this.Close();
+        }
     }
 }
