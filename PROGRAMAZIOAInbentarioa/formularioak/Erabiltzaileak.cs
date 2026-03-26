@@ -16,5 +16,10 @@ namespace Inbentarioa.formularioak
         {
             InitializeComponent();
         }
+
+        private void Erabiltzaileak_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

@@ -29,73 +29,79 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Sarrera));
-            label1 = new Label();
-            label2 = new Label();
-            button1 = new Button();
-            textBox1 = new TextBox();
-            textBox2 = new TextBox();
+            lblizena = new Label();
+            lblpass = new Label();
+            SartuBotoia = new Button();
+            textpass = new TextBox();
+            textizena = new TextBox();
             SuspendLayout();
             // 
-            // label1
+            // lblizena
             // 
-            label1.AutoSize = true;
-            label1.Font = new Font("Segoe UI", 28.2F, FontStyle.Regular, GraphicsUnit.Point);
-            label1.ForeColor = Color.Coral;
-            label1.Location = new Point(214, 130);
-            label1.Name = "label1";
-            label1.Size = new Size(137, 62);
-            label1.TabIndex = 0;
-            label1.Text = "Izena";
-            label1.Click += label1_Click;
+            lblizena.AutoSize = true;
+            lblizena.BackColor = Color.Transparent;
+            lblizena.Font = new Font("Arial Black", 48F, FontStyle.Bold, GraphicsUnit.Point);
+            lblizena.ForeColor = Color.Navy;
+            lblizena.Location = new Point(728, 334);
+            lblizena.Name = "lblizena";
+            lblizena.Size = new Size(308, 113);
+            lblizena.TabIndex = 0;
+            lblizena.Text = "Izena:";
+            lblizena.Click += label1_Click;
             // 
-            // label2
+            // lblpass
             // 
-            label2.AutoSize = true;
-            label2.Font = new Font("Segoe UI", 28.2F, FontStyle.Regular, GraphicsUnit.Point);
-            label2.ForeColor = Color.Coral;
-            label2.Location = new Point(129, 232);
-            label2.Name = "label2";
-            label2.Size = new Size(222, 62);
-            label2.TabIndex = 1;
-            label2.Text = "pasahitza";
+            lblpass.AutoSize = true;
+            lblpass.BackColor = Color.Transparent;
+            lblpass.Font = new Font("Arial Black", 48F, FontStyle.Bold, GraphicsUnit.Point);
+            lblpass.ForeColor = Color.Navy;
+            lblpass.Location = new Point(536, 437);
+            lblpass.Name = "lblpass";
+            lblpass.Size = new Size(500, 113);
+            lblpass.TabIndex = 1;
+            lblpass.Text = "Pasahitza:";
             // 
-            // button1
+            // SartuBotoia
             // 
-            button1.BackColor = SystemColors.Window;
-            button1.ForeColor = SystemColors.ControlDarkDark;
-            button1.Location = new Point(442, 408);
-            button1.Name = "button1";
-            button1.Size = new Size(193, 78);
-            button1.TabIndex = 2;
-            button1.Text = "SARTU";
-            button1.UseVisualStyleBackColor = false;
-            button1.Click += button1_Click;
+            SartuBotoia.BackColor = Color.Navy;
+            SartuBotoia.Font = new Font("Arial Narrow", 18F, FontStyle.Bold, GraphicsUnit.Point);
+            SartuBotoia.ForeColor = SystemColors.ButtonHighlight;
+            SartuBotoia.Location = new Point(1042, 577);
+            SartuBotoia.Name = "SartuBotoia";
+            SartuBotoia.Size = new Size(255, 88);
+            SartuBotoia.TabIndex = 2;
+            SartuBotoia.Text = "SARTU";
+            SartuBotoia.UseVisualStyleBackColor = false;
+            SartuBotoia.Click += button1_Click;
             // 
-            // textBox1
+            // textpass
             // 
-            textBox1.Location = new Point(483, 161);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(255, 27);
-            textBox1.TabIndex = 3;
+            textpass.Font = new Font("Segoe UI", 28.2F, FontStyle.Regular, GraphicsUnit.Point);
+            textpass.Location = new Point(1042, 472);
+            textpass.Name = "textpass";
+            textpass.PasswordChar = '*';
+            textpass.Size = new Size(255, 70);
+            textpass.TabIndex = 4;
             // 
-            // textBox2
+            // textizena
             // 
-            textBox2.Location = new Point(483, 263);
-            textBox2.Name = "textBox2";
-            textBox2.Size = new Size(255, 27);
-            textBox2.TabIndex = 4;
+            textizena.Font = new Font("Segoe UI", 28.2F, FontStyle.Regular, GraphicsUnit.Point);
+            textizena.Location = new Point(1042, 369);
+            textizena.Name = "textizena";
+            textizena.Size = new Size(255, 70);
+            textizena.TabIndex = 5;
             // 
             // Sarrera
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ControlDarkDark;
-            ClientSize = new Size(1012, 612);
-            Controls.Add(textBox2);
-            Controls.Add(textBox1);
-            Controls.Add(button1);
-            Controls.Add(label2);
-            Controls.Add(label1);
+            ClientSize = new Size(1751, 896);
+            Controls.Add(textizena);
+            Controls.Add(textpass);
+            Controls.Add(SartuBotoia);
+            Controls.Add(lblpass);
+            Controls.Add(lblizena);
             Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "Sarrera";
             Text = "Hasiera";
@@ -106,10 +112,10 @@
 
         #endregion
 
-        private Label label1;
-        private Label label2;
-        private Button button1;
-        private TextBox textBox1;
-        private TextBox textBox2;
+        private Label lblizena;
+        private Label lblpass;
+        private Button SartuBotoia;
+        private TextBox textpass;
+        private TextBox textizena;
     }
 }
