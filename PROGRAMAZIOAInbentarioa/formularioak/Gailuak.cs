@@ -20,7 +20,7 @@ namespace Inbentarioa.formularioak
 
         private void Gailuak_Load(object sender, EventArgs e)
         {
-
+            this.WindowState = FormWindowState.Maximized;
         }
         protected override void OnPaint(PaintEventArgs e)
         {

@@ -60,7 +60,7 @@
             // 
             // IRTEN
             // 
-            IRTEN.BackColor = Color.Navy;
+            IRTEN.BackColor = Color.Crimson;
             IRTEN.Font = new Font("Arial", 18F, FontStyle.Bold, GraphicsUnit.Point);
             IRTEN.ForeColor = SystemColors.ButtonHighlight;
             IRTEN.Location = new Point(951, 605);
@@ -82,6 +82,7 @@
             MINTEGIAK.TabIndex = 20;
             MINTEGIAK.Text = "MINTEGIAK";
             MINTEGIAK.UseVisualStyleBackColor = false;
+            MINTEGIAK.Click += MINTEGIAK_Click;
             // 
             // EZABATUTAKOAK
             // 
@@ -94,6 +95,7 @@
             EZABATUTAKOAK.TabIndex = 19;
             EZABATUTAKOAK.Text = "EZABATUTAKO GAILUAK";
             EZABATUTAKOAK.UseVisualStyleBackColor = false;
+            EZABATUTAKOAK.Click += EZABATUTAKOAK_Click;
             // 
             // GAILUAK
             // 

@@ -46,5 +46,31 @@ namespace Inbentarioa.formularioak
         {
             this.Close();
         }
+
+        private void MINTEGIAK_Click(object sender, EventArgs e)
+        {
+            // Ocultamos primero el formulario actual
+            this.Hide();
+
+            // Creamos y abrimos el nuevo formulario
+            Mintegiak mintegiak = new Mintegiak();
+            mintegiak.ShowDialog();
+
+            // Cuando el usuario cierre Menua, cerramos definitivamente este formulario
+            this.Close();
+        }
+
+        private void EZABATUTAKOAK_Click(object sender, EventArgs e)
+        {
+            // Ocultamos primero el formulario actual
+            this.Hide();
+
+            // Creamos y abrimos el nuevo formulario
+            EzabatutakoGailuak ezabatutakoak = new EzabatutakoGailuak();
+            ezabatutakoak.ShowDialog();
+
+            // Cuando el usuario cierre Menua, cerramos definitivamente este formulario
+            this.Close();
+        }
     }
 }

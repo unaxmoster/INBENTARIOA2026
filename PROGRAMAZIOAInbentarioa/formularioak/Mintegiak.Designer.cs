@@ -28,12 +28,95 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Text = "Mintegiak";
+            ERABILTZAILEAK = new Button();
+            SARRERA = new Label();
+            IRTEN = new Button();
+            EZABATUTAKOAK = new Button();
+            GAILUAK = new Button();
+            SuspendLayout();
+            // 
+            // ERABILTZAILEAK
+            // 
+            ERABILTZAILEAK.BackColor = Color.Navy;
+            ERABILTZAILEAK.Font = new Font("Arial", 18F, FontStyle.Bold, GraphicsUnit.Point);
+            ERABILTZAILEAK.ForeColor = Color.AliceBlue;
+            ERABILTZAILEAK.Location = new Point(1116, 563);
+            ERABILTZAILEAK.Name = "ERABILTZAILEAK";
+            ERABILTZAILEAK.Size = new Size(291, 130);
+            ERABILTZAILEAK.TabIndex = 29;
+            ERABILTZAILEAK.Text = "EZABATU";
+            ERABILTZAILEAK.UseVisualStyleBackColor = false;
+            // 
+            // SARRERA
+            // 
+            SARRERA.AutoSize = true;
+            SARRERA.Font = new Font("Segoe UI", 36F, FontStyle.Bold, GraphicsUnit.Point);
+            SARRERA.Location = new Point(929, 293);
+            SARRERA.Name = "SARRERA";
+            SARRERA.Size = new Size(368, 81);
+            SARRERA.TabIndex = 28;
+            SARRERA.Text = "MINTEGIAK";
+            // 
+            // IRTEN
+            // 
+            IRTEN.BackColor = Color.Crimson;
+            IRTEN.Font = new Font("Arial", 18F, FontStyle.Bold, GraphicsUnit.Point);
+            IRTEN.ForeColor = SystemColors.ButtonHighlight;
+            IRTEN.Location = new Point(1116, 419);
+            IRTEN.Name = "IRTEN";
+            IRTEN.Size = new Size(291, 130);
+            IRTEN.TabIndex = 27;
+            IRTEN.Text = "IRTEN";
+            IRTEN.UseVisualStyleBackColor = false;
+            IRTEN.Click += IRTEN_Click;
+            // 
+            // EZABATUTAKOAK
+            // 
+            EZABATUTAKOAK.BackColor = Color.Navy;
+            EZABATUTAKOAK.Font = new Font("Arial", 18F, FontStyle.Bold, GraphicsUnit.Point);
+            EZABATUTAKOAK.ForeColor = SystemColors.ButtonHighlight;
+            EZABATUTAKOAK.Location = new Point(808, 563);
+            EZABATUTAKOAK.Name = "EZABATUTAKOAK";
+            EZABATUTAKOAK.Size = new Size(250, 130);
+            EZABATUTAKOAK.TabIndex = 25;
+            EZABATUTAKOAK.Text = "GEHITU";
+            EZABATUTAKOAK.UseVisualStyleBackColor = false;
+            // 
+            // GAILUAK
+            // 
+            GAILUAK.BackColor = Color.Navy;
+            GAILUAK.Font = new Font("Arial", 18F, FontStyle.Bold, GraphicsUnit.Point);
+            GAILUAK.ForeColor = Color.AliceBlue;
+            GAILUAK.Location = new Point(808, 419);
+            GAILUAK.Name = "GAILUAK";
+            GAILUAK.Size = new Size(250, 130);
+            GAILUAK.TabIndex = 24;
+            GAILUAK.Text = "IKUSI";
+            GAILUAK.UseVisualStyleBackColor = false;
+            // 
+            // Mintegiak
+            // 
+            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size(1526, 843);
+            Controls.Add(ERABILTZAILEAK);
+            Controls.Add(SARRERA);
+            Controls.Add(IRTEN);
+            Controls.Add(EZABATUTAKOAK);
+            Controls.Add(GAILUAK);
+            Name = "Mintegiak";
+            Text = "Mintegiak";
+            Load += Mintegiak_Load;
+            ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
+
+        private Button ERABILTZAILEAK;
+        private Label SARRERA;
+        private Button IRTEN;
+        private Button EZABATUTAKOAK;
+        private Button GAILUAK;
     }
 }
