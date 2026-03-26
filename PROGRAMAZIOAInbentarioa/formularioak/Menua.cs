@@ -72,5 +72,13 @@ namespace Inbentarioa.formularioak
             // Cuando el usuario cierre Menua, cerramos definitivamente este formulario
             this.Close();
         }
+
+        private void ERABILTZAILEAK_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            Erabiltzaileak mintegiak = new Erabiltzaileak();
+            mintegiak.ShowDialog();
+            this.Close();
+        }
     }
 }

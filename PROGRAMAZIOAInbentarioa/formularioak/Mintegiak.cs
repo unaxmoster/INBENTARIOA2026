@@ -52,7 +52,18 @@ namespace Inbentarioa.formularioak
 
         private void GAILUAK_Click(object sender, EventArgs e)
         {
+            this.Hide();
+            MintegiLista mintegiak = new MintegiLista();
+            mintegiak.ShowDialog();
+            this.Close();
+        }
 
+        private void EZABATUTAKOAK_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            MintegiaGehitu mintegiak = new MintegaGehitu();
+            mintegiak.ShowDialog();
+            this.Close();
         }
     }
 }
