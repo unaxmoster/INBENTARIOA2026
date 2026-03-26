@@ -10,6 +10,9 @@
     <Compile Update="formularioak\Gailuak.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="formularioak\Menua.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="formularioak\MenuaOna.cs">
       <SubType>Form</SubType>
     </Compile>
