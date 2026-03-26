@@ -8,23 +8,23 @@
     "net6.0-windows7.0": []
   },
   "packageFolders": {
-    "C:\\Users\\Anarcocapitalista90\\.nuget\\packages\\": {},
+    "C:\\Users\\unaxm\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Anarcocapitalista90\\Desktop\\2025-2026\\ERRONKA\\Inbentarioa\\Programazioa\\RepositorioClonado\\PROGRAMAZIOAInbentarioa\\Inbentarioa.csproj",
+      "projectUniqueName": "C:\\Users\\unaxm\\source\\repos\\unaxmoster\\INBENTARIOA2026\\PROGRAMAZIOAInbentarioa\\Inbentarioa.csproj",
       "projectName": "Inbentarioa",
-      "projectPath": "C:\\Users\\Anarcocapitalista90\\Desktop\\2025-2026\\ERRONKA\\Inbentarioa\\Programazioa\\RepositorioClonado\\PROGRAMAZIOAInbentarioa\\Inbentarioa.csproj",
-      "packagesPath": "C:\\Users\\Anarcocapitalista90\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Anarcocapitalista90\\Desktop\\2025-2026\\ERRONKA\\Inbentarioa\\Programazioa\\RepositorioClonado\\PROGRAMAZIOAInbentarioa\\obj\\",
+      "projectPath": "C:\\Users\\unaxm\\source\\repos\\unaxmoster\\INBENTARIOA2026\\PROGRAMAZIOAInbentarioa\\Inbentarioa.csproj",
+      "packagesPath": "C:\\Users\\unaxm\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\unaxm\\source\\repos\\unaxmoster\\INBENTARIOA2026\\PROGRAMAZIOAInbentarioa\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\Anarcocapitalista90\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\unaxm\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -51,7 +51,8 @@
         "enableAudit": "true",
         "auditLevel": "low",
         "auditMode": "direct"
-      }
+      },
+      "SdkAnalysisLevel": "10.0.100"
     },
     "frameworks": {
       "net6.0-windows7.0": {
@@ -75,7 +76,7 @@
             "privateAssets": "none"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.400\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.102\\RuntimeIdentifierGraph.json"
       }
     }
   }

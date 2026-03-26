@@ -61,7 +61,7 @@ namespace Inbentarioa.formularioak
         private void EZABATUTAKOAK_Click(object sender, EventArgs e)
         {
             this.Hide();
-            MintegiaGehitu mintegiak = new MintegaGehitu();
+            MintegiaGehitu mintegiak = new MintegiaGehitu();
             mintegiak.ShowDialog();
             this.Close();
         }
