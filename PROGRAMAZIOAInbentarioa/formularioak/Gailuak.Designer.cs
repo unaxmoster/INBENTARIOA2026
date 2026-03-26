@@ -33,13 +33,14 @@
             EZABATU = new Button();
             IKUSI = new Button();
             GAILUA = new Label();
+            ATZERA = new Button();
             SuspendLayout();
             // 
             // GEHITU
             // 
             GEHITU.BackColor = Color.LightGray;
-            GEHITU.Font = new Font("Arial", 13.8F, FontStyle.Bold, GraphicsUnit.Point);
-            GEHITU.Location = new Point(268, 210);
+            GEHITU.Font = new Font("Arial", 18F, FontStyle.Bold, GraphicsUnit.Point);
+            GEHITU.Location = new Point(109, 260);
             GEHITU.Name = "GEHITU";
             GEHITU.Size = new Size(250, 130);
             GEHITU.TabIndex = 0;
@@ -49,8 +50,8 @@
             // ALDATU
             // 
             ALDATU.BackColor = Color.LightGray;
-            ALDATU.Font = new Font("Arial", 13.8F, FontStyle.Bold, GraphicsUnit.Point);
-            ALDATU.Location = new Point(268, 357);
+            ALDATU.Font = new Font("Arial", 18F, FontStyle.Bold, GraphicsUnit.Point);
+            ALDATU.Location = new Point(109, 396);
             ALDATU.Name = "ALDATU";
             ALDATU.Size = new Size(250, 130);
             ALDATU.TabIndex = 1;
@@ -60,8 +61,8 @@
             // EZABATU
             // 
             EZABATU.BackColor = Color.LightGray;
-            EZABATU.Font = new Font("Arial", 13.8F, FontStyle.Bold, GraphicsUnit.Point);
-            EZABATU.Location = new Point(539, 210);
+            EZABATU.Font = new Font("Arial", 18F, FontStyle.Bold, GraphicsUnit.Point);
+            EZABATU.Location = new Point(379, 260);
             EZABATU.Name = "EZABATU";
             EZABATU.Size = new Size(250, 130);
             EZABATU.TabIndex = 2;
@@ -71,8 +72,8 @@
             // IKUSI
             // 
             IKUSI.BackColor = Color.LightGray;
-            IKUSI.Font = new Font("Arial", 13.8F, FontStyle.Bold, GraphicsUnit.Point);
-            IKUSI.Location = new Point(539, 357);
+            IKUSI.Font = new Font("Arial", 18F, FontStyle.Bold, GraphicsUnit.Point);
+            IKUSI.Location = new Point(379, 398);
             IKUSI.Name = "IKUSI";
             IKUSI.Size = new Size(250, 130);
             IKUSI.TabIndex = 3;
@@ -83,17 +84,29 @@
             // 
             GAILUA.AutoSize = true;
             GAILUA.Font = new Font("Segoe UI", 28.2F, FontStyle.Bold, GraphicsUnit.Point);
-            GAILUA.Location = new Point(417, 90);
+            GAILUA.Location = new Point(422, 121);
             GAILUA.Name = "GAILUA";
             GAILUA.Size = new Size(228, 62);
             GAILUA.TabIndex = 4;
             GAILUA.Text = "GAILUAK";
+            // 
+            // ATZERA
+            // 
+            ATZERA.BackColor = Color.LightGray;
+            ATZERA.Font = new Font("Arial", 18F, FontStyle.Bold, GraphicsUnit.Point);
+            ATZERA.Location = new Point(685, 324);
+            ATZERA.Name = "ATZERA";
+            ATZERA.Size = new Size(250, 130);
+            ATZERA.TabIndex = 5;
+            ATZERA.Text = "ATZERA";
+            ATZERA.UseVisualStyleBackColor = false;
             // 
             // Gailuak
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1027, 604);
+            Controls.Add(ATZERA);
             Controls.Add(GAILUA);
             Controls.Add(IKUSI);
             Controls.Add(EZABATU);
@@ -116,5 +129,6 @@
         private Button EZABATU;
         private Button IKUSI;
         private Label GAILUA;
+        private Button ATZERA;
     }
 }
