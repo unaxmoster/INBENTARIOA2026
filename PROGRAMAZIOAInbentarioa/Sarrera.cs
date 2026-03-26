@@ -1,3 +1,4 @@
+using Inbentarioa.formularioak;
 using System.Drawing.Drawing2D;
 
 namespace Inbentarioa
@@ -46,10 +47,17 @@ namespace Inbentarioa
         }
 
         private void button1_Click(object sender, EventArgs e)
-        {//
-            // Ocultamos primero el formulario actual
-            this.Hide();
+        {
+                // Ocultamos primero el formulario actual
+                this.Hide();
 
+                // Creamos y abrimos el nuevo formulario
+                Menua menu = new Menua();
+                menu.ShowDialog();
+
+                // Cuando el usuario cierre Menua, cerramos definitivamente este formulario
+                this.Close();
+            
         }
         private void button3_Click(object sender, EventArgs e)
         {
