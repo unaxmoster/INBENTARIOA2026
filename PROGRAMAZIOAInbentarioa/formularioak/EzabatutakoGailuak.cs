@@ -41,5 +41,10 @@ namespace Inbentarioa.formularioak
         {
             this.WindowState = FormWindowState.Maximized;
         }
+
+        private void SARRERA_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
