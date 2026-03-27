@@ -69,3 +69,4 @@ C:\Users\unaxm\source\repos\unaxmoster\INBENTARIOA2026\PROGRAMAZIOAInbentarioa\o
 C:\Users\Anarcocapitalista90\Desktop\2025-2026\ERRONKA\Inbentarioa\Programazioa\RepositorioClonado\PROGRAMAZIOAInbentarioa\obj\Debug\net6.0-windows\Inbentarioa.formularioak.MintegiaGehitu.resources
 C:\Users\Anarcocapitalista90\Desktop\2025-2026\ERRONKA\Inbentarioa\Programazioa\RepositorioClonado\PROGRAMAZIOAInbentarioa\obj\Debug\net6.0-windows\Inbentarioa.formularioak.MintegiLista.resources
 >>>>>>> 7ad1eda3f7a9235b86b118b18feede7ac93a73d8
+C:\Users\Anarcocapitalista90\Desktop\2025-2026\ERRONKA\Inbentarioa\Programazioa\RepositorioClonado\PROGRAMAZIOAInbentarioa\obj\Debug\net6.0-windows\Inbentarioa.formularioak.IKUSI.resources
