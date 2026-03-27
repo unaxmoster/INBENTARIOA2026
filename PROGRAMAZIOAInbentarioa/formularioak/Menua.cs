@@ -76,9 +76,14 @@ namespace Inbentarioa.formularioak
         private void ERABILTZAILEAK_Click(object sender, EventArgs e)
         {
             this.Hide();
-            Erabiltzaileak mintegiak = new Erabiltzaileak();
-            mintegiak.ShowDialog();
+            Erabiltzaileak erab = new Erabiltzaileak();
+            erab.ShowDialog();
             this.Close();
+        }
+
+        private void GAILUAK_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
