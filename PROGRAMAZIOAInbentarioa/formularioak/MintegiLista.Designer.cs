@@ -56,6 +56,7 @@
             IRTEN.TabIndex = 32;
             IRTEN.Text = "ATZERA";
             IRTEN.UseVisualStyleBackColor = false;
+            IRTEN.Click += IRTEN_Click;
             // 
             // dataGridView1
             // 
@@ -77,6 +78,7 @@
             Controls.Add(IRTEN);
             Name = "MintegiLista";
             Text = "MintegiLista";
+            Load += MintegiLista_Load;
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ResumeLayout(false);
             PerformLayout();
