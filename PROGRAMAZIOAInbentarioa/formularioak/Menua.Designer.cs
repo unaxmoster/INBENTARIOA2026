@@ -109,6 +109,7 @@
             GAILUAK.TabIndex = 18;
             GAILUAK.Text = "GAILUAK";
             GAILUAK.UseVisualStyleBackColor = false;
+            GAILUAK.Click += GAILUAK_Click;
             // 
             // Menua
             // 

@@ -80,5 +80,13 @@ namespace Inbentarioa.formularioak
             mintegiak.ShowDialog();
             this.Close();
         }
+
+        private void GAILUAK_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            IKUSI mintegiak = new IKUSI();
+            mintegiak.ShowDialog();
+            this.Close();
+        }
     }
 }
