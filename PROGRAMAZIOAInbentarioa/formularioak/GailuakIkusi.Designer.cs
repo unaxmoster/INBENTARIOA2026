@@ -42,7 +42,7 @@
             MINTEGI.BackColor = Color.Navy;
             MINTEGI.Font = new Font("Arial", 18F, FontStyle.Bold, GraphicsUnit.Point);
             MINTEGI.ForeColor = Color.Transparent;
-            MINTEGI.Location = new Point(132, 138);
+            MINTEGI.Location = new Point(500, 338);
             MINTEGI.Name = "MINTEGI";
             MINTEGI.Size = new Size(320, 172);
             MINTEGI.TabIndex = 0;
@@ -54,7 +54,7 @@
             ORDENAGAILUA.BackColor = Color.Navy;
             ORDENAGAILUA.Font = new Font("Arial", 18F, FontStyle.Bold, GraphicsUnit.Point);
             ORDENAGAILUA.ForeColor = Color.Transparent;
-            ORDENAGAILUA.Location = new Point(464, 138);
+            ORDENAGAILUA.Location = new Point(832, 338);
             ORDENAGAILUA.Name = "ORDENAGAILUA";
             ORDENAGAILUA.Size = new Size(332, 172);
             ORDENAGAILUA.TabIndex = 1;
@@ -66,7 +66,7 @@
             INPRIMAGAILUA.BackColor = Color.Navy;
             INPRIMAGAILUA.Font = new Font("Arial", 18F, FontStyle.Bold, GraphicsUnit.Point);
             INPRIMAGAILUA.ForeColor = Color.Transparent;
-            INPRIMAGAILUA.Location = new Point(132, 329);
+            INPRIMAGAILUA.Location = new Point(500, 529);
             INPRIMAGAILUA.Name = "INPRIMAGAILUA";
             INPRIMAGAILUA.Size = new Size(320, 172);
             INPRIMAGAILUA.TabIndex = 2;
@@ -78,7 +78,7 @@
             BESTEAK.BackColor = Color.Navy;
             BESTEAK.Font = new Font("Arial", 18F, FontStyle.Bold, GraphicsUnit.Point);
             BESTEAK.ForeColor = Color.Transparent;
-            BESTEAK.Location = new Point(464, 329);
+            BESTEAK.Location = new Point(832, 529);
             BESTEAK.Name = "BESTEAK";
             BESTEAK.Size = new Size(332, 172);
             BESTEAK.TabIndex = 3;
@@ -90,7 +90,7 @@
             GUZTIAK.BackColor = Color.Navy;
             GUZTIAK.Font = new Font("Arial", 18F, FontStyle.Bold, GraphicsUnit.Point);
             GUZTIAK.ForeColor = Color.Transparent;
-            GUZTIAK.Location = new Point(812, 138);
+            GUZTIAK.Location = new Point(1180, 338);
             GUZTIAK.Name = "GUZTIAK";
             GUZTIAK.Size = new Size(320, 172);
             GUZTIAK.TabIndex = 4;
@@ -102,18 +102,19 @@
             ATZERA.BackColor = Color.Crimson;
             ATZERA.Font = new Font("Arial", 18F, FontStyle.Bold, GraphicsUnit.Point);
             ATZERA.ForeColor = Color.Transparent;
-            ATZERA.Location = new Point(812, 329);
+            ATZERA.Location = new Point(1180, 529);
             ATZERA.Name = "ATZERA";
             ATZERA.Size = new Size(320, 172);
             ATZERA.TabIndex = 5;
             ATZERA.Text = "ATZERA";
             ATZERA.UseVisualStyleBackColor = false;
+            ATZERA.Click += ATZERA_Click;
             // 
             // EZABATUTAKOAK
             // 
             EZABATUTAKOAK.AutoSize = true;
             EZABATUTAKOAK.Font = new Font("Segoe UI", 36F, FontStyle.Bold, GraphicsUnit.Point);
-            EZABATUTAKOAK.Location = new Point(397, 30);
+            EZABATUTAKOAK.Location = new Point(765, 230);
             EZABATUTAKOAK.Name = "EZABATUTAKOAK";
             EZABATUTAKOAK.Size = new Size(463, 81);
             EZABATUTAKOAK.TabIndex = 24;
@@ -123,7 +124,7 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1329, 791);
+            ClientSize = new Size(1701, 1055);
             Controls.Add(EZABATUTAKOAK);
             Controls.Add(ATZERA);
             Controls.Add(GUZTIAK);

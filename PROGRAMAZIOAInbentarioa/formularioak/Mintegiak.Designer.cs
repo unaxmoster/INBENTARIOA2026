@@ -106,6 +106,8 @@
             Controls.Add(IRTEN);
             Controls.Add(EZABATUTAKOAK);
             Controls.Add(GAILUAK);
+            MaximizeBox = false;
+            MinimizeBox = false;
             Name = "Mintegiak";
             Text = "Mintegiak";
             Load += Mintegiak_Load;
