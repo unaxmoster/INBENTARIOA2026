@@ -31,7 +31,7 @@
             dataGridView1 = new DataGridView();
             EZABATUTAKOAK = new Label();
             ATZERA = new Button();
-            button1 = new Button();
+            ErabBerriaSortu = new Button();
             button2 = new Button();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
@@ -42,14 +42,13 @@
             dataGridView1.Location = new Point(599, 275);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.RowHeadersWidth = 51;
-            dataGridView1.RowTemplate.Height = 29;
             dataGridView1.Size = new Size(721, 295);
             dataGridView1.TabIndex = 1;
             // 
             // EZABATUTAKOAK
             // 
             EZABATUTAKOAK.AutoSize = true;
-            EZABATUTAKOAK.Font = new Font("Segoe UI", 36F, FontStyle.Bold, GraphicsUnit.Point);
+            EZABATUTAKOAK.Font = new Font("Segoe UI", 36F, FontStyle.Bold);
             EZABATUTAKOAK.Location = new Point(700, 164);
             EZABATUTAKOAK.Name = "EZABATUTAKOAK";
             EZABATUTAKOAK.Size = new Size(509, 81);
@@ -59,7 +58,7 @@
             // ATZERA
             // 
             ATZERA.BackColor = Color.Crimson;
-            ATZERA.Font = new Font("Arial", 18F, FontStyle.Bold, GraphicsUnit.Point);
+            ATZERA.Font = new Font("Arial", 18F, FontStyle.Bold);
             ATZERA.ForeColor = SystemColors.ButtonHighlight;
             ATZERA.Location = new Point(1112, 603);
             ATZERA.Name = "ATZERA";
@@ -69,23 +68,23 @@
             ATZERA.UseVisualStyleBackColor = false;
             ATZERA.Click += ATZERA_Click;
             // 
-            // button1
+            // ErabBerriaSortu
             // 
-            button1.BackColor = Color.Navy;
-            button1.Font = new Font("Arial", 18F, FontStyle.Bold, GraphicsUnit.Point);
-            button1.ForeColor = SystemColors.ButtonHighlight;
-            button1.Location = new Point(555, 603);
-            button1.Name = "button1";
-            button1.Size = new Size(250, 130);
-            button1.TabIndex = 26;
-            button1.Text = "Berria sortu";
-            button1.UseVisualStyleBackColor = false;
-            button1.Click += button1_Click;
+            ErabBerriaSortu.BackColor = Color.Navy;
+            ErabBerriaSortu.Font = new Font("Arial", 18F, FontStyle.Bold);
+            ErabBerriaSortu.ForeColor = SystemColors.ButtonHighlight;
+            ErabBerriaSortu.Location = new Point(555, 603);
+            ErabBerriaSortu.Name = "ErabBerriaSortu";
+            ErabBerriaSortu.Size = new Size(250, 130);
+            ErabBerriaSortu.TabIndex = 26;
+            ErabBerriaSortu.Text = "Berria sortu";
+            ErabBerriaSortu.UseVisualStyleBackColor = false;
+            ErabBerriaSortu.Click += button1_Click;
             // 
             // button2
             // 
             button2.BackColor = Color.Navy;
-            button2.Font = new Font("Arial", 18F, FontStyle.Bold, GraphicsUnit.Point);
+            button2.Font = new Font("Arial", 18F, FontStyle.Bold);
             button2.ForeColor = SystemColors.ButtonHighlight;
             button2.Location = new Point(835, 603);
             button2.Name = "button2";
@@ -100,7 +99,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1385, 1007);
             Controls.Add(button2);
-            Controls.Add(button1);
+            Controls.Add(ErabBerriaSortu);
             Controls.Add(ATZERA);
             Controls.Add(EZABATUTAKOAK);
             Controls.Add(dataGridView1);
@@ -117,7 +116,7 @@
         private DataGridView dataGridView1;
         private Label EZABATUTAKOAK;
         private Button ATZERA;
-        private Button button1;
+        private Button ErabBerriaSortu;
         private Button button2;
     }
 }

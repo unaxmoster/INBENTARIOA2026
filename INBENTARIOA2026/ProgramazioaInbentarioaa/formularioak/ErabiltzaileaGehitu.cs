@@ -1,5 +1,4 @@
-﻿using Inventarioa.formularioak;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -10,11 +9,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Inbentarioa.formularioak
+namespace Inventarioa.formularioak
 {
-    public partial class Erabiltzaileak : Form
+    public partial class ErabiltzaileaGehitu : Form
     {
-        public Erabiltzaileak()
+        public ErabiltzaileaGehitu()
         {
             InitializeComponent();
         }
@@ -39,25 +38,19 @@ namespace Inbentarioa.formularioak
             }
         }
 
-        private void Erabiltzaileak_Load(object sender, EventArgs e)
+        private void ErabiltzaileaGehitu_Load(object sender, EventArgs e)
         {
             this.WindowState = FormWindowState.Maximized;
         }
 
-        private void ATZERA_Click(object sender, EventArgs e)
+        private void lblizena_Click(object sender, EventArgs e)
         {
-            this.Hide();
-            Menua mintegiak = new Menua();
-            mintegiak.ShowDialog();
-            this.Close();
+
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            this.Hide();
-            ErabiltzaileaGehitu mintegiak = new ErabiltzaileaGehitu();
-            mintegiak.ShowDialog();
-            this.Close();
+
         }
     }
 }
