@@ -43,12 +43,13 @@ namespace Inbentarioa.formularioak
         }
 
         private void ATZERA_Click(object sender, EventArgs e)
-        {   /*
-            this.Hide();
-            IKUSI mintegiak = new IKUSI();
-            mintegiak.ShowDialog();
-            this.Close();
-            */
+        {
+            {
+                this.Hide();
+                IKUSI mintegiak = new IKUSI();
+                mintegiak.ShowDialog();
+                this.Close();
+            }
         }
     }
 }

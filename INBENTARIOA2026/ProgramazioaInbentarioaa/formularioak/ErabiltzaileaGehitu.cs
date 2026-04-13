@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Inbentarioa.formularioak;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -51,6 +52,14 @@ namespace Inventarioa.formularioak
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void ATZERA_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            Erabiltzaileak mintegiak = new Erabiltzaileak();
+            mintegiak.ShowDialog();
+            this.Close();
         }
     }
 }

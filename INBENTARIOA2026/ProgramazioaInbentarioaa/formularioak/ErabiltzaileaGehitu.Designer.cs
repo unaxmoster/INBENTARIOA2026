@@ -43,19 +43,20 @@
             ATZERA.BackColor = Color.Crimson;
             ATZERA.Font = new Font("Arial", 18F, FontStyle.Bold);
             ATZERA.ForeColor = SystemColors.ButtonHighlight;
-            ATZERA.Location = new Point(784, 419);
+            ATZERA.Location = new Point(1097, 599);
             ATZERA.Name = "ATZERA";
             ATZERA.Size = new Size(250, 130);
             ATZERA.TabIndex = 26;
             ATZERA.Text = "ATZERA";
             ATZERA.UseVisualStyleBackColor = false;
+            ATZERA.Click += ATZERA_Click;
             // 
             // button1
             // 
             button1.BackColor = Color.Navy;
             button1.Font = new Font("Arial", 18F, FontStyle.Bold);
             button1.ForeColor = SystemColors.ButtonHighlight;
-            button1.Location = new Point(517, 419);
+            button1.Location = new Point(830, 599);
             button1.Name = "button1";
             button1.Size = new Size(250, 130);
             button1.TabIndex = 27;
@@ -68,7 +69,7 @@
             lblizena.BackColor = Color.Transparent;
             lblizena.Font = new Font("Arial Black", 48F, FontStyle.Bold);
             lblizena.ForeColor = Color.Navy;
-            lblizena.Location = new Point(-41, 63);
+            lblizena.Location = new Point(272, 243);
             lblizena.Name = "lblizena";
             lblizena.Size = new Size(859, 113);
             lblizena.TabIndex = 29;
@@ -81,7 +82,7 @@
             label1.BackColor = Color.Transparent;
             label1.Font = new Font("Arial Black", 48F, FontStyle.Bold);
             label1.ForeColor = Color.Navy;
-            label1.Location = new Point(363, 173);
+            label1.Location = new Point(676, 353);
             label1.Name = "label1";
             label1.Size = new Size(455, 113);
             label1.TabIndex = 30;
@@ -93,7 +94,7 @@
             label2.BackColor = Color.Transparent;
             label2.Font = new Font("Arial Black", 48F, FontStyle.Bold);
             label2.ForeColor = Color.Navy;
-            label2.Location = new Point(447, 286);
+            label2.Location = new Point(760, 466);
             label2.Name = "label2";
             label2.Size = new Size(371, 113);
             label2.TabIndex = 31;
@@ -102,7 +103,7 @@
             // textBox2
             // 
             textBox2.Font = new Font("Segoe UI", 28.2F);
-            textBox2.Location = new Point(812, 98);
+            textBox2.Location = new Point(1125, 278);
             textBox2.Name = "textBox2";
             textBox2.Size = new Size(435, 70);
             textBox2.TabIndex = 33;
@@ -111,7 +112,7 @@
             // 
             comboBox1.Font = new Font("Segoe UI", 28.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
             comboBox1.FormattingEnabled = true;
-            comboBox1.Location = new Point(812, 208);
+            comboBox1.Location = new Point(1125, 388);
             comboBox1.Name = "comboBox1";
             comboBox1.Size = new Size(435, 70);
             comboBox1.TabIndex = 34;
@@ -121,7 +122,7 @@
             // 
             comboBox2.Font = new Font("Segoe UI", 28.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
             comboBox2.FormattingEnabled = true;
-            comboBox2.Location = new Point(812, 321);
+            comboBox2.Location = new Point(1125, 501);
             comboBox2.Name = "comboBox2";
             comboBox2.Size = new Size(435, 70);
             comboBox2.TabIndex = 35;
@@ -130,7 +131,7 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1486, 739);
+            ClientSize = new Size(1841, 1055);
             Controls.Add(comboBox2);
             Controls.Add(comboBox1);
             Controls.Add(textBox2);

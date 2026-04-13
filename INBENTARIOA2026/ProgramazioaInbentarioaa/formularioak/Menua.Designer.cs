@@ -28,22 +28,25 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Menua));
             ERABILTZAILEAK = new Button();
             SARRERA = new Label();
             IRTEN = new Button();
             MINTEGIAK = new Button();
             EZABATUTAKOAK = new Button();
             GAILUAK = new Button();
+            imageList2 = new ImageList(components);
             SuspendLayout();
             // 
             // ERABILTZAILEAK
             // 
             ERABILTZAILEAK.BackColor = Color.Navy;
-            ERABILTZAILEAK.Font = new Font("Arial", 18F, FontStyle.Bold, GraphicsUnit.Point);
+            ERABILTZAILEAK.Font = new Font("Arial", 18F, FontStyle.Bold);
             ERABILTZAILEAK.ForeColor = Color.AliceBlue;
-            ERABILTZAILEAK.Location = new Point(753, 453);
+            ERABILTZAILEAK.Location = new Point(760, 433);
             ERABILTZAILEAK.Name = "ERABILTZAILEAK";
-            ERABILTZAILEAK.Size = new Size(279, 130);
+            ERABILTZAILEAK.Size = new Size(392, 130);
             ERABILTZAILEAK.TabIndex = 29;
             ERABILTZAILEAK.Text = "ERABILTZAILEAK";
             ERABILTZAILEAK.UseVisualStyleBackColor = false;
@@ -52,8 +55,8 @@
             // SARRERA
             // 
             SARRERA.AutoSize = true;
-            SARRERA.Font = new Font("Segoe UI", 36F, FontStyle.Bold, GraphicsUnit.Point);
-            SARRERA.Location = new Point(743, 316);
+            SARRERA.Font = new Font("Segoe UI", 36F, FontStyle.Bold);
+            SARRERA.Location = new Point(808, 291);
             SARRERA.Name = "SARRERA";
             SARRERA.Size = new Size(302, 81);
             SARRERA.TabIndex = 28;
@@ -62,9 +65,9 @@
             // IRTEN
             // 
             IRTEN.BackColor = Color.Crimson;
-            IRTEN.Font = new Font("Arial", 18F, FontStyle.Bold, GraphicsUnit.Point);
+            IRTEN.Font = new Font("Arial", 18F, FontStyle.Bold);
             IRTEN.ForeColor = SystemColors.ButtonHighlight;
-            IRTEN.Location = new Point(915, 608);
+            IRTEN.Location = new Point(1014, 588);
             IRTEN.Name = "IRTEN";
             IRTEN.Size = new Size(250, 130);
             IRTEN.TabIndex = 27;
@@ -75,11 +78,11 @@
             // MINTEGIAK
             // 
             MINTEGIAK.BackColor = Color.Navy;
-            MINTEGIAK.Font = new Font("Arial", 18F, FontStyle.Bold, GraphicsUnit.Point);
+            MINTEGIAK.Font = new Font("Arial", 18F, FontStyle.Bold);
             MINTEGIAK.ForeColor = SystemColors.ButtonFace;
-            MINTEGIAK.Location = new Point(1076, 453);
+            MINTEGIAK.Location = new Point(1180, 433);
             MINTEGIAK.Name = "MINTEGIAK";
-            MINTEGIAK.Size = new Size(250, 130);
+            MINTEGIAK.Size = new Size(281, 130);
             MINTEGIAK.TabIndex = 26;
             MINTEGIAK.Text = "MINTEGIAK";
             MINTEGIAK.UseVisualStyleBackColor = false;
@@ -88,11 +91,11 @@
             // EZABATUTAKOAK
             // 
             EZABATUTAKOAK.BackColor = Color.Navy;
-            EZABATUTAKOAK.Font = new Font("Arial", 18F, FontStyle.Bold, GraphicsUnit.Point);
+            EZABATUTAKOAK.Font = new Font("Arial", 18F, FontStyle.Bold);
             EZABATUTAKOAK.ForeColor = SystemColors.ButtonHighlight;
-            EZABATUTAKOAK.Location = new Point(622, 608);
+            EZABATUTAKOAK.Location = new Point(627, 588);
             EZABATUTAKOAK.Name = "EZABATUTAKOAK";
-            EZABATUTAKOAK.Size = new Size(250, 130);
+            EZABATUTAKOAK.Size = new Size(346, 130);
             EZABATUTAKOAK.TabIndex = 25;
             EZABATUTAKOAK.Text = "EZABATUTAKO GAILUAK";
             EZABATUTAKOAK.UseVisualStyleBackColor = false;
@@ -101,15 +104,25 @@
             // GAILUAK
             // 
             GAILUAK.BackColor = Color.Navy;
-            GAILUAK.Font = new Font("Arial", 18F, FontStyle.Bold, GraphicsUnit.Point);
+            GAILUAK.Font = new Font("Arial", 18F, FontStyle.Bold);
             GAILUAK.ForeColor = Color.AliceBlue;
-            GAILUAK.Location = new Point(459, 453);
+            GAILUAK.Location = new Point(474, 433);
             GAILUAK.Name = "GAILUAK";
-            GAILUAK.Size = new Size(250, 130);
+            GAILUAK.Size = new Size(264, 130);
             GAILUAK.TabIndex = 24;
             GAILUAK.Text = "GAILUAK";
             GAILUAK.UseVisualStyleBackColor = false;
             GAILUAK.Click += GAILUAK_Click_1;
+            // 
+            // imageList2
+            // 
+            imageList2.ColorDepth = ColorDepth.Depth32Bit;
+            imageList2.ImageStream = (ImageListStreamer)resources.GetObject("imageList2.ImageStream");
+            imageList2.TransparentColor = Color.Transparent;
+            imageList2.Images.SetKeyName(0, "1.png");
+            imageList2.Images.SetKeyName(1, "2.png");
+            imageList2.Images.SetKeyName(2, "3.png");
+            imageList2.Images.SetKeyName(3, "4.png");
             // 
             // Menua
             // 
@@ -139,5 +152,6 @@
         private Button MINTEGIAK;
         private Button EZABATUTAKOAK;
         private Button GAILUAK;
+        private ImageList imageList2;
     }
 }

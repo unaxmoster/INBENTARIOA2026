@@ -19,9 +19,44 @@ namespace Inbentarioa.formularioak
         }
 
         private void Menua_Load(object sender, EventArgs e)
-        {
+        {   //pantalla osoan ikusteko
             this.WindowState = FormWindowState.Maximized;
+            //Botoietan marrazkiak ikusteko
+            GAILUAK.ImageList = imageList2;
+            GAILUAK.TextImageRelation = TextImageRelation.ImageBeforeText;
+            GAILUAK.ImageIndex = 0;        // 0 = lehen argazkia
+            //___________ERABILTZAILEAK___________________
+            ERABILTZAILEAK.ImageList = imageList2;
+            ERABILTZAILEAK.TextImageRelation = TextImageRelation.ImageBeforeText;
+            ERABILTZAILEAK.ImageIndex = 1;        // 1 = bigarren argazkia
+            //_____________MINTEGIAK______________________
+            MINTEGIAK.ImageList = imageList2;
+            MINTEGIAK.TextImageRelation = TextImageRelation.ImageBeforeText;
+            MINTEGIAK.ImageIndex = 2;        // 3= hirugarren argazkia
+            //__________EZABATUTAKOAK____________________
+            EZABATUTAKOAK.ImageList = imageList2;
+            EZABATUTAKOAK.TextImageRelation = TextImageRelation.ImageBeforeText;
+            EZABATUTAKOAK.ImageIndex = 3;        // 3 = Laugarren argazkia
+            /*
+            GAILUAK.ImageList = imageList1;
+            GAILUAK.TextImageRelation = TextImageRelation.ImageBeforeText;
+            GAILUAK.ImageIndex = 0;        // 0 = lehen argazkia
+            //___________ERABILTZAILEAK___________________
+            ERABILTZAILEAK.ImageList = imageList1;
+            ERABILTZAILEAK.TextImageRelation = TextImageRelation.ImageBeforeText;
+            ERABILTZAILEAK.ImageIndex = 2;        // 0 = bigarren argazkia
+            //_____________MINTEGIAK______________________
+            MINTEGIAK.ImageList = imageList1;
+            MINTEGIAK.TextImageRelation = TextImageRelation.ImageBeforeText;
+            MINTEGIAK.ImageIndex = 1;        // 2 = hirugarren argazkia
+            //__________EZABATUTAKOAK____________________
+            EZABATUTAKOAK.ImageList = imageList1;
+            EZABATUTAKOAK.TextImageRelation = TextImageRelation.ImageBeforeText;
+            EZABATUTAKOAK.ImageIndex = 3;        // 3 = Laugarren argazkia
+            */
+
         }
+
         protected override void OnPaint(PaintEventArgs e)
         {
             base.OnPaint(e);
