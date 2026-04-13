@@ -3,12 +3,16 @@
   "WorkspaceRootPath": "C:\\Users\\Anarcocapitalista90\\Desktop\\2025-2026\\ERRONKA\\Inbentarioa\\Programazioa\\ByteGuardians\\INBENTARIOA2026\\ProgramazioaInbentarioaa\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{A66172D8-B6A8-4E4B-899B-0AB09399281C}|Inbentarioa.csproj|c:\\users\\anarcocapitalista90\\desktop\\2025-2026\\erronka\\inbentarioa\\programazioa\\byteguardians\\inbentarioa2026\\programazioainbentarioaa\\formularioak\\menua.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{A66172D8-B6A8-4E4B-899B-0AB09399281C}|Inbentarioa.csproj|solutionrelative:formularioak\\menua.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+      "AbsoluteMoniker": "D:0:0:{A66172D8-B6A8-4E4B-899B-0AB09399281C}|Inbentarioa.csproj|c:\\users\\anarcocapitalista90\\desktop\\2025-2026\\erronka\\inbentarioa\\programazioa\\byteguardians\\inbentarioa2026\\programazioainbentarioaa\\datubasie\\dbkonexioa.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A66172D8-B6A8-4E4B-899B-0AB09399281C}|Inbentarioa.csproj|solutionrelative:datubasie\\dbkonexioa.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A66172D8-B6A8-4E4B-899B-0AB09399281C}|Inbentarioa.csproj|c:\\users\\anarcocapitalista90\\desktop\\2025-2026\\erronka\\inbentarioa\\programazioa\\byteguardians\\inbentarioa2026\\programazioainbentarioaa\\formularioak\\menua.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{A66172D8-B6A8-4E4B-899B-0AB09399281C}|Inbentarioa.csproj|solutionrelative:formularioak\\menua.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A66172D8-B6A8-4E4B-899B-0AB09399281C}|Inbentarioa.csproj|C:\\Users\\Anarcocapitalista90\\Desktop\\2025-2026\\ERRONKA\\Inbentarioa\\Programazioa\\ByteGuardians\\INBENTARIOA2026\\ProgramazioaInbentarioaa\\formularioak\\menua.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{A66172D8-B6A8-4E4B-899B-0AB09399281C}|Inbentarioa.csproj|solutionrelative:formularioak\\menua.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A66172D8-B6A8-4E4B-899B-0AB09399281C}|Inbentarioa.csproj|C:\\Users\\Anarcocapitalista90\\Desktop\\2025-2026\\ERRONKA\\Inbentarioa\\Programazioa\\ByteGuardians\\INBENTARIOA2026\\ProgramazioaInbentarioaa\\formularioak\\erabiltzaileagehitu.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
@@ -23,7 +27,7 @@
       "RelativeMoniker": "D:0:0:{A66172D8-B6A8-4E4B-899B-0AB09399281C}|Inbentarioa.csproj|solutionrelative:formularioak\\gailuguztiak.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A66172D8-B6A8-4E4B-899B-0AB09399281C}|Inbentarioa.csproj|c:\\users\\anarcocapitalista90\\desktop\\2025-2026\\erronka\\inbentarioa\\programazioa\\byteguardians\\inbentarioa2026\\programazioainbentarioaa\\formularioak\\gailuguztiak.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "AbsoluteMoniker": "D:0:0:{A66172D8-B6A8-4E4B-899B-0AB09399281C}|Inbentarioa.csproj|C:\\Users\\Anarcocapitalista90\\Desktop\\2025-2026\\ERRONKA\\Inbentarioa\\Programazioa\\ByteGuardians\\INBENTARIOA2026\\ProgramazioaInbentarioaa\\formularioak\\gailuguztiak.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
       "RelativeMoniker": "D:0:0:{A66172D8-B6A8-4E4B-899B-0AB09399281C}|Inbentarioa.csproj|solutionrelative:formularioak\\gailuguztiak.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
@@ -50,7 +54,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 10,
+          "SelectedChildIndex": 6,
           "Children": [
             {
               "$type": "Bookmark",
@@ -59,10 +63,6 @@
             {
               "$type": "Bookmark",
               "Name": "ST:128:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
             },
             {
               "$type": "Bookmark",
@@ -82,7 +82,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 0,
+              "Title": "DbKonexioa.cs",
+              "DocumentMoniker": "C:\\Users\\Anarcocapitalista90\\Desktop\\2025-2026\\ERRONKA\\Inbentarioa\\Programazioa\\ByteGuardians\\INBENTARIOA2026\\ProgramazioaInbentarioaa\\DatuBasie\\DbKonexioa.cs",
+              "RelativeDocumentMoniker": "DatuBasie\\DbKonexioa.cs",
+              "ToolTip": "C:\\Users\\Anarcocapitalista90\\Desktop\\2025-2026\\ERRONKA\\Inbentarioa\\Programazioa\\ByteGuardians\\INBENTARIOA2026\\ProgramazioaInbentarioaa\\DatuBasie\\DbKonexioa.cs",
+              "RelativeToolTip": "DatuBasie\\DbKonexioa.cs",
+              "ViewState": "AgIAACQAAAAAAAAAAAAYwDwAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-13T11:26:37.649Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
               "Title": "GailuGuztiak.cs",
               "DocumentMoniker": "C:\\Users\\Anarcocapitalista90\\Desktop\\2025-2026\\ERRONKA\\Inbentarioa\\Programazioa\\ByteGuardians\\INBENTARIOA2026\\ProgramazioaInbentarioaa\\formularioak\\GailuGuztiak.cs",
               "RelativeDocumentMoniker": "formularioak\\GailuGuztiak.cs",
@@ -95,7 +108,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": "ErabiltzaileaGehitu.cs",
               "DocumentMoniker": "C:\\Users\\Anarcocapitalista90\\Desktop\\2025-2026\\ERRONKA\\Inbentarioa\\Programazioa\\ByteGuardians\\INBENTARIOA2026\\ProgramazioaInbentarioaa\\formularioak\\ErabiltzaileaGehitu.cs",
               "RelativeDocumentMoniker": "formularioak\\ErabiltzaileaGehitu.cs",
@@ -108,27 +121,25 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "ErabiltzaileaGehitu.cs [Dise\u00F1o]",
               "DocumentMoniker": "C:\\Users\\Anarcocapitalista90\\Desktop\\2025-2026\\ERRONKA\\Inbentarioa\\Programazioa\\ByteGuardians\\INBENTARIOA2026\\ProgramazioaInbentarioaa\\formularioak\\ErabiltzaileaGehitu.cs",
               "RelativeDocumentMoniker": "formularioak\\ErabiltzaileaGehitu.cs",
               "ToolTip": "C:\\Users\\Anarcocapitalista90\\Desktop\\2025-2026\\ERRONKA\\Inbentarioa\\Programazioa\\ByteGuardians\\INBENTARIOA2026\\ProgramazioaInbentarioaa\\formularioak\\ErabiltzaileaGehitu.cs [Dise\u00F1o]",
               "RelativeToolTip": "formularioak\\ErabiltzaileaGehitu.cs [Dise\u00F1o]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-02T17:21:41.145Z",
-              "EditorCaption": " [Dise\u00F1o]"
+              "WhenOpened": "2026-04-02T17:21:41.145Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Menua.cs [Dise\u00F1o]",
+              "DocumentIndex": 2,
+              "Title": "Menua.cs [Design]",
               "DocumentMoniker": "C:\\Users\\Anarcocapitalista90\\Desktop\\2025-2026\\ERRONKA\\Inbentarioa\\Programazioa\\ByteGuardians\\INBENTARIOA2026\\ProgramazioaInbentarioaa\\formularioak\\Menua.cs",
               "RelativeDocumentMoniker": "formularioak\\Menua.cs",
-              "ToolTip": "C:\\Users\\Anarcocapitalista90\\Desktop\\2025-2026\\ERRONKA\\Inbentarioa\\Programazioa\\ByteGuardians\\INBENTARIOA2026\\ProgramazioaInbentarioaa\\formularioak\\Menua.cs [Dise\u00F1o]",
-              "RelativeToolTip": "formularioak\\Menua.cs [Dise\u00F1o]",
+              "ToolTip": "C:\\Users\\Anarcocapitalista90\\Desktop\\2025-2026\\ERRONKA\\Inbentarioa\\Programazioa\\ByteGuardians\\INBENTARIOA2026\\ProgramazioaInbentarioaa\\formularioak\\Menua.cs [Design]",
+              "RelativeToolTip": "formularioak\\Menua.cs [Design]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-03T17:34:30.166Z",
-              "EditorCaption": " [Dise\u00F1o]"
+              "WhenOpened": "2026-04-03T17:34:30.166Z"
             },
             {
               "$type": "Document",
@@ -138,38 +149,35 @@
               "RelativeDocumentMoniker": "formularioak\\Menua.cs",
               "ToolTip": "C:\\Users\\Anarcocapitalista90\\Desktop\\2025-2026\\ERRONKA\\Inbentarioa\\Programazioa\\ByteGuardians\\INBENTARIOA2026\\ProgramazioaInbentarioaa\\formularioak\\Menua.cs",
               "RelativeToolTip": "formularioak\\Menua.cs",
-              "ViewState": "AgIAABkAAAAAAAAAAAAAACcAAAAOAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAANAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-03T17:34:34.359Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-04-03T17:34:34.359Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 6,
               "Title": "GailuGuztiak.cs [Dise\u00F1o]",
               "DocumentMoniker": "C:\\Users\\Anarcocapitalista90\\Desktop\\2025-2026\\ERRONKA\\Inbentarioa\\Programazioa\\ByteGuardians\\INBENTARIOA2026\\ProgramazioaInbentarioaa\\formularioak\\GailuGuztiak.cs",
               "RelativeDocumentMoniker": "formularioak\\GailuGuztiak.cs",
               "ToolTip": "C:\\Users\\Anarcocapitalista90\\Desktop\\2025-2026\\ERRONKA\\Inbentarioa\\Programazioa\\ByteGuardians\\INBENTARIOA2026\\ProgramazioaInbentarioaa\\formularioak\\GailuGuztiak.cs [Dise\u00F1o]",
               "RelativeToolTip": "formularioak\\GailuGuztiak.cs [Dise\u00F1o]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-03T17:34:14.494Z",
-              "EditorCaption": " [Dise\u00F1o]"
+              "WhenOpened": "2026-04-03T17:34:14.494Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 8,
               "Title": "Erabiltzaileak.cs [Design]",
               "DocumentMoniker": "C:\\Users\\Anarcocapitalista90\\Desktop\\2025-2026\\ERRONKA\\Inbentarioa\\Programazioa\\ByteGuardians\\INBENTARIOA2026\\ProgramazioaInbentarioaa\\formularioak\\Erabiltzaileak.cs",
               "RelativeDocumentMoniker": "formularioak\\Erabiltzaileak.cs",
               "ToolTip": "C:\\Users\\Anarcocapitalista90\\Desktop\\2025-2026\\ERRONKA\\Inbentarioa\\Programazioa\\ByteGuardians\\INBENTARIOA2026\\ProgramazioaInbentarioaa\\formularioak\\Erabiltzaileak.cs [Design]",
               "RelativeToolTip": "formularioak\\Erabiltzaileak.cs [Design]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-02T17:21:55.455Z",
-              "EditorCaption": " [Design]"
+              "WhenOpened": "2026-04-02T17:21:55.455Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 7,
               "Title": "Erabiltzaileak.cs",
               "DocumentMoniker": "C:\\Users\\Anarcocapitalista90\\Desktop\\2025-2026\\ERRONKA\\Inbentarioa\\Programazioa\\ByteGuardians\\INBENTARIOA2026\\ProgramazioaInbentarioaa\\formularioak\\Erabiltzaileak.cs",
               "RelativeDocumentMoniker": "formularioak\\Erabiltzaileak.cs",
@@ -177,12 +185,11 @@
               "RelativeToolTip": "formularioak\\Erabiltzaileak.cs",
               "ViewState": "AgIAACwAAAAAAAAAAAAYwDoAAAAjAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-02T17:21:58.902Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-04-02T17:21:58.902Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 9,
               "Title": "MintegiaGehitu.cs",
               "DocumentMoniker": "C:\\Users\\Anarcocapitalista90\\Desktop\\2025-2026\\ERRONKA\\Inbentarioa\\Programazioa\\ByteGuardians\\INBENTARIOA2026\\ProgramazioaInbentarioaa\\formularioak\\MintegiaGehitu.cs",
               "RelativeDocumentMoniker": "formularioak\\MintegiaGehitu.cs",
@@ -195,7 +202,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 10,
               "Title": "MintegiaGehitu.cs [Dise\u00F1o]",
               "DocumentMoniker": "C:\\Users\\Anarcocapitalista90\\Desktop\\2025-2026\\ERRONKA\\Inbentarioa\\Programazioa\\ByteGuardians\\INBENTARIOA2026\\ProgramazioaInbentarioaa\\formularioak\\MintegiaGehitu.cs",
               "RelativeDocumentMoniker": "formularioak\\MintegiaGehitu.cs",

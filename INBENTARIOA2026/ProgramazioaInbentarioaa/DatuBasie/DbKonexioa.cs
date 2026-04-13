@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Inbentarioa.DatuBasie
 {
@@ -14,8 +10,11 @@ namespace Inbentarioa.DatuBasie
 
         private DbKonexioa()
         {
-            // Konexio string-a hemen definitu
-            konexioString = "Data Source=server;Initial Catalog=database;User ID=username;Password=password";
+            // MySQL-rako sintaxi zuzena (zure zerbitzariko datuekin ordezkatu):
+            konexioString = "Server=localhost;Database=Inbentarioa2026;Uid=root;Pwd=zure_pasahitza;";
+
+            // OHARRA: 'root' erabili ohi da MySQL-n defektuz, 
+            // eta pasahitza instalazioan jarri zenuena da.
         }
 
         public static DbKonexioa Instantzia
@@ -36,9 +35,27 @@ namespace Inbentarioa.DatuBasie
             }
         }
 
-        public string KonexioString
+        public string GetKonexioString()
         {
-            get { return konexioString; }
+            return konexioString;
         }
     }
 }
+
+
+/*
+ 
+Nola erabili beste klase batean?
+Datuak irakurri nahi dituzunean, honela deituko zenioke:
+
+C#
+using MySql.Data.MySqlClient;
+
+// ... formularioaren barruan ...
+using (MySqlConnection conn = new MySqlConnection(DbKonexioa.Instantzia.GetKonexioString()))
+{
+    conn.Open();
+    // Hemen zure SQL aginduak...
+}
+
+ */
