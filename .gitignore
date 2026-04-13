@@ -1,0 +1,14 @@
+# Visual Studio-ren aldi baterako fitxategiak
+.vs/
+[Bb]in/
+[Oo]bj/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# NuGet paketeak (ez dira igo behar, VS-k berriro jaisten ditu)
+packages/
+
+# Log fitxategiak
+*.log
