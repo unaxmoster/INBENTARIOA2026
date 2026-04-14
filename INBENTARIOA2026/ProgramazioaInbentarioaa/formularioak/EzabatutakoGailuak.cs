@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Inbentarioa.DatuBasie;
+using MySql.Data.MySqlClient;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -40,6 +42,7 @@ namespace Inbentarioa.formularioak
         private void EzabatutakoGailuak_Load(object sender, EventArgs e)
         {
             this.WindowState = FormWindowState.Maximized;
+            KargatuEzabatutakoak(); // Datuak kargatzeko funtzioa deitu
         }
 
         private void SARRERA_Click(object sender, EventArgs e)
@@ -53,6 +56,35 @@ namespace Inbentarioa.formularioak
             Menua mintegiak = new Menua();
             mintegiak.ShowDialog();
             this.Close();
+        }
+        private void KargatuEzabatutakoak()
+        {
+            try
+            {
+                string konexioa = DbKonexioa.Instantzia.GetKonexioString();
+                using (MySqlConnection conn = new MySqlConnection(konexioa))
+                {
+                    conn.Open();
+                    // Zure Ezabatutakoak taulako 3 zutabeak hartzen ditugu
+                    string query = "SELECT id_ezabatua AS 'ID', id_gailua AS 'ID_Gailua',mota AS 'Gailu-Mota', marka_modeloa AS 'Modeloa', eroste_data AS 'Eroste_Data', ezabatutako_eguna AS 'ezabatze_data' FROM Ezabatutakoak";
+
+                    MySqlDataAdapter adapter = new MySqlDataAdapter(query, conn);
+                    DataTable dt = new DataTable();
+                    adapter.Fill(dt);
+
+                    // Suposatuz zure DataGridView-ak dgvEzabatutakoak izena duela
+                    dgvEzabatuak.DataSource = dt;
+
+                    // Diseinu apur bat
+                    dgvEzabatuak.ReadOnly = true;
+                    dgvEzabatuak.AllowUserToAddRows = false;
+                    dgvEzabatuak.Columns["ID"].Width = 50;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Errorea datuak kargatzean: " + ex.Message);
+            }
         }
     }
 }

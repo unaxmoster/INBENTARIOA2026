@@ -66,7 +66,13 @@ namespace Inventarioa.formularioak
                                    "  WHEN G.egoera = '0' THEN 'Zuri-beltza' " +
                                    "  WHEN G.egoera = '1' THEN 'Koloretakoa' " +
                                    "  ELSE 'Ezezaguna' " +
-                                   "END AS 'Kolorea' " +
+                                   "END AS 'Kolorea', " +
+                                                                      "CASE " +
+                                   "  WHEN G.egoera = '0' THEN 'Ondo' " +
+                                   "  WHEN G.egoera = '1' THEN 'Matxuratuta' " +
+                                   "  WHEN G.egoera = '2' THEN 'Konpontzen' " +
+                                   "  ELSE 'Ezezaguna' " +
+                                   "END AS 'Egoera' " +
                                    "FROM Gailuak G " +
                                    "JOIN Mintegiak M ON G.id_mintegia = M.id_mintegia " +
                                    "JOIN Inprimagailuak I ON G.id_gailua = I.id_gailua"; // <-- Inprimagailuak iragazteko

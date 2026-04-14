@@ -102,5 +102,13 @@ namespace Inventarioa.formularioak
         {
 
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            OrdeBerriaSortu mintegiak = new OrdeBerriaSortu();
+            mintegiak.ShowDialog();
+            this.Close();
+        }
     }
 }

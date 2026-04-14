@@ -31,7 +31,6 @@
             MINTEGI = new Button();
             ORDENAGAILUA = new Button();
             INPRIMAGAILUA = new Button();
-            BESTEAK = new Button();
             GUZTIAK = new Button();
             ATZERA = new Button();
             EZABATUTAKOAK = new Label();
@@ -42,7 +41,7 @@
             MINTEGI.BackColor = Color.Navy;
             MINTEGI.Font = new Font("Arial", 18F, FontStyle.Bold);
             MINTEGI.ForeColor = Color.Transparent;
-            MINTEGI.Location = new Point(506, 529);
+            MINTEGI.Location = new Point(487, 338);
             MINTEGI.Name = "MINTEGI";
             MINTEGI.Size = new Size(320, 172);
             MINTEGI.TabIndex = 0;
@@ -55,11 +54,11 @@
             ORDENAGAILUA.BackColor = Color.Navy;
             ORDENAGAILUA.Font = new Font("Arial", 18F, FontStyle.Bold);
             ORDENAGAILUA.ForeColor = Color.Transparent;
-            ORDENAGAILUA.Location = new Point(832, 338);
+            ORDENAGAILUA.Location = new Point(827, 338);
             ORDENAGAILUA.Name = "ORDENAGAILUA";
             ORDENAGAILUA.Size = new Size(332, 172);
             ORDENAGAILUA.TabIndex = 1;
-            ORDENAGAILUA.Text = "ORDENAGAILUA";
+            ORDENAGAILUA.Text = "ORDENAGAILUAK";
             ORDENAGAILUA.UseVisualStyleBackColor = false;
             ORDENAGAILUA.Click += ORDENAGAILUA_Click;
             // 
@@ -72,28 +71,16 @@
             INPRIMAGAILUA.Name = "INPRIMAGAILUA";
             INPRIMAGAILUA.Size = new Size(320, 172);
             INPRIMAGAILUA.TabIndex = 2;
-            INPRIMAGAILUA.Text = "INPRIMAGAILUA";
+            INPRIMAGAILUA.Text = "INPRIMAGAILUAK";
             INPRIMAGAILUA.UseVisualStyleBackColor = false;
             INPRIMAGAILUA.Click += INPRIMAGAILUA_Click;
-            // 
-            // BESTEAK
-            // 
-            BESTEAK.BackColor = Color.Navy;
-            BESTEAK.Font = new Font("Arial", 18F, FontStyle.Bold);
-            BESTEAK.ForeColor = Color.Transparent;
-            BESTEAK.Location = new Point(832, 529);
-            BESTEAK.Name = "BESTEAK";
-            BESTEAK.Size = new Size(332, 172);
-            BESTEAK.TabIndex = 3;
-            BESTEAK.Text = "BESTE GAILUAK";
-            BESTEAK.UseVisualStyleBackColor = false;
             // 
             // GUZTIAK
             // 
             GUZTIAK.BackColor = Color.Navy;
             GUZTIAK.Font = new Font("Arial", 18F, FontStyle.Bold);
             GUZTIAK.ForeColor = Color.Transparent;
-            GUZTIAK.Location = new Point(506, 338);
+            GUZTIAK.Location = new Point(649, 540);
             GUZTIAK.Name = "GUZTIAK";
             GUZTIAK.Size = new Size(320, 172);
             GUZTIAK.TabIndex = 4;
@@ -106,7 +93,7 @@
             ATZERA.BackColor = Color.Crimson;
             ATZERA.Font = new Font("Arial", 18F, FontStyle.Bold);
             ATZERA.ForeColor = Color.Transparent;
-            ATZERA.Location = new Point(1180, 529);
+            ATZERA.Location = new Point(1001, 540);
             ATZERA.Name = "ATZERA";
             ATZERA.Size = new Size(320, 172);
             ATZERA.TabIndex = 5;
@@ -132,7 +119,6 @@
             Controls.Add(EZABATUTAKOAK);
             Controls.Add(ATZERA);
             Controls.Add(GUZTIAK);
-            Controls.Add(BESTEAK);
             Controls.Add(INPRIMAGAILUA);
             Controls.Add(ORDENAGAILUA);
             Controls.Add(MINTEGI);
@@ -150,7 +136,6 @@
         private Button MINTEGI;
         private Button ORDENAGAILUA;
         private Button INPRIMAGAILUA;
-        private Button BESTEAK;
         private Button GUZTIAK;
         private Button ATZERA;
         private Label EZABATUTAKOAK;

@@ -31,8 +31,8 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EzabatutakoGailuak));
             ATZERA = new Button();
             EZABATUTAKOAK = new Label();
-            dataGridView1 = new DataGridView();
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
+            dgvEzabatuak = new DataGridView();
+            ((System.ComponentModel.ISupportInitialize)dgvEzabatuak).BeginInit();
             SuspendLayout();
             // 
             // ATZERA
@@ -40,7 +40,7 @@
             ATZERA.BackColor = Color.Crimson;
             ATZERA.Font = new Font("Arial", 18F, FontStyle.Bold);
             ATZERA.ForeColor = SystemColors.ButtonHighlight;
-            ATZERA.Location = new Point(865, 521);
+            ATZERA.Location = new Point(868, 845);
             ATZERA.Name = "ATZERA";
             ATZERA.Size = new Size(250, 130);
             ATZERA.TabIndex = 27;
@@ -58,14 +58,14 @@
             EZABATUTAKOAK.TabIndex = 26;
             EZABATUTAKOAK.Text = "EZABATUTAKO GAILUAK";
             // 
-            // dataGridView1
+            // dgvEzabatuak
             // 
-            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Location = new Point(629, 202);
-            dataGridView1.Name = "dataGridView1";
-            dataGridView1.RowHeadersWidth = 51;
-            dataGridView1.Size = new Size(721, 295);
-            dataGridView1.TabIndex = 25;
+            dgvEzabatuak.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvEzabatuak.Location = new Point(545, 202);
+            dgvEzabatuak.Name = "dgvEzabatuak";
+            dgvEzabatuak.RowHeadersWidth = 51;
+            dgvEzabatuak.Size = new Size(894, 610);
+            dgvEzabatuak.TabIndex = 25;
             // 
             // EzabatutakoGailuak
             // 
@@ -74,14 +74,14 @@
             ClientSize = new Size(1924, 1055);
             Controls.Add(ATZERA);
             Controls.Add(EZABATUTAKOAK);
-            Controls.Add(dataGridView1);
+            Controls.Add(dgvEzabatuak);
             Icon = (Icon)resources.GetObject("$this.Icon");
             MaximizeBox = false;
             MinimizeBox = false;
             Name = "EzabatutakoGailuak";
             Text = "EzabatutakoGailuak";
             Load += EzabatutakoGailuak_Load;
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dgvEzabatuak).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -90,6 +90,6 @@
 
         private Button ATZERA;
         private Label EZABATUTAKOAK;
-        private DataGridView dataGridView1;
+        private DataGridView dgvEzabatuak;
     }
 }

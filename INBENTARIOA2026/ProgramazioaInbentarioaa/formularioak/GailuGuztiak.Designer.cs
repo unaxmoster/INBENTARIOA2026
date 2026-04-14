@@ -93,6 +93,7 @@
             button1.TabIndex = 28;
             button1.Text = "BERRIA SORTU";
             button1.UseVisualStyleBackColor = false;
+            button1.Click += button1_Click;
             // 
             // GailuGuztiak
             // 
