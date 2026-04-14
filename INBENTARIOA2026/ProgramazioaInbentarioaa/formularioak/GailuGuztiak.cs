@@ -114,5 +114,68 @@ namespace Inbentarioa.formularioak
         {
             // Hemen zerbait egin nahi baduzu gelaxka baten gainean klik egitean
         }
+
+
+        private void btnEzabatu_Click_1(object sender, EventArgs e)
+        {
+            if (dvgGailuak.SelectedRows.Count > 0)
+            {
+                var erantzuna = MessageBox.Show("Gailu hau ezabatu eta 'Ezabatutakoak' zerrendara mugitu nahi duzu?", "Berretsi ezabatzea", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+
+                if (erantzuna == DialogResult.Yes)
+                {
+                    try
+                    {
+                        int id = Convert.ToInt32(dvgGailuak.SelectedRows[0].Cells["ID"].Value);
+                        string konexioa = DbKonexioa.Instantzia.GetKonexioString();
+
+                        using (MySqlConnection conn = new MySqlConnection(konexioa))
+                        {
+                            conn.Open();
+                            // Transakzioa hasten dugu bi mugimenduak batera egiteko
+                            using (MySqlTransaction trans = conn.BeginTransaction())
+                            {
+                                try
+                                {
+                                    // 1. KOPIATU datuak Ezabatutakoak taulara
+                                    // Oharra: Ziurtatu EzabatutakoGailuak taulak Gailuak taularen egitura bera duela
+                                    string insertQuery = "INSERT INTO Ezabatutakoak (id_gailua, marka_modeloa, id_mintegia, eroste_data, egoera) " +
+                                                         "SELECT id_gailua, marka_modeloa, id_mintegia, eroste_data, egoera " +
+                                                         "FROM Gailuak WHERE id_gailua = @id";
+
+                                    MySqlCommand cmdInsert = new MySqlCommand(insertQuery, conn, trans);
+                                    cmdInsert.Parameters.AddWithValue("@id", id);
+                                    cmdInsert.ExecuteNonQuery();
+
+                                    // 2. EZABATU jatorrizko taulatik
+                                    string deleteQuery = "DELETE FROM Gailuak WHERE id_gailua = @id";
+                                    MySqlCommand cmdDelete = new MySqlCommand(deleteQuery, conn, trans);
+                                    cmdDelete.Parameters.AddWithValue("@id", id);
+                                    cmdDelete.ExecuteNonQuery();
+
+                                    // Dena ondo badago, aldaketak berretsi
+                                    trans.Commit();
+                                    MessageBox.Show("Gailua ondo mugitu da Ezabatutakoen zerrendara.");
+                                }
+                                catch (Exception ex)
+                                {
+                                    trans.Rollback(); // Errorea badago, dena lehen bezala utzi
+                                    throw ex;
+                                }
+                            }
+                        }
+                        KargatuGailuak(); // Grid-a freskatu
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Errorea prozesuan: " + ex.Message);
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("Mesedez, hautatu lerro oso bat.");
+            }
+        }
     }
 }

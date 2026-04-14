@@ -40,7 +40,7 @@
             // 
             cbMintegiak.Font = new Font("Segoe UI", 28.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
             cbMintegiak.FormattingEnabled = true;
-            cbMintegiak.Location = new Point(588, 171);
+            cbMintegiak.Location = new Point(655, 136);
             cbMintegiak.Name = "cbMintegiak";
             cbMintegiak.Size = new Size(602, 70);
             cbMintegiak.TabIndex = 37;
@@ -51,7 +51,7 @@
             ATZERA.BackColor = Color.Crimson;
             ATZERA.Font = new Font("Arial", 18F, FontStyle.Bold);
             ATZERA.ForeColor = Color.Transparent;
-            ATZERA.Location = new Point(726, 810);
+            ATZERA.Location = new Point(793, 775);
             ATZERA.Name = "ATZERA";
             ATZERA.Size = new Size(320, 172);
             ATZERA.TabIndex = 36;
@@ -63,7 +63,7 @@
             // 
             EZABATUTAKOAK.AutoSize = true;
             EZABATUTAKOAK.Font = new Font("Segoe UI", 36F, FontStyle.Bold);
-            EZABATUTAKOAK.Location = new Point(480, 87);
+            EZABATUTAKOAK.Location = new Point(547, 52);
             EZABATUTAKOAK.Name = "EZABATUTAKOAK";
             EZABATUTAKOAK.Size = new Size(813, 81);
             EZABATUTAKOAK.TabIndex = 35;
@@ -72,7 +72,7 @@
             // dvgOrdenagailuak
             // 
             dvgOrdenagailuak.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dvgOrdenagailuak.Location = new Point(398, 259);
+            dvgOrdenagailuak.Location = new Point(465, 224);
             dvgOrdenagailuak.Name = "dvgOrdenagailuak";
             dvgOrdenagailuak.RowHeadersWidth = 51;
             dvgOrdenagailuak.Size = new Size(1008, 530);
