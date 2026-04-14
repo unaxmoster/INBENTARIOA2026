@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ErabiltzaileaGehitu));
             ATZERA = new Button();
             button1 = new Button();
             lblizena = new Label();
@@ -140,6 +141,7 @@
             Controls.Add(lblizena);
             Controls.Add(button1);
             Controls.Add(ATZERA);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "ErabiltzaileaGehitu";
             Text = "ErabiltzaileaGehitu";
             Load += ErabiltzaileaGehitu_Load;

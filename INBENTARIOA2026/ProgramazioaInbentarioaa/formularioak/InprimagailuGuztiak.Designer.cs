@@ -1,6 +1,6 @@
-﻿namespace Inbentarioa.formularioak
+﻿namespace Inventarioa.formularioak
 {
-    partial class EzabatutakoGailuak
+    partial class InprimagailuGuztiak
     {
         /// <summary>
         /// Required designer variable.
@@ -28,60 +28,58 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EzabatutakoGailuak));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(InprimagailuGuztiak));
             ATZERA = new Button();
             EZABATUTAKOAK = new Label();
-            dataGridView1 = new DataGridView();
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
+            dvgInprimagailuak = new DataGridView();
+            ((System.ComponentModel.ISupportInitialize)dvgInprimagailuak).BeginInit();
             SuspendLayout();
             // 
             // ATZERA
             // 
             ATZERA.BackColor = Color.Crimson;
             ATZERA.Font = new Font("Arial", 18F, FontStyle.Bold);
-            ATZERA.ForeColor = SystemColors.ButtonHighlight;
-            ATZERA.Location = new Point(865, 521);
+            ATZERA.ForeColor = Color.Transparent;
+            ATZERA.Location = new Point(701, 775);
             ATZERA.Name = "ATZERA";
-            ATZERA.Size = new Size(250, 130);
-            ATZERA.TabIndex = 27;
+            ATZERA.Size = new Size(320, 172);
+            ATZERA.TabIndex = 32;
             ATZERA.Text = "ATZERA";
             ATZERA.UseVisualStyleBackColor = false;
-            ATZERA.Click += ATZERA_Click_1;
+            ATZERA.Click += ATZERA_Click;
             // 
             // EZABATUTAKOAK
             // 
             EZABATUTAKOAK.AutoSize = true;
             EZABATUTAKOAK.Font = new Font("Segoe UI", 36F, FontStyle.Bold);
-            EZABATUTAKOAK.Location = new Point(626, 99);
+            EZABATUTAKOAK.Location = new Point(392, 54);
             EZABATUTAKOAK.Name = "EZABATUTAKOAK";
-            EZABATUTAKOAK.Size = new Size(728, 81);
-            EZABATUTAKOAK.TabIndex = 26;
-            EZABATUTAKOAK.Text = "EZABATUTAKO GAILUAK";
+            EZABATUTAKOAK.Size = new Size(917, 81);
+            EZABATUTAKOAK.TabIndex = 31;
+            EZABATUTAKOAK.Text = "INPRIMAGAILU GUZTIAK IKUSI";
             // 
-            // dataGridView1
+            // dvgInprimagailuak
             // 
-            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Location = new Point(629, 202);
-            dataGridView1.Name = "dataGridView1";
-            dataGridView1.RowHeadersWidth = 51;
-            dataGridView1.Size = new Size(721, 295);
-            dataGridView1.TabIndex = 25;
+            dvgInprimagailuak.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dvgInprimagailuak.Location = new Point(414, 169);
+            dvgInprimagailuak.Name = "dvgInprimagailuak";
+            dvgInprimagailuak.RowHeadersWidth = 51;
+            dvgInprimagailuak.Size = new Size(871, 573);
+            dvgInprimagailuak.TabIndex = 30;
             // 
-            // EzabatutakoGailuak
+            // InprimagailuGuztiak
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1924, 1055);
+            ClientSize = new Size(1549, 986);
             Controls.Add(ATZERA);
             Controls.Add(EZABATUTAKOAK);
-            Controls.Add(dataGridView1);
+            Controls.Add(dvgInprimagailuak);
             Icon = (Icon)resources.GetObject("$this.Icon");
-            MaximizeBox = false;
-            MinimizeBox = false;
-            Name = "EzabatutakoGailuak";
-            Text = "EzabatutakoGailuak";
-            Load += EzabatutakoGailuak_Load;
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
+            Name = "InprimagailuGuztiak";
+            Text = "InprimagailuGuztiak";
+            Load += InprimagailuGuztiak_Load;
+            ((System.ComponentModel.ISupportInitialize)dvgInprimagailuak).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -90,6 +88,6 @@
 
         private Button ATZERA;
         private Label EZABATUTAKOAK;
-        private DataGridView dataGridView1;
+        private DataGridView dvgInprimagailuak;
     }
 }

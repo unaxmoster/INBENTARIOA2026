@@ -28,20 +28,21 @@
         /// </summary>
         private void InitializeComponent()
         {
-            dataGridView1 = new DataGridView();
+            dvgGailuak = new DataGridView();
             EZABATUTAKOAK = new Label();
             ATZERA = new Button();
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)dvgGailuak).BeginInit();
             SuspendLayout();
             // 
-            // dataGridView1
+            // dvgGailuak
             // 
-            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Location = new Point(602, 192);
-            dataGridView1.Name = "dataGridView1";
-            dataGridView1.RowHeadersWidth = 51;
-            dataGridView1.Size = new Size(753, 401);
-            dataGridView1.TabIndex = 0;
+            dvgGailuak.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dvgGailuak.Location = new Point(602, 192);
+            dvgGailuak.Name = "dvgGailuak";
+            dvgGailuak.RowHeadersWidth = 51;
+            dvgGailuak.Size = new Size(753, 401);
+            dvgGailuak.TabIndex = 0;
+            dvgGailuak.CellContentClick += dataGridView1_CellContentClick;
             // 
             // EZABATUTAKOAK
             // 
@@ -73,18 +74,18 @@
             ClientSize = new Size(1924, 1055);
             Controls.Add(ATZERA);
             Controls.Add(EZABATUTAKOAK);
-            Controls.Add(dataGridView1);
+            Controls.Add(dvgGailuak);
             Name = "GailuGuztiak";
             Text = "GailuGuztiak";
             Load += GailuGuztiak_Load;
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dvgGailuak).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
 
         #endregion
 
-        private DataGridView dataGridView1;
+        private DataGridView dvgGailuak;
         private Label EZABATUTAKOAK;
         private Button ATZERA;
     }

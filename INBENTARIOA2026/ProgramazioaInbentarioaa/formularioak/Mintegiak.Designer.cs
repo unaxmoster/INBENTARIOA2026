@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Mintegiak));
             ERABILTZAILEAK = new Button();
             SARRERA = new Label();
             IRTEN = new Button();
@@ -38,7 +39,7 @@
             // ERABILTZAILEAK
             // 
             ERABILTZAILEAK.BackColor = Color.Navy;
-            ERABILTZAILEAK.Font = new Font("Arial", 18F, FontStyle.Bold, GraphicsUnit.Point);
+            ERABILTZAILEAK.Font = new Font("Arial", 18F, FontStyle.Bold);
             ERABILTZAILEAK.ForeColor = Color.AliceBlue;
             ERABILTZAILEAK.Location = new Point(1056, 567);
             ERABILTZAILEAK.Name = "ERABILTZAILEAK";
@@ -50,7 +51,7 @@
             // SARRERA
             // 
             SARRERA.AutoSize = true;
-            SARRERA.Font = new Font("Segoe UI", 36F, FontStyle.Bold, GraphicsUnit.Point);
+            SARRERA.Font = new Font("Segoe UI", 36F, FontStyle.Bold);
             SARRERA.Location = new Point(869, 297);
             SARRERA.Name = "SARRERA";
             SARRERA.Size = new Size(368, 81);
@@ -60,7 +61,7 @@
             // IRTEN
             // 
             IRTEN.BackColor = Color.Crimson;
-            IRTEN.Font = new Font("Arial", 18F, FontStyle.Bold, GraphicsUnit.Point);
+            IRTEN.Font = new Font("Arial", 18F, FontStyle.Bold);
             IRTEN.ForeColor = SystemColors.ButtonHighlight;
             IRTEN.Location = new Point(1056, 423);
             IRTEN.Name = "IRTEN";
@@ -73,7 +74,7 @@
             // EZABATUTAKOAK
             // 
             EZABATUTAKOAK.BackColor = Color.Navy;
-            EZABATUTAKOAK.Font = new Font("Arial", 18F, FontStyle.Bold, GraphicsUnit.Point);
+            EZABATUTAKOAK.Font = new Font("Arial", 18F, FontStyle.Bold);
             EZABATUTAKOAK.ForeColor = SystemColors.ButtonHighlight;
             EZABATUTAKOAK.Location = new Point(748, 567);
             EZABATUTAKOAK.Name = "EZABATUTAKOAK";
@@ -86,7 +87,7 @@
             // GAILUAK
             // 
             GAILUAK.BackColor = Color.Navy;
-            GAILUAK.Font = new Font("Arial", 18F, FontStyle.Bold, GraphicsUnit.Point);
+            GAILUAK.Font = new Font("Arial", 18F, FontStyle.Bold);
             GAILUAK.ForeColor = Color.AliceBlue;
             GAILUAK.Location = new Point(748, 423);
             GAILUAK.Name = "GAILUAK";
@@ -106,6 +107,7 @@
             Controls.Add(IRTEN);
             Controls.Add(EZABATUTAKOAK);
             Controls.Add(GAILUAK);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             MaximizeBox = false;
             MinimizeBox = false;
             Name = "Mintegiak";

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Inventarioa.formularioak;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -56,7 +57,31 @@ namespace Inbentarioa.formularioak
             GailuGuztiak mintegiak = new GailuGuztiak();
             mintegiak.ShowDialog();
             this.Close();
-            
+
+        }
+
+        private void ORDENAGAILUA_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            OrdenagailuGuztiak mintegiak = new OrdenagailuGuztiak();
+            mintegiak.ShowDialog();
+            this.Close();
+        }
+
+        private void INPRIMAGAILUA_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            InprimagailuGuztiak mintegiak = new InprimagailuGuztiak();
+            mintegiak.ShowDialog();
+            this.Close();
+        }
+
+        private void MINTEGI_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            MintegiGuztiak mintegiak = new MintegiGuztiak();
+            mintegiak.ShowDialog();
+            this.Close();
         }
     }
 }

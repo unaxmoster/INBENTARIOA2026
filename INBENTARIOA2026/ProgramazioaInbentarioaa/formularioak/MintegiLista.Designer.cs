@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MintegiLista));
             SARRERA = new Label();
             IRTEN = new Button();
             dataGridView1 = new DataGridView();
@@ -37,7 +38,7 @@
             // SARRERA
             // 
             SARRERA.AutoSize = true;
-            SARRERA.Font = new Font("Segoe UI", 36F, FontStyle.Bold, GraphicsUnit.Point);
+            SARRERA.Font = new Font("Segoe UI", 36F, FontStyle.Bold);
             SARRERA.Location = new Point(598, 199);
             SARRERA.Name = "SARRERA";
             SARRERA.Size = new Size(693, 81);
@@ -48,7 +49,7 @@
             // IRTEN
             // 
             IRTEN.BackColor = Color.Crimson;
-            IRTEN.Font = new Font("Arial", 18F, FontStyle.Bold, GraphicsUnit.Point);
+            IRTEN.Font = new Font("Arial", 18F, FontStyle.Bold);
             IRTEN.ForeColor = SystemColors.ButtonHighlight;
             IRTEN.Location = new Point(814, 625);
             IRTEN.Name = "IRTEN";
@@ -64,7 +65,6 @@
             dataGridView1.Location = new Point(582, 294);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.RowHeadersWidth = 51;
-            dataGridView1.RowTemplate.Height = 29;
             dataGridView1.Size = new Size(721, 295);
             dataGridView1.TabIndex = 34;
             // 
@@ -76,6 +76,7 @@
             Controls.Add(dataGridView1);
             Controls.Add(SARRERA);
             Controls.Add(IRTEN);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "MintegiLista";
             Text = "MintegiLista";
             Load += MintegiLista_Load;

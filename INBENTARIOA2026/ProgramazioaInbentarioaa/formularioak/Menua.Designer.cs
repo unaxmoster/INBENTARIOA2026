@@ -135,6 +135,7 @@
             Controls.Add(MINTEGIAK);
             Controls.Add(EZABATUTAKOAK);
             Controls.Add(GAILUAK);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             MaximizeBox = false;
             MinimizeBox = false;
             Name = "Menua";

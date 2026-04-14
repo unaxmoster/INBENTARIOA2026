@@ -1,6 +1,6 @@
-﻿namespace Inbentarioa.formularioak
+﻿namespace Inventarioa.formularioak
 {
-    partial class EzabatutakoGailuak
+    partial class OrdenagailuGuztiak
     {
         /// <summary>
         /// Required designer variable.
@@ -28,60 +28,59 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EzabatutakoGailuak));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(OrdenagailuGuztiak));
             ATZERA = new Button();
             EZABATUTAKOAK = new Label();
-            dataGridView1 = new DataGridView();
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
+            dvgOrdenagailuak = new DataGridView();
+            ((System.ComponentModel.ISupportInitialize)dvgOrdenagailuak).BeginInit();
             SuspendLayout();
             // 
             // ATZERA
             // 
             ATZERA.BackColor = Color.Crimson;
             ATZERA.Font = new Font("Arial", 18F, FontStyle.Bold);
-            ATZERA.ForeColor = SystemColors.ButtonHighlight;
-            ATZERA.Location = new Point(865, 521);
+            ATZERA.ForeColor = Color.Transparent;
+            ATZERA.Location = new Point(871, 758);
             ATZERA.Name = "ATZERA";
-            ATZERA.Size = new Size(250, 130);
-            ATZERA.TabIndex = 27;
+            ATZERA.Size = new Size(320, 172);
+            ATZERA.TabIndex = 29;
             ATZERA.Text = "ATZERA";
             ATZERA.UseVisualStyleBackColor = false;
-            ATZERA.Click += ATZERA_Click_1;
+            ATZERA.Click += ATZERA_Click;
             // 
             // EZABATUTAKOAK
             // 
             EZABATUTAKOAK.AutoSize = true;
             EZABATUTAKOAK.Font = new Font("Segoe UI", 36F, FontStyle.Bold);
-            EZABATUTAKOAK.Location = new Point(626, 99);
+            EZABATUTAKOAK.Location = new Point(547, 63);
             EZABATUTAKOAK.Name = "EZABATUTAKOAK";
-            EZABATUTAKOAK.Size = new Size(728, 81);
-            EZABATUTAKOAK.TabIndex = 26;
-            EZABATUTAKOAK.Text = "EZABATUTAKO GAILUAK";
+            EZABATUTAKOAK.Size = new Size(906, 81);
+            EZABATUTAKOAK.TabIndex = 28;
+            EZABATUTAKOAK.Text = "ORDENAGAILU GUZTIAK IKUSI";
             // 
-            // dataGridView1
+            // dvgOrdenagailuak
             // 
-            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Location = new Point(629, 202);
-            dataGridView1.Name = "dataGridView1";
-            dataGridView1.RowHeadersWidth = 51;
-            dataGridView1.Size = new Size(721, 295);
-            dataGridView1.TabIndex = 25;
+            dvgOrdenagailuak.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dvgOrdenagailuak.Location = new Point(486, 147);
+            dvgOrdenagailuak.Name = "dvgOrdenagailuak";
+            dvgOrdenagailuak.RowHeadersWidth = 51;
+            dvgOrdenagailuak.Size = new Size(1033, 588);
+            dvgOrdenagailuak.TabIndex = 27;
+            dvgOrdenagailuak.CellContentClick += dvgOrdenagailuak_CellContentClick;
             // 
-            // EzabatutakoGailuak
+            // OrdenagailuGuztiak
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1924, 1055);
             Controls.Add(ATZERA);
             Controls.Add(EZABATUTAKOAK);
-            Controls.Add(dataGridView1);
+            Controls.Add(dvgOrdenagailuak);
             Icon = (Icon)resources.GetObject("$this.Icon");
-            MaximizeBox = false;
-            MinimizeBox = false;
-            Name = "EzabatutakoGailuak";
-            Text = "EzabatutakoGailuak";
-            Load += EzabatutakoGailuak_Load;
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
+            Name = "OrdenagailuGuztiak";
+            Text = "OrdenagailuGuztiak";
+            Load += OrdenagailuGuztiak_Load;
+            ((System.ComponentModel.ISupportInitialize)dvgOrdenagailuak).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -90,6 +89,6 @@
 
         private Button ATZERA;
         private Label EZABATUTAKOAK;
-        private DataGridView dataGridView1;
+        private DataGridView dvgOrdenagailuak;
     }
 }

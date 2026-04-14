@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Erabiltzaileak));
             dataGridView1 = new DataGridView();
             EZABATUTAKOAK = new Label();
             ATZERA = new Button();
@@ -103,6 +104,7 @@
             Controls.Add(ATZERA);
             Controls.Add(EZABATUTAKOAK);
             Controls.Add(dataGridView1);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "Erabiltzaileak";
             Text = "Erabiltzaileak";
             Load += Erabiltzaileak_Load;

@@ -1,27 +1,24 @@
 ﻿using Inbentarioa.DatuBasie;
-using MySql.Data.MySqlClient; // <-- HAU GEHITU DUT: MySql erroreak kentzeko
+using Inbentarioa.formularioak;
+using MySql.Data.MySqlClient;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Inbentarioa.formularioak
+namespace Inventarioa.formularioak
 {
-    public partial class GailuGuztiak : Form
+    public partial class OrdenagailuGuztiak : Form
     {
-        public GailuGuztiak()
+        // BAKARRA utzi dugu, kargatzeko funtzioari deituz
+        public OrdenagailuGuztiak()
         {
             InitializeComponent();
-            KargatuGailuak(); // <-- Hemen deitu behar diogu datuak kargatzeko!
+            KargatuGailuak();
         }
 
-        private void GailuGuztiak_Load(object sender, EventArgs e)
+        private void OrdenagailuGuztiak_Load(object sender, EventArgs e)
         {
             this.WindowState = FormWindowState.Maximized;
         }
@@ -42,15 +39,6 @@ namespace Inbentarioa.formularioak
             }
         }
 
-        private void ATZERA_Click(object sender, EventArgs e)
-        {
-            this.Hide();
-            IKUSI mintegiak = new IKUSI();
-            mintegiak.ShowDialog();
-            this.Close();
-        }
-
-        // Gailuak ikusteko funtzioa
         private void KargatuGailuak()
         {
             try
@@ -60,15 +48,10 @@ namespace Inbentarioa.formularioak
                 using (MySqlConnection conn = new MySqlConnection(konexioa))
                 {
                     conn.Open();
-                    string query = "SELECT G.id_gailua AS 'ID', " +
-                                   //Id-a 3 karaktere azken lerroekin bat etor dadin, eta gailu mota ikusteko, JOIN-ak erabiliz.
-                                   // BIGARREN ZUTABEA: Gailu mota
-                                   "CASE " +
-                                   "  WHEN O.id_gailua IS NOT NULL THEN 'Ordenagailua' " +
-                                   "  WHEN I.id_gailua IS NOT NULL THEN 'Inprimagailua' " +
-                                   "  ELSE 'Besterik' " +
-                                   "END AS 'Gailu mota', " +
-                                   "G.marka_modeloa AS 'Modeloa', " +
+
+                    // Ordenagailuak bakarrik ikusteko, gogoratu JOIN Ordenagailuak egitea
+                    // Hemen jarri dizut kontsulta, hardware datuak ere ikusteko:
+                    string query = "SELECT G.id_gailua AS 'ID', G.marka_modeloa AS 'Modeloa', " +
                                    "M.izena AS 'Mintegia', G.eroste_data AS 'Data', " +
                                    "CASE " +
                                    "  WHEN G.egoera = '0' THEN 'Ondo' " +
@@ -78,30 +61,26 @@ namespace Inbentarioa.formularioak
                                    "END AS 'Egoera' " +
                                    "FROM Gailuak G " +
                                    "JOIN Mintegiak M ON G.id_mintegia = M.id_mintegia " +
-                                   "LEFT JOIN Ordenagailuak O ON G.id_gailua = O.id_gailua " +
-                                   "LEFT JOIN Inprimagailuak I ON G.id_gailua = I.id_gailua";
+                                   "JOIN Ordenagailuak O ON G.id_gailua = O.id_gailua"; // <-- Ordenagailuak iragazteko
 
                     MySqlDataAdapter adapter = new MySqlDataAdapter(query, conn);
                     DataTable dt = new DataTable();
                     adapter.Fill(dt);
 
-                    // Datuak kargatu ostean
-                    dvgGailuak.DataSource = dt;
-
-                    // --- Zutabeak ez aldatu ahal izateko=>> ---
-
+                    dvgOrdenagailuak.DataSource = dt;
                     // Erabiltzaileak ezin du gelaxketan idatzi (Irakurtzeko soilik)
-                    dvgGailuak.ReadOnly = true;
+                    dvgOrdenagailuak.ReadOnly = true;
 
                     // Erabiltzaileak ezin ditu lerro berriak eskuz gehitu grid-aren behealdean
-                    dvgGailuak.AllowUserToAddRows = false;
+                    dvgOrdenagailuak.AllowUserToAddRows = false;
 
                     // Erabiltzaileak ezin ditu lerroak ezabatu (Supr sakatuta adibidez)
-                    dvgGailuak.AllowUserToDeleteRows = false;
+                    dvgOrdenagailuak.AllowUserToDeleteRows = false;
 
                     // --- ID-aren zabalera eta lerrokatzea ---
-                    dvgGailuak.Columns["ID"].Width = 45;
-                    dvgGailuak.Columns["ID"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                    dvgOrdenagailuak.Columns["ID"].Width = 45;
+                    dvgOrdenagailuak.Columns["ID"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+
                 }
             }
             catch (Exception ex)
@@ -110,9 +89,18 @@ namespace Inbentarioa.formularioak
             }
         }
 
-        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        private void ATZERA_Click(object sender, EventArgs e)
         {
-            // Hemen zerbait egin nahi baduzu gelaxka baten gainean klik egitean
+            this.Hide();
+            IKUSI mintegiak = new IKUSI();
+            mintegiak.ShowDialog();
+            this.Close();
+
+        }
+
+        private void dvgOrdenagailuak_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
         }
     }
 }

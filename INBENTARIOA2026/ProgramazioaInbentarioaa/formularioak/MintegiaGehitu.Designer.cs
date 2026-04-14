@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MintegiaGehitu));
             textBox1 = new TextBox();
             lblizena = new Label();
             textBox2 = new TextBox();
@@ -38,7 +39,7 @@
             // 
             // textBox1
             // 
-            textBox1.Font = new Font("Segoe UI", 28.2F, FontStyle.Regular, GraphicsUnit.Point);
+            textBox1.Font = new Font("Segoe UI", 28.2F);
             textBox1.Location = new Point(1224, 508);
             textBox1.Name = "textBox1";
             textBox1.Size = new Size(435, 70);
@@ -49,7 +50,7 @@
             // 
             lblizena.AutoSize = true;
             lblizena.BackColor = Color.Transparent;
-            lblizena.Font = new Font("Arial Black", 48F, FontStyle.Bold, GraphicsUnit.Point);
+            lblizena.Font = new Font("Arial Black", 48F, FontStyle.Bold);
             lblizena.ForeColor = Color.Navy;
             lblizena.Location = new Point(380, 331);
             lblizena.Name = "lblizena";
@@ -59,7 +60,7 @@
             // 
             // textBox2
             // 
-            textBox2.Font = new Font("Segoe UI", 28.2F, FontStyle.Regular, GraphicsUnit.Point);
+            textBox2.Font = new Font("Segoe UI", 28.2F);
             textBox2.Location = new Point(1224, 356);
             textBox2.Name = "textBox2";
             textBox2.Size = new Size(435, 70);
@@ -69,7 +70,7 @@
             // 
             label1.AutoSize = true;
             label1.BackColor = Color.Transparent;
-            label1.Font = new Font("Arial Black", 48F, FontStyle.Bold, GraphicsUnit.Point);
+            label1.Font = new Font("Arial Black", 48F, FontStyle.Bold);
             label1.ForeColor = Color.Navy;
             label1.Location = new Point(651, 473);
             label1.Name = "label1";
@@ -80,7 +81,7 @@
             // EZABATUTAKOAK
             // 
             EZABATUTAKOAK.BackColor = Color.Navy;
-            EZABATUTAKOAK.Font = new Font("Arial", 18F, FontStyle.Bold, GraphicsUnit.Point);
+            EZABATUTAKOAK.Font = new Font("Arial", 18F, FontStyle.Bold);
             EZABATUTAKOAK.ForeColor = SystemColors.ButtonHighlight;
             EZABATUTAKOAK.Location = new Point(769, 623);
             EZABATUTAKOAK.Name = "EZABATUTAKOAK";
@@ -92,7 +93,7 @@
             // IRTEN
             // 
             IRTEN.BackColor = Color.Crimson;
-            IRTEN.Font = new Font("Arial", 18F, FontStyle.Bold, GraphicsUnit.Point);
+            IRTEN.Font = new Font("Arial", 18F, FontStyle.Bold);
             IRTEN.ForeColor = SystemColors.ButtonHighlight;
             IRTEN.Location = new Point(1054, 623);
             IRTEN.Name = "IRTEN";
@@ -113,6 +114,7 @@
             Controls.Add(textBox2);
             Controls.Add(lblizena);
             Controls.Add(textBox1);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "MintegiaGehitu";
             Text = "MintegiaGehitu";
             Load += MintegiaGehitu_Load;

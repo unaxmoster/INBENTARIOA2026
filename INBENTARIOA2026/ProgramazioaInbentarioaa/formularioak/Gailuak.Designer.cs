@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Gailuak));
             GEHITU = new Button();
             ALDATU = new Button();
             EZABATU = new Button();
@@ -39,7 +40,7 @@
             // GEHITU
             // 
             GEHITU.BackColor = Color.LightGray;
-            GEHITU.Font = new Font("Arial", 18F, FontStyle.Bold, GraphicsUnit.Point);
+            GEHITU.Font = new Font("Arial", 18F, FontStyle.Bold);
             GEHITU.Location = new Point(109, 260);
             GEHITU.Name = "GEHITU";
             GEHITU.Size = new Size(250, 130);
@@ -51,7 +52,7 @@
             // ALDATU
             // 
             ALDATU.BackColor = Color.LightGray;
-            ALDATU.Font = new Font("Arial", 18F, FontStyle.Bold, GraphicsUnit.Point);
+            ALDATU.Font = new Font("Arial", 18F, FontStyle.Bold);
             ALDATU.Location = new Point(109, 396);
             ALDATU.Name = "ALDATU";
             ALDATU.Size = new Size(250, 130);
@@ -62,7 +63,7 @@
             // EZABATU
             // 
             EZABATU.BackColor = Color.LightGray;
-            EZABATU.Font = new Font("Arial", 18F, FontStyle.Bold, GraphicsUnit.Point);
+            EZABATU.Font = new Font("Arial", 18F, FontStyle.Bold);
             EZABATU.Location = new Point(379, 260);
             EZABATU.Name = "EZABATU";
             EZABATU.Size = new Size(250, 130);
@@ -73,7 +74,7 @@
             // IKUSI
             // 
             IKUSI.BackColor = Color.LightGray;
-            IKUSI.Font = new Font("Arial", 18F, FontStyle.Bold, GraphicsUnit.Point);
+            IKUSI.Font = new Font("Arial", 18F, FontStyle.Bold);
             IKUSI.Location = new Point(379, 398);
             IKUSI.Name = "IKUSI";
             IKUSI.Size = new Size(250, 130);
@@ -85,7 +86,7 @@
             // GAILUA
             // 
             GAILUA.AutoSize = true;
-            GAILUA.Font = new Font("Segoe UI", 28.2F, FontStyle.Bold, GraphicsUnit.Point);
+            GAILUA.Font = new Font("Segoe UI", 28.2F, FontStyle.Bold);
             GAILUA.Location = new Point(422, 121);
             GAILUA.Name = "GAILUA";
             GAILUA.Size = new Size(228, 62);
@@ -95,7 +96,7 @@
             // ATZERA
             // 
             ATZERA.BackColor = Color.LightGray;
-            ATZERA.Font = new Font("Arial", 18F, FontStyle.Bold, GraphicsUnit.Point);
+            ATZERA.Font = new Font("Arial", 18F, FontStyle.Bold);
             ATZERA.Location = new Point(685, 324);
             ATZERA.Name = "ATZERA";
             ATZERA.Size = new Size(250, 130);
@@ -115,6 +116,7 @@
             Controls.Add(EZABATU);
             Controls.Add(ALDATU);
             Controls.Add(GEHITU);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             MaximizeBox = false;
             MinimizeBox = false;
             Name = "Gailuak";
