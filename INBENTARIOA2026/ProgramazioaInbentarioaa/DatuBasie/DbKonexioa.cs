@@ -12,7 +12,11 @@ namespace Inbentarioa.DatuBasie
         private DbKonexioa()
         {
             // MySQL-rako sintaxi zuzena (zure zerbitzariko datuekin ordezkatu):
-            konexioString = "Server=localhost;Database=inbentarioa2026;Uid=root;Pwd=root;";
+            //konexioString = "Server=localhost;Database=inbentarioa2026;Uid=root;Pwd=root;";
+
+            konexioString = "Server=anarcocapitalista90;Database=inbentarioa2026;Uid=root2026;Pwd=root2026;";
+
+            //   anarcocapitalista90
 
             // OHARRA: 'root' erabili ohi da MySQL-n defektuz, 
             // eta pasahitza instalazioan jarri zenuena da.
