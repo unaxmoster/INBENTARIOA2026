@@ -16,8 +16,6 @@ namespace Inbentarioa.DatuBasie
 
             konexioString = "Server=anarcocapitalista90;Database=inbentarioa2026;Uid=root2026;Pwd=root2026;";
 
-            //   anarcocapitalista90
-
             // OHARRA: 'root' erabili ohi da MySQL-n defektuz, 
             // eta pasahitza instalazioan jarri zenuena da.
         }
