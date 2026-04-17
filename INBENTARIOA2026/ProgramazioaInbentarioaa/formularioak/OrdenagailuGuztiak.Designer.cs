@@ -33,6 +33,7 @@
             EZABATUTAKOAK = new Label();
             dvgOrdenagailuak = new DataGridView();
             button1 = new Button();
+            BtnEzabatu = new Button();
             ((System.ComponentModel.ISupportInitialize)dvgOrdenagailuak).BeginInit();
             SuspendLayout();
             // 
@@ -41,7 +42,7 @@
             ATZERA.BackColor = Color.Crimson;
             ATZERA.Font = new Font("Arial", 18F, FontStyle.Bold);
             ATZERA.ForeColor = Color.Transparent;
-            ATZERA.Location = new Point(1045, 784);
+            ATZERA.Location = new Point(1199, 784);
             ATZERA.Name = "ATZERA";
             ATZERA.Size = new Size(320, 172);
             ATZERA.TabIndex = 29;
@@ -74,7 +75,7 @@
             button1.BackColor = Color.Navy;
             button1.Font = new Font("Arial", 18F, FontStyle.Bold);
             button1.ForeColor = Color.Transparent;
-            button1.Location = new Point(669, 784);
+            button1.Location = new Point(486, 784);
             button1.Name = "button1";
             button1.Size = new Size(320, 172);
             button1.TabIndex = 30;
@@ -82,11 +83,25 @@
             button1.UseVisualStyleBackColor = false;
             button1.Click += button1_Click;
             // 
+            // BtnEzabatu
+            // 
+            BtnEzabatu.BackColor = Color.Maroon;
+            BtnEzabatu.Font = new Font("Arial", 18F, FontStyle.Bold);
+            BtnEzabatu.ForeColor = Color.Transparent;
+            BtnEzabatu.Location = new Point(841, 784);
+            BtnEzabatu.Name = "BtnEzabatu";
+            BtnEzabatu.Size = new Size(320, 172);
+            BtnEzabatu.TabIndex = 31;
+            BtnEzabatu.Text = "EZABATU";
+            BtnEzabatu.UseVisualStyleBackColor = false;
+            BtnEzabatu.Click += BtnEzabatu_Click;
+            // 
             // OrdenagailuGuztiak
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1924, 1055);
+            Controls.Add(BtnEzabatu);
             Controls.Add(button1);
             Controls.Add(ATZERA);
             Controls.Add(EZABATUTAKOAK);
@@ -106,5 +121,6 @@
         private Label EZABATUTAKOAK;
         private DataGridView dvgOrdenagailuak;
         private Button button1;
+        private Button BtnEzabatu;
     }
 }

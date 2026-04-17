@@ -80,7 +80,7 @@
             GUZTIAK.BackColor = Color.Navy;
             GUZTIAK.Font = new Font("Arial", 18F, FontStyle.Bold);
             GUZTIAK.ForeColor = Color.Transparent;
-            GUZTIAK.Location = new Point(649, 540);
+            GUZTIAK.Location = new Point(654, 530);
             GUZTIAK.Name = "GUZTIAK";
             GUZTIAK.Size = new Size(320, 172);
             GUZTIAK.TabIndex = 4;
@@ -93,7 +93,7 @@
             ATZERA.BackColor = Color.Crimson;
             ATZERA.Font = new Font("Arial", 18F, FontStyle.Bold);
             ATZERA.ForeColor = Color.Transparent;
-            ATZERA.Location = new Point(1001, 540);
+            ATZERA.Location = new Point(995, 530);
             ATZERA.Name = "ATZERA";
             ATZERA.Size = new Size(320, 172);
             ATZERA.TabIndex = 5;

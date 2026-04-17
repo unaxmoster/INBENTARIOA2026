@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Inbentarioa.DatuBasie;
+using MySql.Data.MySqlClient;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -21,6 +23,8 @@ namespace Inbentarioa.formularioak
         private void Mintegiak_Load(object sender, EventArgs e)
         {
             this.WindowState = FormWindowState.Maximized;
+            // Mintegiak kargatzeko metodoari deia=>
+            KargatuMintegiak();
         }
         protected override void OnPaint(PaintEventArgs e)
         {
@@ -42,6 +46,50 @@ namespace Inbentarioa.formularioak
             }
         }
 
+        private void KargatuMintegiak()
+        {
+            try
+            {
+                // Konexioa lortu
+                string konexioa = DbKonexioa.Instantzia.GetKonexioString();
+
+                using (MySqlConnection conn = new MySqlConnection(konexioa))
+                {
+                    conn.Open();
+
+                    // SQL kontsulta: id_mintegia eta izena bakarrik
+                    string query = @"SELECT M.id_mintegia AS 'ID', 
+                        M.izena AS 'Mintegiaren Izena', 
+                        E.erabiltzailea AS 'Arduraduna' 
+                      FROM mintegiak M
+                      LEFT JOIN erabiltzaileak E ON M.id_arduraduna = E.id_erabiltzailea";
+
+                    MySqlDataAdapter adapter = new MySqlDataAdapter(query, conn);
+                    DataTable dt = new DataTable();
+                    adapter.Fill(dt);
+
+                    // Datuak Grid-ean kargatu
+                    dgvMintegiLista.DataSource = dt;
+
+                    // --- Formatu txukuna emateko ---
+                    dgvMintegiLista.ReadOnly = true;
+                    dgvMintegiLista.AllowUserToAddRows = false;
+                    dgvMintegiLista.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+
+                    // ID zutabeari tamaina zehatza eman (txikiagoa)
+                    if (dgvMintegiLista.Columns.Contains("ID"))
+                    {
+                        dgvMintegiLista.Columns["ID"].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+                        dgvMintegiLista.Columns["ID"].Width = 60;
+                        dgvMintegiLista.Columns["ID"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Errorea mintegiak kargatzean: " + ex.Message);
+            }
+        }
         private void IRTEN_Click(object sender, EventArgs e)
         {
             this.Hide();
@@ -64,6 +112,13 @@ namespace Inbentarioa.formularioak
             MintegiaGehitu mintegiak = new MintegiaGehitu();
             mintegiak.ShowDialog();
             this.Close();
+        }
+
+ 
+
+        private void dgvMintegiLista_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
         }
     }
 }

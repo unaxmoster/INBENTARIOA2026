@@ -71,7 +71,7 @@
             // 
             // btnEzabatu
             // 
-            btnEzabatu.BackColor = Color.Navy;
+            btnEzabatu.BackColor = Color.Firebrick;
             btnEzabatu.Font = new Font("Arial", 18F, FontStyle.Bold);
             btnEzabatu.ForeColor = Color.Transparent;
             btnEzabatu.Location = new Point(823, 754);

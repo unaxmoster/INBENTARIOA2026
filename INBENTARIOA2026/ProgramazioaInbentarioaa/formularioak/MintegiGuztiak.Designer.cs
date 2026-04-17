@@ -32,8 +32,10 @@
             cbMintegiak = new ComboBox();
             ATZERA = new Button();
             EZABATUTAKOAK = new Label();
-            dvgOrdenagailuak = new DataGridView();
-            ((System.ComponentModel.ISupportInitialize)dvgOrdenagailuak).BeginInit();
+            dvgMintegika = new DataGridView();
+            button1 = new Button();
+            BtnEzabatu = new Button();
+            ((System.ComponentModel.ISupportInitialize)dvgMintegika).BeginInit();
             SuspendLayout();
             // 
             // cbMintegiak
@@ -51,7 +53,7 @@
             ATZERA.BackColor = Color.Crimson;
             ATZERA.Font = new Font("Arial", 18F, FontStyle.Bold);
             ATZERA.ForeColor = Color.Transparent;
-            ATZERA.Location = new Point(793, 775);
+            ATZERA.Location = new Point(1153, 775);
             ATZERA.Name = "ATZERA";
             ATZERA.Size = new Size(320, 172);
             ATZERA.TabIndex = 36;
@@ -69,29 +71,57 @@
             EZABATUTAKOAK.TabIndex = 35;
             EZABATUTAKOAK.Text = "MINTEGIKA GAILUAK IKUSI";
             // 
-            // dvgOrdenagailuak
+            // dvgMintegika
             // 
-            dvgOrdenagailuak.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dvgOrdenagailuak.Location = new Point(465, 224);
-            dvgOrdenagailuak.Name = "dvgOrdenagailuak";
-            dvgOrdenagailuak.RowHeadersWidth = 51;
-            dvgOrdenagailuak.Size = new Size(1008, 530);
-            dvgOrdenagailuak.TabIndex = 34;
+            dvgMintegika.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dvgMintegika.Location = new Point(465, 224);
+            dvgMintegika.Name = "dvgMintegika";
+            dvgMintegika.RowHeadersWidth = 51;
+            dvgMintegika.Size = new Size(1008, 530);
+            dvgMintegika.TabIndex = 34;
+            // 
+            // button1
+            // 
+            button1.BackColor = Color.Navy;
+            button1.Font = new Font("Arial", 18F, FontStyle.Bold);
+            button1.ForeColor = Color.Transparent;
+            button1.Location = new Point(465, 775);
+            button1.Name = "button1";
+            button1.Size = new Size(320, 172);
+            button1.TabIndex = 38;
+            button1.Text = "BERRIA SORTU";
+            button1.UseVisualStyleBackColor = false;
+            button1.Click += button1_Click;
+            // 
+            // BtnEzabatu
+            // 
+            BtnEzabatu.BackColor = Color.Maroon;
+            BtnEzabatu.Font = new Font("Arial", 18F, FontStyle.Bold);
+            BtnEzabatu.ForeColor = Color.Transparent;
+            BtnEzabatu.Location = new Point(812, 775);
+            BtnEzabatu.Name = "BtnEzabatu";
+            BtnEzabatu.Size = new Size(320, 172);
+            BtnEzabatu.TabIndex = 39;
+            BtnEzabatu.Text = "EZABATU";
+            BtnEzabatu.UseVisualStyleBackColor = false;
+            BtnEzabatu.Click += BtnEzabatu_Click;
             // 
             // MintegiGuztiak
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1831, 994);
+            Controls.Add(BtnEzabatu);
+            Controls.Add(button1);
             Controls.Add(cbMintegiak);
             Controls.Add(ATZERA);
             Controls.Add(EZABATUTAKOAK);
-            Controls.Add(dvgOrdenagailuak);
+            Controls.Add(dvgMintegika);
             Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "MintegiGuztiak";
             Text = "MintegiGuztiak";
             Load += MintegiGuztiak_Load;
-            ((System.ComponentModel.ISupportInitialize)dvgOrdenagailuak).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dvgMintegika).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -101,6 +131,8 @@
         private ComboBox cbMintegiak;
         private Button ATZERA;
         private Label EZABATUTAKOAK;
-        private DataGridView dvgOrdenagailuak;
+        private DataGridView dvgMintegika;
+        private Button button1;
+        private Button BtnEzabatu;
     }
 }

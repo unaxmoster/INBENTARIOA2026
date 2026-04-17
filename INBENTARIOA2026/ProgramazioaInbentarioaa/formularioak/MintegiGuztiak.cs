@@ -125,38 +125,101 @@ namespace Inventarioa.formularioak
                     adapter.Fill(dt);
 
                     // Datuak kargatu
-                    dvgOrdenagailuak.DataSource = dt;
+                    dvgMintegika.DataSource = dt;
 
                     // --- KONFIGURAZIOA (Edizioa desgaitu eta diseinua) ---
-                    dvgOrdenagailuak.ReadOnly = true;
-                    dvgOrdenagailuak.AllowUserToAddRows = false;
-                    dvgOrdenagailuak.AllowUserToDeleteRows = false;
+                    dvgMintegika.ReadOnly = true;
+                    dvgMintegika.AllowUserToAddRows = false;
+                    dvgMintegika.AllowUserToDeleteRows = false;
 
-                    // ID-aren zabalera eta lerrokatzea
-                    if (dvgOrdenagailuak.Columns.Contains("ID"))
+                    // LERRO HAU: Zutabe guztiak grid-aren zabalerara egokitzeko
+                    dvgMintegika.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+
+                    // ID-aren zabalera eta lerrokatzea (Hau Fill-aren ondoren egitea hobeto)
+                    if (dvgMintegika.Columns.Contains("ID"))
                     {
-                        dvgOrdenagailuak.Columns["ID"].Width = 45;
-                        dvgOrdenagailuak.Columns["ID"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                        // ID-a txiki geratzea nahi baduzu, AutoSizeMode aldatu behar zaio berari bakarrik
+                        dvgMintegika.Columns["ID"].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+                        dvgMintegika.Columns["ID"].Width = 45;
+                        dvgMintegika.Columns["ID"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
                     }
 
+                    // Modeloa bereziki zabala izatea nahi baduzu (besteak baino gehiago)
+                    if (dvgMintegika.Columns.Contains("Modeloa"))
+                    {
+                        dvgMintegika.Columns["Modeloa"].FillWeight = 150; // Zenbat eta altuago, leku gehiago hartuko du
+                    }
                     // Hautatzean lerro osoa markatzea gomendatzen dizut (ikuspegi hobea)
-                    dvgOrdenagailuak.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+                    // dvgOrdenagailuak.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Errorea datuak kargatzean: " + ex.Message);
+                MessageBox.Show("Errorea datuak kargatzean: ");
             }
         }
 
         private void cbMintegiak_SelectedIndexChanged(object sender, EventArgs e)
         {
-                // Ziurtatu zerbait hautatuta dagoela eta balioa zenbakia dela
-                if (cbMintegiak.SelectedValue != null && int.TryParse(cbMintegiak.SelectedValue.ToString(), out int idHautatua))
+            // Ziurtatu zerbait hautatuta dagoela eta balioa zenbakia dela
+            if (cbMintegiak.SelectedValue != null && int.TryParse(cbMintegiak.SelectedValue.ToString(), out int idHautatua))
+            {
+                KargatuGailuak(idHautatua);
+            }
+
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            OrdInp mintegiak = new OrdInp();
+            mintegiak.ShowDialog();
+            this.Close();
+        }
+
+        private void BtnEzabatu_Click(object sender, EventArgs e)
+        {
+            if (dvgMintegika.SelectedRows.Count > 0)
+            {
+                var erantzuna = MessageBox.Show("Ziur zaude gailu hau ezabatu nahi duzula?", "Berretsi", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+
+                if (erantzuna == DialogResult.Yes)
                 {
-                    KargatuGailuak(idHautatua);
+                    try
+                    {
+                        // 1. Hartu gailuaren IDa (Grid-eko "ID" zutabetik)
+                        int idGailua = Convert.ToInt32(dvgMintegika.SelectedRows[0].Cells["ID"].Value);
+                        string konexioa = DbKonexioa.Instantzia.GetKonexioString();
+
+                        using (MySqlConnection conn = new MySqlConnection(konexioa))
+                        {
+                            conn.Open();
+                            // Gailua ezabatzean, herentziagatik (CASCADE baduzu) umea ere ezabatuko da
+                            // Ez baduzu CASCADE, lehenago umea ezabatu beharko zenuke (Ordenagailuak/Inprimagailuak)
+                            string sql = "DELETE FROM Gailuak WHERE id_gailua = @id";
+
+                            using (MySqlCommand cmd = new MySqlCommand(sql, conn))
+                            {
+                                cmd.Parameters.AddWithValue("@id", idGailua);
+                                cmd.ExecuteNonQuery();
+                                MessageBox.Show("Gailua ondo ezabatu da.");
+                            }
+                        }
+
+                        // 2. Freskatu grid-a orain hautatuta dagoen mintegi berdinarekin
+                        int idHautatua = Convert.ToInt32(cbMintegiak.SelectedValue);
+                        KargatuGailuak(idHautatua);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Errorea ezabatzean: " + ex.Message);
+                    }
                 }
-            
+            }
+            else
+            {
+                MessageBox.Show("Mesedez, hautatu gailu bat zerrendatik.");
+            }
         }
     }
 }

@@ -100,7 +100,11 @@ namespace Inbentarioa.formularioak
                     // Erabiltzaileak ezin ditu lerroak ezabatu (Supr sakatuta adibidez)
                     dvgGailuak.AllowUserToDeleteRows = false;
 
+                    // LERRO HAU: Zutabe guztiak grid-aren zabalerara egokitzeko
+                    dvgGailuak.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+
                     // --- ID-aren zabalera eta lerrokatzea ---
+                    dvgGailuak.Columns["ID"].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
                     dvgGailuak.Columns["ID"].Width = 45;
                     dvgGailuak.Columns["ID"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
                 }

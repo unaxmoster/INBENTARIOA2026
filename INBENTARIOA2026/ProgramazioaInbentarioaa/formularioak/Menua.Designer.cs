@@ -30,27 +30,28 @@
         {
             components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Menua));
-            ERABILTZAILEAK = new Button();
+            btnErabiltzaileak = new Button();
             SARRERA = new Label();
             IRTEN = new Button();
-            MINTEGIAK = new Button();
-            EZABATUTAKOAK = new Button();
-            GAILUAK = new Button();
+            btnMintegiak = new Button();
+            btnEzabatuak = new Button();
+            btnGailuak = new Button();
             imageList2 = new ImageList(components);
+            btnHondatuak = new Button();
             SuspendLayout();
             // 
-            // ERABILTZAILEAK
+            // btnErabiltzaileak
             // 
-            ERABILTZAILEAK.BackColor = Color.Navy;
-            ERABILTZAILEAK.Font = new Font("Arial", 18F, FontStyle.Bold);
-            ERABILTZAILEAK.ForeColor = Color.AliceBlue;
-            ERABILTZAILEAK.Location = new Point(760, 433);
-            ERABILTZAILEAK.Name = "ERABILTZAILEAK";
-            ERABILTZAILEAK.Size = new Size(392, 130);
-            ERABILTZAILEAK.TabIndex = 29;
-            ERABILTZAILEAK.Text = "ERABILTZAILEAK";
-            ERABILTZAILEAK.UseVisualStyleBackColor = false;
-            ERABILTZAILEAK.Click += ERABILTZAILEAK_Click_1;
+            btnErabiltzaileak.BackColor = Color.Navy;
+            btnErabiltzaileak.Font = new Font("Arial", 18F, FontStyle.Bold);
+            btnErabiltzaileak.ForeColor = Color.AliceBlue;
+            btnErabiltzaileak.Location = new Point(833, 433);
+            btnErabiltzaileak.Name = "btnErabiltzaileak";
+            btnErabiltzaileak.Size = new Size(351, 130);
+            btnErabiltzaileak.TabIndex = 29;
+            btnErabiltzaileak.Text = "ERABILTZAILEAK";
+            btnErabiltzaileak.UseVisualStyleBackColor = false;
+            btnErabiltzaileak.Click += ERABILTZAILEAK_Click_1;
             // 
             // SARRERA
             // 
@@ -67,52 +68,52 @@
             IRTEN.BackColor = Color.Crimson;
             IRTEN.Font = new Font("Arial", 18F, FontStyle.Bold);
             IRTEN.ForeColor = SystemColors.ButtonHighlight;
-            IRTEN.Location = new Point(1014, 588);
+            IRTEN.Location = new Point(1208, 588);
             IRTEN.Name = "IRTEN";
-            IRTEN.Size = new Size(250, 130);
+            IRTEN.Size = new Size(276, 172);
             IRTEN.TabIndex = 27;
             IRTEN.Text = "IRTEN";
             IRTEN.UseVisualStyleBackColor = false;
             IRTEN.Click += IRTEN_Click_1;
             // 
-            // MINTEGIAK
+            // btnMintegiak
             // 
-            MINTEGIAK.BackColor = Color.Navy;
-            MINTEGIAK.Font = new Font("Arial", 18F, FontStyle.Bold);
-            MINTEGIAK.ForeColor = SystemColors.ButtonFace;
-            MINTEGIAK.Location = new Point(1180, 433);
-            MINTEGIAK.Name = "MINTEGIAK";
-            MINTEGIAK.Size = new Size(281, 130);
-            MINTEGIAK.TabIndex = 26;
-            MINTEGIAK.Text = "MINTEGIAK";
-            MINTEGIAK.UseVisualStyleBackColor = false;
-            MINTEGIAK.Click += MINTEGIAK_Click_1;
+            btnMintegiak.BackColor = Color.Navy;
+            btnMintegiak.Font = new Font("Arial", 18F, FontStyle.Bold);
+            btnMintegiak.ForeColor = SystemColors.ButtonFace;
+            btnMintegiak.Location = new Point(1208, 433);
+            btnMintegiak.Name = "btnMintegiak";
+            btnMintegiak.Size = new Size(281, 130);
+            btnMintegiak.TabIndex = 26;
+            btnMintegiak.Text = "MINTEGIAK";
+            btnMintegiak.UseVisualStyleBackColor = false;
+            btnMintegiak.Click += MINTEGIAK_Click_1;
             // 
-            // EZABATUTAKOAK
+            // btnEzabatuak
             // 
-            EZABATUTAKOAK.BackColor = Color.Navy;
-            EZABATUTAKOAK.Font = new Font("Arial", 18F, FontStyle.Bold);
-            EZABATUTAKOAK.ForeColor = SystemColors.ButtonHighlight;
-            EZABATUTAKOAK.Location = new Point(627, 588);
-            EZABATUTAKOAK.Name = "EZABATUTAKOAK";
-            EZABATUTAKOAK.Size = new Size(346, 130);
-            EZABATUTAKOAK.TabIndex = 25;
-            EZABATUTAKOAK.Text = "EZABATUTAKO GAILUAK";
-            EZABATUTAKOAK.UseVisualStyleBackColor = false;
-            EZABATUTAKOAK.Click += EZABATUTAKOAK_Click_1;
+            btnEzabatuak.BackColor = Color.Navy;
+            btnEzabatuak.Font = new Font("Arial", 18F, FontStyle.Bold);
+            btnEzabatuak.ForeColor = SystemColors.ButtonHighlight;
+            btnEzabatuak.Location = new Point(464, 588);
+            btnEzabatuak.Name = "btnEzabatuak";
+            btnEzabatuak.Size = new Size(346, 172);
+            btnEzabatuak.TabIndex = 25;
+            btnEzabatuak.Text = "EZABATUTAKO GAILUAK";
+            btnEzabatuak.UseVisualStyleBackColor = false;
+            btnEzabatuak.Click += EZABATUTAKOAK_Click_1;
             // 
-            // GAILUAK
+            // btnGailuak
             // 
-            GAILUAK.BackColor = Color.Navy;
-            GAILUAK.Font = new Font("Arial", 18F, FontStyle.Bold);
-            GAILUAK.ForeColor = Color.AliceBlue;
-            GAILUAK.Location = new Point(474, 433);
-            GAILUAK.Name = "GAILUAK";
-            GAILUAK.Size = new Size(264, 130);
-            GAILUAK.TabIndex = 24;
-            GAILUAK.Text = "GAILUAK";
-            GAILUAK.UseVisualStyleBackColor = false;
-            GAILUAK.Click += GAILUAK_Click_1;
+            btnGailuak.BackColor = Color.Navy;
+            btnGailuak.Font = new Font("Arial", 18F, FontStyle.Bold);
+            btnGailuak.ForeColor = Color.AliceBlue;
+            btnGailuak.Location = new Point(464, 433);
+            btnGailuak.Name = "btnGailuak";
+            btnGailuak.Size = new Size(346, 130);
+            btnGailuak.TabIndex = 24;
+            btnGailuak.Text = "GAILUAK";
+            btnGailuak.UseVisualStyleBackColor = false;
+            btnGailuak.Click += GAILUAK_Click_1;
             // 
             // imageList2
             // 
@@ -123,18 +124,33 @@
             imageList2.Images.SetKeyName(1, "2.png");
             imageList2.Images.SetKeyName(2, "3.png");
             imageList2.Images.SetKeyName(3, "4.png");
+            imageList2.Images.SetKeyName(4, "5.png");
+            // 
+            // btnHondatuak
+            // 
+            btnHondatuak.BackColor = Color.Navy;
+            btnHondatuak.Font = new Font("Arial", 18F, FontStyle.Bold);
+            btnHondatuak.ForeColor = Color.Transparent;
+            btnHondatuak.Location = new Point(833, 588);
+            btnHondatuak.Name = "btnHondatuak";
+            btnHondatuak.Size = new Size(361, 172);
+            btnHondatuak.TabIndex = 30;
+            btnHondatuak.Text = "HONDATUTAKO GAILUAK";
+            btnHondatuak.UseVisualStyleBackColor = false;
+            btnHondatuak.Click += btnHondatuak_Click;
             // 
             // Menua
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1784, 1055);
-            Controls.Add(ERABILTZAILEAK);
+            Controls.Add(btnHondatuak);
+            Controls.Add(btnErabiltzaileak);
             Controls.Add(SARRERA);
             Controls.Add(IRTEN);
-            Controls.Add(MINTEGIAK);
-            Controls.Add(EZABATUTAKOAK);
-            Controls.Add(GAILUAK);
+            Controls.Add(btnMintegiak);
+            Controls.Add(btnEzabatuak);
+            Controls.Add(btnGailuak);
             Icon = (Icon)resources.GetObject("$this.Icon");
             MaximizeBox = false;
             MinimizeBox = false;
@@ -147,12 +163,13 @@
 
         #endregion
 
-        private Button ERABILTZAILEAK;
+        private Button btnErabiltzaileak;
         private Label SARRERA;
         private Button IRTEN;
-        private Button MINTEGIAK;
-        private Button EZABATUTAKOAK;
-        private Button GAILUAK;
+        private Button btnMintegiak;
+        private Button btnEzabatuak;
+        private Button btnGailuak;
         private ImageList imageList2;
+        private Button btnHondatuak;
     }
 }

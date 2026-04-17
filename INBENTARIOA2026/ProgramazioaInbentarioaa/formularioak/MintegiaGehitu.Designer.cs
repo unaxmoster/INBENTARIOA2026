@@ -29,22 +29,13 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MintegiaGehitu));
-            textBox1 = new TextBox();
             lblizena = new Label();
-            textBox2 = new TextBox();
+            txtMintegiIzena = new TextBox();
             label1 = new Label();
-            EZABATUTAKOAK = new Button();
+            btnGehitu = new Button();
             IRTEN = new Button();
+            cmbArduraduna = new ComboBox();
             SuspendLayout();
-            // 
-            // textBox1
-            // 
-            textBox1.Font = new Font("Segoe UI", 28.2F);
-            textBox1.Location = new Point(1224, 508);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(435, 70);
-            textBox1.TabIndex = 7;
-            textBox1.TextChanged += textBox1_TextChanged;
             // 
             // lblizena
             // 
@@ -58,13 +49,13 @@
             lblizena.TabIndex = 8;
             lblizena.Text = "Mintegiaren izena:";
             // 
-            // textBox2
+            // txtMintegiIzena
             // 
-            textBox2.Font = new Font("Segoe UI", 28.2F);
-            textBox2.Location = new Point(1224, 356);
-            textBox2.Name = "textBox2";
-            textBox2.Size = new Size(435, 70);
-            textBox2.TabIndex = 9;
+            txtMintegiIzena.Font = new Font("Segoe UI", 28.2F);
+            txtMintegiIzena.Location = new Point(1224, 366);
+            txtMintegiIzena.Name = "txtMintegiIzena";
+            txtMintegiIzena.Size = new Size(473, 70);
+            txtMintegiIzena.TabIndex = 9;
             // 
             // label1
             // 
@@ -78,24 +69,25 @@
             label1.TabIndex = 10;
             label1.Text = "Arduraduna:";
             // 
-            // EZABATUTAKOAK
+            // btnGehitu
             // 
-            EZABATUTAKOAK.BackColor = Color.Navy;
-            EZABATUTAKOAK.Font = new Font("Arial", 18F, FontStyle.Bold);
-            EZABATUTAKOAK.ForeColor = SystemColors.ButtonHighlight;
-            EZABATUTAKOAK.Location = new Point(769, 623);
-            EZABATUTAKOAK.Name = "EZABATUTAKOAK";
-            EZABATUTAKOAK.Size = new Size(250, 130);
-            EZABATUTAKOAK.TabIndex = 26;
-            EZABATUTAKOAK.Text = "GEHITU";
-            EZABATUTAKOAK.UseVisualStyleBackColor = false;
+            btnGehitu.BackColor = Color.Navy;
+            btnGehitu.Font = new Font("Arial", 18F, FontStyle.Bold);
+            btnGehitu.ForeColor = SystemColors.ButtonHighlight;
+            btnGehitu.Location = new Point(816, 623);
+            btnGehitu.Name = "btnGehitu";
+            btnGehitu.Size = new Size(250, 130);
+            btnGehitu.TabIndex = 26;
+            btnGehitu.Text = "GEHITU";
+            btnGehitu.UseVisualStyleBackColor = false;
+            btnGehitu.Click += EZABATUTAKOAK_Click;
             // 
             // IRTEN
             // 
             IRTEN.BackColor = Color.Crimson;
             IRTEN.Font = new Font("Arial", 18F, FontStyle.Bold);
             IRTEN.ForeColor = SystemColors.ButtonHighlight;
-            IRTEN.Location = new Point(1054, 623);
+            IRTEN.Location = new Point(1091, 623);
             IRTEN.Name = "IRTEN";
             IRTEN.Size = new Size(291, 130);
             IRTEN.TabIndex = 28;
@@ -103,17 +95,26 @@
             IRTEN.UseVisualStyleBackColor = false;
             IRTEN.Click += IRTEN_Click;
             // 
+            // cmbArduraduna
+            // 
+            cmbArduraduna.Font = new Font("Segoe UI", 28.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            cmbArduraduna.FormattingEnabled = true;
+            cmbArduraduna.Location = new Point(1224, 508);
+            cmbArduraduna.Name = "cmbArduraduna";
+            cmbArduraduna.Size = new Size(473, 70);
+            cmbArduraduna.TabIndex = 41;
+            // 
             // MintegiaGehitu
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1924, 893);
+            Controls.Add(cmbArduraduna);
             Controls.Add(IRTEN);
-            Controls.Add(EZABATUTAKOAK);
+            Controls.Add(btnGehitu);
             Controls.Add(label1);
-            Controls.Add(textBox2);
+            Controls.Add(txtMintegiIzena);
             Controls.Add(lblizena);
-            Controls.Add(textBox1);
             Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "MintegiaGehitu";
             Text = "MintegiaGehitu";
@@ -123,11 +124,11 @@
         }
 
         #endregion
-        private TextBox textBox1;
         private Label lblizena;
-        private TextBox textBox2;
+        private TextBox txtMintegiIzena;
         private Label label1;
-        private Button EZABATUTAKOAK;
+        private Button btnGehitu;
         private Button IRTEN;
+        private ComboBox cmbArduraduna;
     }
 }

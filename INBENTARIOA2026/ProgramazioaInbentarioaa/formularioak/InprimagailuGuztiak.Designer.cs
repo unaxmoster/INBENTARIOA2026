@@ -32,6 +32,8 @@
             ATZERA = new Button();
             EZABATUTAKOAK = new Label();
             dvgInprimagailuak = new DataGridView();
+            BtnEzabatu2 = new Button();
+            button1 = new Button();
             ((System.ComponentModel.ISupportInitialize)dvgInprimagailuak).BeginInit();
             SuspendLayout();
             // 
@@ -40,7 +42,7 @@
             ATZERA.BackColor = Color.Crimson;
             ATZERA.Font = new Font("Arial", 18F, FontStyle.Bold);
             ATZERA.ForeColor = Color.Transparent;
-            ATZERA.Location = new Point(701, 775);
+            ATZERA.Location = new Point(1125, 775);
             ATZERA.Name = "ATZERA";
             ATZERA.Size = new Size(320, 172);
             ATZERA.TabIndex = 32;
@@ -52,7 +54,7 @@
             // 
             EZABATUTAKOAK.AutoSize = true;
             EZABATUTAKOAK.Font = new Font("Segoe UI", 36F, FontStyle.Bold);
-            EZABATUTAKOAK.Location = new Point(392, 54);
+            EZABATUTAKOAK.Location = new Point(482, 61);
             EZABATUTAKOAK.Name = "EZABATUTAKOAK";
             EZABATUTAKOAK.Size = new Size(917, 81);
             EZABATUTAKOAK.TabIndex = 31;
@@ -61,17 +63,45 @@
             // dvgInprimagailuak
             // 
             dvgInprimagailuak.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dvgInprimagailuak.Location = new Point(414, 169);
+            dvgInprimagailuak.Location = new Point(453, 176);
             dvgInprimagailuak.Name = "dvgInprimagailuak";
             dvgInprimagailuak.RowHeadersWidth = 51;
-            dvgInprimagailuak.Size = new Size(871, 573);
+            dvgInprimagailuak.Size = new Size(965, 573);
             dvgInprimagailuak.TabIndex = 30;
+            // 
+            // BtnEzabatu2
+            // 
+            BtnEzabatu2.BackColor = Color.Maroon;
+            BtnEzabatu2.Font = new Font("Arial", 18F, FontStyle.Bold);
+            BtnEzabatu2.ForeColor = Color.Transparent;
+            BtnEzabatu2.Location = new Point(776, 775);
+            BtnEzabatu2.Name = "BtnEzabatu2";
+            BtnEzabatu2.Size = new Size(320, 172);
+            BtnEzabatu2.TabIndex = 33;
+            BtnEzabatu2.Text = "EZABATU";
+            BtnEzabatu2.UseVisualStyleBackColor = false;
+            BtnEzabatu2.Click += BtnEzabatu_Click;
+            // 
+            // button1
+            // 
+            button1.BackColor = Color.Navy;
+            button1.Font = new Font("Arial", 18F, FontStyle.Bold);
+            button1.ForeColor = Color.Transparent;
+            button1.Location = new Point(428, 775);
+            button1.Name = "button1";
+            button1.Size = new Size(320, 172);
+            button1.TabIndex = 34;
+            button1.Text = "BERRIA SORTU";
+            button1.UseVisualStyleBackColor = false;
+            button1.Click += button1_Click;
             // 
             // InprimagailuGuztiak
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1549, 986);
+            Controls.Add(button1);
+            Controls.Add(BtnEzabatu2);
             Controls.Add(ATZERA);
             Controls.Add(EZABATUTAKOAK);
             Controls.Add(dvgInprimagailuak);
@@ -89,5 +119,7 @@
         private Button ATZERA;
         private Label EZABATUTAKOAK;
         private DataGridView dvgInprimagailuak;
+        private Button BtnEzabatu2;
+        private Button button1;
     }
 }

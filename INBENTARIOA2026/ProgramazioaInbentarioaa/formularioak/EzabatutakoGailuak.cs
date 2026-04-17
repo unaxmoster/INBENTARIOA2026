@@ -72,8 +72,11 @@ namespace Inbentarioa.formularioak
                     DataTable dt = new DataTable();
                     adapter.Fill(dt);
 
-                    // Suposatuz zure DataGridView-ak dgvEzabatutakoak izena duela
+                    // DataGridView-ak dgvEzabatutakoak izdena du=>
                     dgvEzabatuak.DataSource = dt;
+                    // LERRO HAU: Zutabe guztiak grid-aren zabalerara egokitzeko
+                    dgvEzabatuak.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+
 
                     // Diseinu apur bat
                     dgvEzabatuak.ReadOnly = true;

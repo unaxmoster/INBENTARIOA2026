@@ -30,13 +30,11 @@
         {
             button1 = new Button();
             ATZERA = new Button();
-            comboBox1 = new ComboBox();
-            textBox1 = new TextBox();
+            txtTinta = new ComboBox();
+            txtMarka = new TextBox();
             label2 = new Label();
             label1 = new Label();
-            comboBox2 = new ComboBox();
-            label3 = new Label();
-            comboBox3 = new ComboBox();
+            cmbMintegia = new ComboBox();
             label4 = new Label();
             SuspendLayout();
             // 
@@ -51,6 +49,7 @@
             button1.TabIndex = 34;
             button1.Text = "BERRIA SORTU";
             button1.UseVisualStyleBackColor = false;
+            button1.Click += button1_Click;
             // 
             // ATZERA
             // 
@@ -63,29 +62,31 @@
             ATZERA.TabIndex = 33;
             ATZERA.Text = "ATZERA";
             ATZERA.UseVisualStyleBackColor = false;
+            ATZERA.Click += ATZERA_Click;
             // 
-            // comboBox1
+            // txtTinta
             // 
-            comboBox1.Font = new Font("Segoe UI", 28.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            comboBox1.FormattingEnabled = true;
-            comboBox1.Location = new Point(557, 340);
-            comboBox1.Name = "comboBox1";
-            comboBox1.Size = new Size(447, 70);
-            comboBox1.TabIndex = 43;
+            txtTinta.Font = new Font("Segoe UI", 28.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            txtTinta.FormattingEnabled = true;
+            txtTinta.Items.AddRange(new object[] { "Koloretakoa", "Zuri-beltza" });
+            txtTinta.Location = new Point(557, 401);
+            txtTinta.Name = "txtTinta";
+            txtTinta.Size = new Size(447, 70);
+            txtTinta.TabIndex = 43;
             // 
-            // textBox1
+            // txtMarka
             // 
-            textBox1.Font = new Font("Segoe UI", 28.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            textBox1.Location = new Point(554, 235);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(633, 70);
-            textBox1.TabIndex = 42;
+            txtMarka.Font = new Font("Segoe UI", 28.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            txtMarka.Location = new Point(554, 235);
+            txtMarka.Name = "txtMarka";
+            txtMarka.Size = new Size(633, 70);
+            txtMarka.TabIndex = 42;
             // 
             // label2
             // 
             label2.AutoSize = true;
             label2.Font = new Font("Segoe UI", 28.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label2.Location = new Point(229, 338);
+            label2.Location = new Point(229, 404);
             label2.Name = "label2";
             label2.Size = new Size(286, 62);
             label2.TabIndex = 41;
@@ -101,33 +102,14 @@
             label1.TabIndex = 40;
             label1.Text = "Marka/modeloa:";
             // 
-            // comboBox2
+            // cmbMintegia
             // 
-            comboBox2.Font = new Font("Segoe UI", 28.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            comboBox2.FormattingEnabled = true;
-            comboBox2.Location = new Point(554, 450);
-            comboBox2.Name = "comboBox2";
-            comboBox2.Size = new Size(447, 70);
-            comboBox2.TabIndex = 45;
-            // 
-            // label3
-            // 
-            label3.AutoSize = true;
-            label3.Font = new Font("Segoe UI", 28.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label3.Location = new Point(333, 453);
-            label3.Name = "label3";
-            label3.Size = new Size(182, 62);
-            label3.TabIndex = 44;
-            label3.Text = "Egoera:";
-            // 
-            // comboBox3
-            // 
-            comboBox3.Font = new Font("Segoe UI", 28.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            comboBox3.FormattingEnabled = true;
-            comboBox3.Location = new Point(557, 566);
-            comboBox3.Name = "comboBox3";
-            comboBox3.Size = new Size(447, 70);
-            comboBox3.TabIndex = 47;
+            cmbMintegia.Font = new Font("Segoe UI", 28.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            cmbMintegia.FormattingEnabled = true;
+            cmbMintegia.Location = new Point(557, 566);
+            cmbMintegia.Name = "cmbMintegia";
+            cmbMintegia.Size = new Size(447, 70);
+            cmbMintegia.TabIndex = 47;
             // 
             // label4
             // 
@@ -144,12 +126,10 @@
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1564, 1020);
-            Controls.Add(comboBox3);
+            Controls.Add(cmbMintegia);
             Controls.Add(label4);
-            Controls.Add(comboBox2);
-            Controls.Add(label3);
-            Controls.Add(comboBox1);
-            Controls.Add(textBox1);
+            Controls.Add(txtTinta);
+            Controls.Add(txtMarka);
             Controls.Add(label2);
             Controls.Add(label1);
             Controls.Add(button1);
@@ -165,13 +145,11 @@
 
         private Button button1;
         private Button ATZERA;
-        private ComboBox comboBox1;
-        private TextBox textBox1;
+        private ComboBox txtTinta;
+        private TextBox txtMarka;
         private Label label2;
         private Label label1;
-        private ComboBox comboBox2;
-        private Label label3;
-        private ComboBox comboBox3;
+        private ComboBox cmbMintegia;
         private Label label4;
     }
 }
