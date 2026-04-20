@@ -212,7 +212,7 @@ namespace Inventarioa.formularioak
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show("Errorea ezabatzean: " + ex.Message);
+                        MessageBox.Show("Errorea ezabatzean: ");
                     }
                 }
             }

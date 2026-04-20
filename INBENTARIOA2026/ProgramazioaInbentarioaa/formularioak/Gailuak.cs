@@ -65,5 +65,10 @@ namespace Inbentarioa.formularioak
             mintegiak.ShowDialog();
             this.Close();
         }
+
+        private void EZABATU_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

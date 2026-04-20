@@ -79,7 +79,7 @@ namespace Inventarioa.formularioak
         private void ATZERA_Click(object sender, EventArgs e)
         {
             this.Hide();
-            Mintegiak mintegiak = new Mintegiak();
+            Menua mintegiak = new Menua();
             mintegiak.ShowDialog();
             this.Close();
         }

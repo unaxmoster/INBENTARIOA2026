@@ -70,6 +70,7 @@
             EZABATU.TabIndex = 2;
             EZABATU.Text = "EZABATU";
             EZABATU.UseVisualStyleBackColor = false;
+            EZABATU.Click += EZABATU_Click;
             // 
             // IKUSI
             // 

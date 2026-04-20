@@ -42,26 +42,36 @@ namespace Inventarioa.formularioak
 
         private void button1_Click(object sender, EventArgs e)
         {
-            this.Hide();
-            OrdeBerriaSortu mintegiak = new OrdeBerriaSortu();
-            mintegiak.ShowDialog();
-            this.Close();
+            // Ez egin 'this.Hide()' hemen
+            using (OrdeBerriaSortu ordeForm = new OrdeBerriaSortu())
+            {
+                // ShowDialog-ek leihoa irekita mantentzen du eta hau blokeatzen du
+                if (ordeForm.ShowDialog() == DialogResult.OK)
+                {
+                    ordeForm.ShowDialog();
+                }
+            }
+            // Ez dugu 'this.Close()' egiten, formulario nagusian gaudelako
+        }
+        private void button2_Click(object sender, EventArgs e)
+        {
+            using (InpBerriaSortu inpForm = new InpBerriaSortu())
+            {
+                if (inpForm.ShowDialog() == DialogResult.OK)
+                {
+                    inpForm.ShowDialog();
+                }
+            }
         }
 
         private void ATZERA_Click(object sender, EventArgs e)
         {
             this.Hide();
-            GailuGuztiak mintegiak = new GailuGuztiak();
+            Menua mintegiak = new Menua();
             mintegiak.ShowDialog();
             this.Close();
         }
 
-        private void button2_Click(object sender, EventArgs e)
-        {
-            this.Hide();
-            InpBerriaSortu mintegiak = new InpBerriaSortu();
-            mintegiak.ShowDialog();
-            this.Close();
-        }
+
     }
 }

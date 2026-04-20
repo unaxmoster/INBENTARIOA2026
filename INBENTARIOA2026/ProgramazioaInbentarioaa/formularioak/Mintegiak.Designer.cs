@@ -42,12 +42,13 @@
             btnEzabatu.BackColor = Color.Navy;
             btnEzabatu.Font = new Font("Arial", 18F, FontStyle.Bold);
             btnEzabatu.ForeColor = Color.AliceBlue;
-            btnEzabatu.Location = new Point(794, 671);
+            btnEzabatu.Location = new Point(798, 671);
             btnEzabatu.Name = "btnEzabatu";
             btnEzabatu.Size = new Size(291, 130);
             btnEzabatu.TabIndex = 29;
             btnEzabatu.Text = "EZABATU";
             btnEzabatu.UseVisualStyleBackColor = false;
+            btnEzabatu.Click += btnEzabatu_Click;
             // 
             // SARRERA
             // 
