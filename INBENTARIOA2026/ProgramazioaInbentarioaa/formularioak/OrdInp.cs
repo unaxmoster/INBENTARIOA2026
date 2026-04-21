@@ -48,10 +48,10 @@ namespace Inventarioa.formularioak
                 // ShowDialog-ek leihoa irekita mantentzen du eta hau blokeatzen du
                 if (ordeForm.ShowDialog() == DialogResult.OK)
                 {
-                    ordeForm.ShowDialog();
+                   // ordeForm.ShowDialog();
                 }
             }
-            // Ez dugu 'this.Close()' egiten, formulario nagusian gaudelako
+            
         }
         private void button2_Click(object sender, EventArgs e)
         {
@@ -59,7 +59,7 @@ namespace Inventarioa.formularioak
             {
                 if (inpForm.ShowDialog() == DialogResult.OK)
                 {
-                    inpForm.ShowDialog();
+                    //inpForm.ShowDialog();
                 }
             }
         }

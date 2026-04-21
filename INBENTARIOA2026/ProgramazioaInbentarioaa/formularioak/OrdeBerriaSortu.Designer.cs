@@ -105,6 +105,7 @@
             cmbMintegia.Name = "cmbMintegia";
             cmbMintegia.Size = new Size(447, 70);
             cmbMintegia.TabIndex = 40;
+            cmbMintegia.SelectedIndexChanged += cmbMintegia_SelectedIndexChanged;
             // 
             // label5
             // 

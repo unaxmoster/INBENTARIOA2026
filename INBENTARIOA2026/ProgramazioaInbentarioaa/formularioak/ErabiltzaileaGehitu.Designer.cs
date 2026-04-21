@@ -30,13 +30,15 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ErabiltzaileaGehitu));
             ATZERA = new Button();
-            button1 = new Button();
+            btnGorde = new Button();
             lblizena = new Label();
             label1 = new Label();
             label2 = new Label();
-            textBox2 = new TextBox();
-            comboBox1 = new ComboBox();
-            comboBox2 = new ComboBox();
+            txtErIzena = new TextBox();
+            cbMintegia = new ComboBox();
+            cbArduraduna = new ComboBox();
+            txtPass = new TextBox();
+            label3 = new Label();
             SuspendLayout();
             // 
             // ATZERA
@@ -52,17 +54,18 @@
             ATZERA.UseVisualStyleBackColor = false;
             ATZERA.Click += ATZERA_Click;
             // 
-            // button1
+            // btnGorde
             // 
-            button1.BackColor = Color.Navy;
-            button1.Font = new Font("Arial", 18F, FontStyle.Bold);
-            button1.ForeColor = SystemColors.ButtonHighlight;
-            button1.Location = new Point(830, 599);
-            button1.Name = "button1";
-            button1.Size = new Size(250, 130);
-            button1.TabIndex = 27;
-            button1.Text = "GORDE";
-            button1.UseVisualStyleBackColor = false;
+            btnGorde.BackColor = Color.Navy;
+            btnGorde.Font = new Font("Arial", 18F, FontStyle.Bold);
+            btnGorde.ForeColor = SystemColors.ButtonHighlight;
+            btnGorde.Location = new Point(830, 599);
+            btnGorde.Name = "btnGorde";
+            btnGorde.Size = new Size(250, 130);
+            btnGorde.TabIndex = 27;
+            btnGorde.Text = "GORDE";
+            btnGorde.UseVisualStyleBackColor = false;
+            btnGorde.Click += btnGorde_Click_1;
             // 
             // lblizena
             // 
@@ -70,11 +73,11 @@
             lblizena.BackColor = Color.Transparent;
             lblizena.Font = new Font("Arial Black", 48F, FontStyle.Bold);
             lblizena.ForeColor = Color.Navy;
-            lblizena.Location = new Point(272, 243);
+            lblizena.Location = new Point(292, 136);
             lblizena.Name = "lblizena";
-            lblizena.Size = new Size(859, 113);
+            lblizena.Size = new Size(827, 113);
             lblizena.TabIndex = 29;
-            lblizena.Text = "Erabiltzaile berria:";
+            lblizena.Text = "Erabiltzaile izena:";
             lblizena.Click += lblizena_Click;
             // 
             // label1
@@ -101,45 +104,70 @@
             label2.TabIndex = 31;
             label2.Text = "Ardura:";
             // 
-            // textBox2
+            // txtErIzena
             // 
-            textBox2.Font = new Font("Segoe UI", 28.2F);
-            textBox2.Location = new Point(1125, 278);
-            textBox2.Name = "textBox2";
-            textBox2.Size = new Size(435, 70);
-            textBox2.TabIndex = 33;
+            txtErIzena.Font = new Font("Segoe UI", 28.2F);
+            txtErIzena.Location = new Point(1125, 171);
+            txtErIzena.Name = "txtErIzena";
+            txtErIzena.Size = new Size(435, 70);
+            txtErIzena.TabIndex = 33;
             // 
-            // comboBox1
+            // cbMintegia
             // 
-            comboBox1.Font = new Font("Segoe UI", 28.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            comboBox1.FormattingEnabled = true;
-            comboBox1.Location = new Point(1125, 388);
-            comboBox1.Name = "comboBox1";
-            comboBox1.Size = new Size(435, 70);
-            comboBox1.TabIndex = 34;
-            comboBox1.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
+            cbMintegia.Font = new Font("Segoe UI", 28.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            cbMintegia.FormattingEnabled = true;
+            cbMintegia.Location = new Point(1125, 388);
+            cbMintegia.Name = "cbMintegia";
+            cbMintegia.Size = new Size(435, 70);
+            cbMintegia.TabIndex = 34;
+            cbMintegia.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
             // 
-            // comboBox2
+            // cbArduraduna
             // 
-            comboBox2.Font = new Font("Segoe UI", 28.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            comboBox2.FormattingEnabled = true;
-            comboBox2.Location = new Point(1125, 501);
-            comboBox2.Name = "comboBox2";
-            comboBox2.Size = new Size(435, 70);
-            comboBox2.TabIndex = 35;
+            cbArduraduna.Font = new Font("Segoe UI", 28.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            cbArduraduna.FormattingEnabled = true;
+            cbArduraduna.Items.AddRange(new object[] { "IKT arduraduna", "Mintegi burua", "Irakaslea" });
+            cbArduraduna.Location = new Point(1125, 501);
+            cbArduraduna.Name = "cbArduraduna";
+            cbArduraduna.Size = new Size(435, 70);
+            cbArduraduna.TabIndex = 35;
+            // 
+            // txtPass
+            // 
+            txtPass.Font = new Font("Segoe UI", 28.2F);
+            txtPass.Location = new Point(1125, 282);
+            txtPass.Name = "txtPass";
+            txtPass.PasswordChar = '*';
+            txtPass.Size = new Size(435, 70);
+            txtPass.TabIndex = 36;
+            // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.BackColor = Color.Transparent;
+            label3.Font = new Font("Arial Black", 48F, FontStyle.Bold);
+            label3.ForeColor = Color.Navy;
+            label3.Location = new Point(619, 247);
+            label3.Name = "label3";
+            label3.Size = new Size(500, 113);
+            label3.TabIndex = 37;
+            label3.Text = "Pasahitza:";
+            label3.Click += label3_Click;
             // 
             // ErabiltzaileaGehitu
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1841, 1055);
-            Controls.Add(comboBox2);
-            Controls.Add(comboBox1);
-            Controls.Add(textBox2);
+            Controls.Add(label3);
+            Controls.Add(txtPass);
+            Controls.Add(cbArduraduna);
+            Controls.Add(cbMintegia);
+            Controls.Add(txtErIzena);
             Controls.Add(label2);
             Controls.Add(label1);
             Controls.Add(lblizena);
-            Controls.Add(button1);
+            Controls.Add(btnGorde);
             Controls.Add(ATZERA);
             Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "ErabiltzaileaGehitu";
@@ -152,12 +180,14 @@
         #endregion
 
         private Button ATZERA;
-        private Button button1;
+        private Button btnGorde;
         private Label lblizena;
         private Label label1;
         private Label label2;
-        private TextBox textBox2;
-        private ComboBox comboBox1;
-        private ComboBox comboBox2;
+        private TextBox txtErIzena;
+        private ComboBox cbMintegia;
+        private ComboBox cbArduraduna;
+        private TextBox txtPass;
+        private Label label3;
     }
 }

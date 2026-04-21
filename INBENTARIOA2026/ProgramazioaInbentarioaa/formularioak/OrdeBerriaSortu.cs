@@ -79,7 +79,7 @@ namespace Inventarioa.formularioak
         private void ATZERA_Click(object sender, EventArgs e)
         {
             this.Hide();
-            Menua mintegiak = new Menua();
+            IKUSI mintegiak = new IKUSI();
             mintegiak.ShowDialog();
             this.Close();
         }
@@ -148,6 +148,11 @@ namespace Inventarioa.formularioak
         }
 
         private void textBox2_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void cmbMintegia_SelectedIndexChanged(object sender, EventArgs e)
         {
 
         }

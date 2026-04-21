@@ -11,6 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace Inbentarioa.formularioak
 {
@@ -57,27 +58,13 @@ namespace Inbentarioa.formularioak
             try
             {
                 string konexioa = DbKonexioa.Instantzia.GetKonexioString();
-
                 using (MySqlConnection conn = new MySqlConnection(konexioa))
                 {
                     conn.Open();
                     string query = "SELECT G.id_gailua AS 'ID', " +
-                                   //Id-a 3 karaktere azken lerroekin bat etor dadin, eta gailu mota ikusteko, JOIN-ak erabiliz.
-                                   // BIGARREN ZUTABEA: Gailu mota
-                                   "CASE " +
-                                   "  WHEN O.id_gailua IS NOT NULL THEN 'Ordenagailua' " +
-                                   "  WHEN I.id_gailua IS NOT NULL THEN 'Inprimagailua' " +
-                                   "  ELSE 'Besterik' " +
-                                   "END AS 'Gailu mota', " +
-                                   "G.marka_modeloa AS 'Modeloa', " +
-                                   "M.izena AS 'Mintegia', G.eroste_data AS 'Data', " +
-                                   "CASE " +
-                                   "  WHEN G.egoera = '0' THEN 'Ondo' " +
-                                   "  WHEN G.egoera = '1' THEN 'Matxuratuta' " +
-                                   "  WHEN G.egoera = '2' THEN 'Konpontzen' " +
-                                   "  ELSE 'Ezezaguna' " +
-                                   "END AS 'Egoera' " +
-                                   "FROM Gailuak G " +
+                                   "CASE WHEN O.id_gailua IS NOT NULL THEN 'Ordenagailua' WHEN I.id_gailua IS NOT NULL THEN 'Inprimagailua' ELSE 'Besterik' END AS 'Gailu mota', " +
+                                   "G.marka_modeloa AS 'Modeloa', M.izena AS 'Mintegia', G.eroste_data AS 'Data', " +
+                                   "G.egoera AS 'egoera_balioa' FROM Gailuak G " +
                                    "JOIN Mintegiak M ON G.id_mintegia = M.id_mintegia " +
                                    "LEFT JOIN Ordenagailuak O ON G.id_gailua = O.id_gailua " +
                                    "LEFT JOIN Inprimagailuak I ON G.id_gailua = I.id_gailua";
@@ -86,32 +73,39 @@ namespace Inbentarioa.formularioak
                     DataTable dt = new DataTable();
                     adapter.Fill(dt);
 
-                    // Datuak kargatu ostean
+                    // 1. ComboBox zutabea sortu (DataSource baino lehen, errorea ekiditeko)
+                    if (!dvgGailuak.Columns.Contains("EgoeraCombo"))
+                    {
+                        DataGridViewComboBoxColumn comboCol = new DataGridViewComboBoxColumn();
+                        comboCol.HeaderText = "Egoera";
+                        comboCol.Name = "EgoeraCombo";
+                        comboCol.Items.AddRange("Ondo", "Hondatuta", "Kompontzen");
+                        dvgGailuak.Columns.Add(comboCol);
+                    }
+
+                    // 2. Datuak lotu
                     dvgGailuak.DataSource = dt;
 
-                    // --- Zutabeak ez aldatu ahal izateko=>> ---
+                    // 3. ORDENA ALDATU: ComboBox zutabea azkena dela ziurtatu
+                    // Zutabe guztiak kargatuta daudenean, DisplayIndex erabiliko dugu
+                    int zutabeKopurua = dvgGailuak.Columns.Count;
+                    dvgGailuak.Columns["EgoeraCombo"].DisplayIndex = zutabeKopurua - 1;
 
-                    // Erabiltzaileak ezin du gelaxketan idatzi (Irakurtzeko soilik)
-                    dvgGailuak.ReadOnly = true;
+                    // Ezkutatu eta ReadOnly ezarpenak
+                    if (dvgGailuak.Columns.Contains("egoera_balioa"))
+                        dvgGailuak.Columns["egoera_balioa"].Visible = false;
 
-                    // Erabiltzaileak ezin ditu lerro berriak eskuz gehitu grid-aren behealdean
-                    dvgGailuak.AllowUserToAddRows = false;
-
-                    // Erabiltzaileak ezin ditu lerroak ezabatu (Supr sakatuta adibidez)
-                    dvgGailuak.AllowUserToDeleteRows = false;
-
-                    // LERRO HAU: Zutabe guztiak grid-aren zabalerara egokitzeko
-                    dvgGailuak.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-
-                    // --- ID-aren zabalera eta lerrokatzea ---
-                    dvgGailuak.Columns["ID"].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
-                    dvgGailuak.Columns["ID"].Width = 45;
-                    dvgGailuak.Columns["ID"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                    dvgGailuak.ReadOnly = false;
+                    dvgGailuak.Columns["ID"].ReadOnly = true;
+                    dvgGailuak.Columns["Gailu mota"].ReadOnly = true;
+                    dvgGailuak.Columns["Modeloa"].ReadOnly = true;
+                    dvgGailuak.Columns["Mintegia"].ReadOnly = true;
+                    dvgGailuak.Columns["Data"].ReadOnly = true;
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Errorea datuak kargatzean: " + ex.Message);
+                MessageBox.Show("Errorea gailuak kargatzean: " + ex.Message);
             }
         }
 
@@ -215,6 +209,64 @@ namespace Inbentarioa.formularioak
             OrdInp mintegiak = new OrdInp();
             mintegiak.ShowDialog();
             this.Close();
+        }
+
+        private void btnEgoeraAldatu_Click(object sender, EventArgs e)
+        {
+            if (dvgGailuak.SelectedRows.Count > 0)
+            {
+                try
+                {
+                    int id = Convert.ToInt32(dvgGailuak.SelectedRows[0].Cells["ID"].Value);
+                    string hautatutakoTestua = dvgGailuak.SelectedRows[0].Cells["EgoeraCombo"].Value.ToString();
+
+                    // Testua zenbakira itzuli datu-baserako
+                    int egoeraBerria = 0;
+                    if (hautatutakoTestua == "Hondatuta") egoeraBerria = 1;
+                    else if (hautatutakoTestua == "Kompontzen") egoeraBerria = 2;
+
+                    string konexioa = DbKonexioa.Instantzia.GetKonexioString();
+                    using (MySqlConnection conn = new MySqlConnection(konexioa))
+                    {
+                        conn.Open();
+                        string updateQuery = "UPDATE Gailuak SET egoera = @egoera WHERE id_gailua = @id";
+                        MySqlCommand cmd = new MySqlCommand(updateQuery, conn);
+                        cmd.Parameters.AddWithValue("@egoera", egoeraBerria);
+                        cmd.Parameters.AddWithValue("@id", id);
+
+                        cmd.ExecuteNonQuery();
+                        MessageBox.Show("Egoera ondo eguneratu da!");
+                    }
+                    KargatuGailuak(); // Zerrenda freskatu
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Errorea eguneratzean: " + ex.Message);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Mesedez, hautatu gailu bat lerroaren hasieran klik eginez.");
+            }
+        }
+
+        private void dvgGailuak_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        {
+            foreach (DataGridViewRow row in dvgGailuak.Rows)
+            {
+                // Ziurtatu lerroa ez dela berria edo nulua
+                if (row.Cells["egoera_balioa"].Value != null && row.Cells["egoera_balioa"].Value != DBNull.Value)
+                {
+                    int balioa = Convert.ToInt32(row.Cells["egoera_balioa"].Value);
+                    DataGridViewComboBoxCell cell = (DataGridViewComboBoxCell)row.Cells["EgoeraCombo"];
+
+                    // Indizea egokia dela ziurtatu (0, 1, 2)
+                    if (balioa >= 0 && balioa < cell.Items.Count)
+                    {
+                        row.Cells["EgoeraCombo"].Value = cell.Items[balioa];
+                    }
+                }
+            }
         }
     }
 }

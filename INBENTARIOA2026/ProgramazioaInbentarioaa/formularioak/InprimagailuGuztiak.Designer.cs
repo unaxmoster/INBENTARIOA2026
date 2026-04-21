@@ -34,6 +34,7 @@
             dvgInprimagailuak = new DataGridView();
             BtnEzabatu2 = new Button();
             button1 = new Button();
+            btnEgoeraAldatu = new Button();
             ((System.ComponentModel.ISupportInitialize)dvgInprimagailuak).BeginInit();
             SuspendLayout();
             // 
@@ -68,6 +69,7 @@
             dvgInprimagailuak.RowHeadersWidth = 51;
             dvgInprimagailuak.Size = new Size(965, 573);
             dvgInprimagailuak.TabIndex = 30;
+            dvgInprimagailuak.DataBindingComplete += dvgInprimagailuak_DataBindingComplete;
             // 
             // BtnEzabatu2
             // 
@@ -95,11 +97,24 @@
             button1.UseVisualStyleBackColor = false;
             button1.Click += button1_Click;
             // 
+            // btnEgoeraAldatu
+            // 
+            btnEgoeraAldatu.BackColor = Color.Navy;
+            btnEgoeraAldatu.Font = new Font("Arial", 18F, FontStyle.Bold);
+            btnEgoeraAldatu.ForeColor = Color.Transparent;
+            btnEgoeraAldatu.Location = new Point(1488, 388);
+            btnEgoeraAldatu.Name = "btnEgoeraAldatu";
+            btnEgoeraAldatu.Size = new Size(320, 172);
+            btnEgoeraAldatu.TabIndex = 35;
+            btnEgoeraAldatu.Text = "EGOERA ALDATU";
+            btnEgoeraAldatu.UseVisualStyleBackColor = false;
+            // 
             // InprimagailuGuztiak
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1549, 986);
+            ClientSize = new Size(1924, 986);
+            Controls.Add(btnEgoeraAldatu);
             Controls.Add(button1);
             Controls.Add(BtnEzabatu2);
             Controls.Add(ATZERA);
@@ -121,5 +136,6 @@
         private DataGridView dvgInprimagailuak;
         private Button BtnEzabatu2;
         private Button button1;
+        private Button btnEgoeraAldatu;
     }
 }

@@ -34,6 +34,7 @@
             dvgOrdenagailuak = new DataGridView();
             button1 = new Button();
             BtnEzabatu = new Button();
+            btnEgoeraAldatu = new Button();
             ((System.ComponentModel.ISupportInitialize)dvgOrdenagailuak).BeginInit();
             SuspendLayout();
             // 
@@ -69,6 +70,7 @@
             dvgOrdenagailuak.Size = new Size(1033, 588);
             dvgOrdenagailuak.TabIndex = 27;
             dvgOrdenagailuak.CellContentClick += dvgOrdenagailuak_CellContentClick;
+            dvgOrdenagailuak.DataBindingComplete += dvgOrdenagailuak_DataBindingComplete;
             // 
             // button1
             // 
@@ -96,11 +98,25 @@
             BtnEzabatu.UseVisualStyleBackColor = false;
             BtnEzabatu.Click += BtnEzabatu_Click;
             // 
+            // btnEgoeraAldatu
+            // 
+            btnEgoeraAldatu.BackColor = Color.Navy;
+            btnEgoeraAldatu.Font = new Font("Arial", 18F, FontStyle.Bold);
+            btnEgoeraAldatu.ForeColor = Color.Transparent;
+            btnEgoeraAldatu.Location = new Point(1541, 355);
+            btnEgoeraAldatu.Name = "btnEgoeraAldatu";
+            btnEgoeraAldatu.Size = new Size(320, 172);
+            btnEgoeraAldatu.TabIndex = 32;
+            btnEgoeraAldatu.Text = "EGOERA ALDATU";
+            btnEgoeraAldatu.UseVisualStyleBackColor = false;
+            btnEgoeraAldatu.Click += btnEgoeraAldatu_Click;
+            // 
             // OrdenagailuGuztiak
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1924, 1055);
+            Controls.Add(btnEgoeraAldatu);
             Controls.Add(BtnEzabatu);
             Controls.Add(button1);
             Controls.Add(ATZERA);
@@ -122,5 +138,6 @@
         private DataGridView dvgOrdenagailuak;
         private Button button1;
         private Button BtnEzabatu;
+        private Button btnEgoeraAldatu;
     }
 }

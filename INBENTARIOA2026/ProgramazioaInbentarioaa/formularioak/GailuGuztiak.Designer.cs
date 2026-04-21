@@ -33,6 +33,7 @@
             ATZERA = new Button();
             btnEzabatu = new Button();
             button1 = new Button();
+            btnEgoeraAldatu = new Button();
             ((System.ComponentModel.ISupportInitialize)dvgGailuak).BeginInit();
             SuspendLayout();
             // 
@@ -45,6 +46,7 @@
             dvgGailuak.Size = new Size(962, 595);
             dvgGailuak.TabIndex = 0;
             dvgGailuak.CellContentClick += dataGridView1_CellContentClick;
+            dvgGailuak.DataBindingComplete += dvgGailuak_DataBindingComplete;
             // 
             // EZABATUTAKOAK
             // 
@@ -87,7 +89,7 @@
             button1.BackColor = Color.Navy;
             button1.Font = new Font("Arial", 18F, FontStyle.Bold);
             button1.ForeColor = Color.Transparent;
-            button1.Location = new Point(482, 754);
+            button1.Location = new Point(469, 754);
             button1.Name = "button1";
             button1.Size = new Size(320, 172);
             button1.TabIndex = 28;
@@ -95,11 +97,25 @@
             button1.UseVisualStyleBackColor = false;
             button1.Click += button1_Click;
             // 
+            // btnEgoeraAldatu
+            // 
+            btnEgoeraAldatu.BackColor = Color.Navy;
+            btnEgoeraAldatu.Font = new Font("Arial", 18F, FontStyle.Bold);
+            btnEgoeraAldatu.ForeColor = Color.Transparent;
+            btnEgoeraAldatu.Location = new Point(1529, 495);
+            btnEgoeraAldatu.Name = "btnEgoeraAldatu";
+            btnEgoeraAldatu.Size = new Size(320, 172);
+            btnEgoeraAldatu.TabIndex = 29;
+            btnEgoeraAldatu.Text = "EGOERA ALDATU";
+            btnEgoeraAldatu.UseVisualStyleBackColor = false;
+            btnEgoeraAldatu.Click += btnEgoeraAldatu_Click;
+            // 
             // GailuGuztiak
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1924, 1055);
+            Controls.Add(btnEgoeraAldatu);
             Controls.Add(button1);
             Controls.Add(btnEzabatu);
             Controls.Add(ATZERA);
@@ -120,5 +136,6 @@
         private Button ATZERA;
         private Button btnEzabatu;
         private Button button1;
+        private Button btnEgoeraAldatu;
     }
 }

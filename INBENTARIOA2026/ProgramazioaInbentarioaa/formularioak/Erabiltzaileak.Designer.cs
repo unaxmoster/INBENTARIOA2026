@@ -29,22 +29,22 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Erabiltzaileak));
-            dataGridView1 = new DataGridView();
+            dgvErabiltzaileak = new DataGridView();
             EZABATUTAKOAK = new Label();
             ATZERA = new Button();
             ErabBerriaSortu = new Button();
             button2 = new Button();
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)dgvErabiltzaileak).BeginInit();
             SuspendLayout();
             // 
-            // dataGridView1
+            // dgvErabiltzaileak
             // 
-            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Location = new Point(599, 275);
-            dataGridView1.Name = "dataGridView1";
-            dataGridView1.RowHeadersWidth = 51;
-            dataGridView1.Size = new Size(721, 295);
-            dataGridView1.TabIndex = 1;
+            dgvErabiltzaileak.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvErabiltzaileak.Location = new Point(700, 275);
+            dgvErabiltzaileak.Name = "dgvErabiltzaileak";
+            dgvErabiltzaileak.RowHeadersWidth = 51;
+            dgvErabiltzaileak.Size = new Size(516, 295);
+            dgvErabiltzaileak.TabIndex = 1;
             // 
             // EZABATUTAKOAK
             // 
@@ -93,6 +93,7 @@
             button2.TabIndex = 27;
             button2.Text = "Ezabatu";
             button2.UseVisualStyleBackColor = false;
+            button2.Click += button2_Click;
             // 
             // Erabiltzaileak
             // 
@@ -103,19 +104,19 @@
             Controls.Add(ErabBerriaSortu);
             Controls.Add(ATZERA);
             Controls.Add(EZABATUTAKOAK);
-            Controls.Add(dataGridView1);
+            Controls.Add(dgvErabiltzaileak);
             Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "Erabiltzaileak";
             Text = "Erabiltzaileak";
             Load += Erabiltzaileak_Load;
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dgvErabiltzaileak).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
 
         #endregion
 
-        private DataGridView dataGridView1;
+        private DataGridView dgvErabiltzaileak;
         private Label EZABATUTAKOAK;
         private Button ATZERA;
         private Button ErabBerriaSortu;

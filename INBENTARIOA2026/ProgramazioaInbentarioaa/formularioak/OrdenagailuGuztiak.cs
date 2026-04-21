@@ -21,6 +21,7 @@ namespace Inventarioa.formularioak
         private void OrdenagailuGuztiak_Load(object sender, EventArgs e)
         {
             this.WindowState = FormWindowState.Maximized;
+
         }
 
         protected override void OnPaint(PaintEventArgs e)
@@ -44,53 +45,59 @@ namespace Inventarioa.formularioak
             try
             {
                 string konexioa = DbKonexioa.Instantzia.GetKonexioString();
-
                 using (MySqlConnection conn = new MySqlConnection(konexioa))
                 {
                     conn.Open();
-
-                    // Ordenagailuak bakarrik ikusteko, gogoratu JOIN Ordenagailuak egitea
-                    // Hemen jarri dizut kontsulta, hardware datuak ere ikusteko:
                     string query = "SELECT G.id_gailua AS 'ID', G.marka_modeloa AS 'Modeloa', " +
                                    "M.izena AS 'Mintegia', G.eroste_data AS 'Data', " +
-                                   "CASE " +
-                                   "  WHEN G.egoera = '0' THEN 'Ondo' " +
-                                   "  WHEN G.egoera = '1' THEN 'Matxuratuta' " +
-                                   "  WHEN G.egoera = '2' THEN 'Konpontzen' " +
-                                   "  ELSE 'Ezezaguna' " +
-                                   "END AS 'Egoera' " +
+                                   "G.egoera AS 'egoera_balioa' " +
                                    "FROM Gailuak G " +
                                    "JOIN Mintegiak M ON G.id_mintegia = M.id_mintegia " +
-                                   "LEFT JOIN Ordenagailuak O ON G.id_gailua = O.id_gailua"; // <-- Ordenagailuak iragazteko
+                                   "LEFT JOIN Ordenagailuak O ON G.id_gailua = O.id_gailua";
 
                     MySqlDataAdapter adapter = new MySqlDataAdapter(query, conn);
                     DataTable dt = new DataTable();
                     adapter.Fill(dt);
 
+                    // 1. ComboBox-a sortu (baldin eta ez bada existitzen)
+                    if (!dvgOrdenagailuak.Columns.Contains("EgoeraCombo"))
+                    {
+                        DataGridViewComboBoxColumn comboCol = new DataGridViewComboBoxColumn();
+                        comboCol.HeaderText = "Egoera";
+                        comboCol.Name = "EgoeraCombo";
+                        comboCol.Items.AddRange("Ondo", "Matxuratuta", "Konpontzen");
+                        dvgOrdenagailuak.Columns.Add(comboCol);
+                    }
+
                     dvgOrdenagailuak.DataSource = dt;
-                    // Erabiltzaileak ezin du gelaxketan idatzi (Irakurtzeko soilik)
-                    dvgOrdenagailuak.ReadOnly = true;
 
-                    // Erabiltzaileak ezin ditu lerro berriak eskuz gehitu grid-aren behealdean
-                    dvgOrdenagailuak.AllowUserToAddRows = false;
-
-                    // Erabiltzaileak ezin ditu lerroak ezabatu (Supr sakatuta adibidez)
-                    dvgOrdenagailuak.AllowUserToDeleteRows = false;
-
-                    // LERRO HAU: Zutabe guztiak grid-aren zabalerara egokitzeko
+                    // 2. DISEINUA: Zutabeak Grid-aren zabalera osora egokitu
                     dvgOrdenagailuak.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
 
-                    // --- ID-aren zabalera eta lerrokatzea ---
-                    // ID-a txiki geratzea nahi baduzu, AutoSizeMode aldatu behar zaio berari bakarrik
-                    dvgOrdenagailuak.Columns["ID"].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
-                    dvgOrdenagailuak.Columns["ID"].Width = 45;
-                    dvgOrdenagailuak.Columns["ID"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                    // 3. Konfigurazioa
+                    dvgOrdenagailuak.Columns["EgoeraCombo"].DisplayIndex = dvgOrdenagailuak.Columns.Count - 1;
+                    dvgOrdenagailuak.Columns["egoera_balioa"].Visible = false;
 
+                    dvgOrdenagailuak.ReadOnly = false;
+                    foreach (DataGridViewColumn col in dvgOrdenagailuak.Columns)
+                    {
+                        if (col.Name != "EgoeraCombo") col.ReadOnly = true;
+                    }
+
+                    dvgOrdenagailuak.AllowUserToAddRows = false;
                 }
             }
-            catch (Exception ex)
+            catch (Exception ex) { MessageBox.Show("Errorea: " + ex.Message); }
+        }
+
+        // 4. GAKOA: Daturik ez duten lerroak ez editatzeko
+        private void dvgOrdenagailuak_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
+        {
+            // Egiaztatu ID-a beteta dagoen. Hutsik badago, edizioa bertan behera utzi.
+            if (dvgOrdenagailuak.Rows[e.RowIndex].Cells["ID"].Value == null ||
+                dvgOrdenagailuak.Rows[e.RowIndex].Cells["ID"].Value == DBNull.Value)
             {
-                MessageBox.Show("Errorea datuak kargatzean: " + ex.Message);
+                e.Cancel = true;
             }
         }
 
@@ -200,6 +207,64 @@ namespace Inventarioa.formularioak
                     catch (Exception ex)
                     {
                         MessageBox.Show("Errorea ezabatzean: " + ex.Message);
+                    }
+                }
+            }
+        }
+
+        private void btnEgoeraAldatu_Click(object sender, EventArgs e)
+        {
+            if (dvgOrdenagailuak.SelectedRows.Count > 0)
+            {
+                try
+                {
+                    DataGridViewRow row = dvgOrdenagailuak.SelectedRows[0];
+                    int idGailua = Convert.ToInt32(row.Cells["ID"].Value);
+
+                    // Lortu ComboBox-ean hautatutako testua eta bihurtu zenbakira
+                    string hautatutakoEgoera = row.Cells["EgoeraCombo"].Value.ToString();
+                    int egoeraBerria = 0; // Ondo
+                    if (hautatutakoEgoera == "Matxuratuta") egoeraBerria = 1;
+                    else if (hautatutakoEgoera == "Konpontzen") egoeraBerria = 2;
+
+                    string konexioa = DbKonexioa.Instantzia.GetKonexioString();
+                    using (MySqlConnection conn = new MySqlConnection(konexioa))
+                    {
+                        conn.Open();
+                        string updateQuery = "UPDATE Gailuak SET egoera = @egoera WHERE id_gailua = @id";
+                        MySqlCommand cmd = new MySqlCommand(updateQuery, conn);
+                        cmd.Parameters.AddWithValue("@egoera", egoeraBerria);
+                        cmd.Parameters.AddWithValue("@id", idGailua);
+
+                        int emaitza = cmd.ExecuteNonQuery();
+                        if (emaitza > 0)
+                        {
+                            MessageBox.Show("Egoera ondo eguneratu da!");
+                            KargatuGailuak(); // Freskatu datuak
+                        }
+                    }
+                }
+                catch (Exception ex) { MessageBox.Show("Errorea eguneratzean: " + ex.Message); }
+            }
+            else
+            {
+                MessageBox.Show("Mesedez, hautatu lerro bat lehenik.");
+            }
+        }
+
+        private void dvgOrdenagailuak_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        {
+            foreach (DataGridViewRow row in dvgOrdenagailuak.Rows)
+            {
+                if (row.Cells["egoera_balioa"].Value != null && row.Cells["egoera_balioa"].Value != DBNull.Value)
+                {
+                    int index = Convert.ToInt32(row.Cells["egoera_balioa"].Value);
+                    DataGridViewComboBoxCell cell = (DataGridViewComboBoxCell)row.Cells["EgoeraCombo"];
+
+                    // Balioa segurua dela egiaztatu (0, 1 edo 2)
+                    if (index >= 0 && index < cell.Items.Count)
+                    {
+                        row.Cells["EgoeraCombo"].Value = cell.Items[index];
                     }
                 }
             }

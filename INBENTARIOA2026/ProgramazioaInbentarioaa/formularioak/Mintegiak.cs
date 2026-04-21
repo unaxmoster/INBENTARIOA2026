@@ -157,24 +157,6 @@ namespace Inbentarioa.formularioak
                             {
                                 try
                                 {
-                                    // 1. URRATSA: KOPIATU (Taula izenak xehez: gailuak, ezabatutakoak...)
-                                    /* string insertHistory = @"
-                                         INSERT INTO Ezabatutakoak (id_gailua, marka_modeloa, mota, eroste_data,ezabatutako_eguna, id_mintegia)
-                                         SELECT 
-                                             g.id_gailua, 
-                                             IFNULL(g.marka_modeloa, 'Ezezaguna')as marka_modeloa, 
-                                             (CASE 
-                                                 WHEN o.id_gailua IS NOT NULL THEN 'Ordenagailua' 
-                                                 WHEN i.id_gailua IS NOT NULL THEN 'Inprimagailua' 
-                                                 ELSE 'Besterik' 
-                                             END) as mota, 
-                                             g.eroste_data, 
-                                             g.eroste_data,
-                                             g.id_mintegia
-                                         FROM gailuak g
-                                         LEFT JOIN ordenagailuak o ON g.id_gailua = o.id_gailua
-                                         LEFT JOIN inprimagailuak i ON g.id_gailua = i.id_gailua
-                                         WHERE g.id_mintegia = @idMin";*/
                                     string insertHistory = @"
                                         INSERT INTO Ezabatutakoak (id_gailua, marka_modeloa, mota, eroste_data)
                                         SELECT 

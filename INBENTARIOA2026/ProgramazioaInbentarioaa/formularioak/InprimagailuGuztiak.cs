@@ -66,60 +66,50 @@ namespace Inventarioa.formularioak
             try
             {
                 string konexioa = DbKonexioa.Instantzia.GetKonexioString();
-
                 using (MySqlConnection conn = new MySqlConnection(konexioa))
                 {
                     conn.Open();
-
-                    // Ordenagailuak bakarrik ikusteko, gogoratu JOIN Ordenagailuak egitea
-                    // Hemen jarri dizut kontsulta, hardware datuak ere ikusteko:
+                    // Gehitu "G.egoera AS 'egoera_balioa'" kontsultara
                     string query = "SELECT G.id_gailua AS 'ID', G.marka_modeloa AS 'Modeloa', " +
                                    "M.izena AS 'Mintegia', G.eroste_data AS 'Data', " +
-                                   "CASE " +
-                                   "  WHEN G.egoera = '0' THEN 'Zuri-beltza' " +
-                                   "  WHEN G.egoera = '1' THEN 'Koloretakoa' " +
-                                   "  ELSE 'Ezezaguna' " +
-                                   "END AS 'Kolorea', " +
-                                                                      "CASE " +
-                                   "  WHEN G.egoera = '0' THEN 'Ondo' " +
-                                   "  WHEN G.egoera = '1' THEN 'Matxuratuta' " +
-                                   "  WHEN G.egoera = '2' THEN 'Konpontzen' " +
-                                   "  ELSE 'Ezezaguna' " +
-                                   "END AS 'Egoera' " +
+                                   "CASE WHEN G.egoera = '0' THEN 'Zuri-beltza' ELSE 'Koloretakoa' END AS 'Mota', " +
+                                   "G.egoera AS 'egoera_balioa' " + // Zutabe numerikoa ComboBox-erako
                                    "FROM Gailuak G " +
                                    "JOIN Mintegiak M ON G.id_mintegia = M.id_mintegia " +
-                                   "JOIN Inprimagailuak I ON G.id_gailua = I.id_gailua"; // <-- Inprimagailuak iragazteko
+                                   "JOIN Inprimagailuak I ON G.id_gailua = I.id_gailua";
 
                     MySqlDataAdapter adapter = new MySqlDataAdapter(query, conn);
                     DataTable dt = new DataTable();
                     adapter.Fill(dt);
 
+                    // 1. Sortu ComboBox-a DataSource baino lehen
+                    if (!dvgInprimagailuak.Columns.Contains("EgoeraCombo"))
+                    {
+                        DataGridViewComboBoxColumn comboCol = new DataGridViewComboBoxColumn();
+                        comboCol.HeaderText = "Egoera";
+                        comboCol.Name = "EgoeraCombo";
+                        comboCol.Items.AddRange("Ondo", "Matxuratuta", "Konpontzen");
+                        dvgInprimagailuak.Columns.Add(comboCol);
+                    }
+
+                    // 2. Datuak lotu
                     dvgInprimagailuak.DataSource = dt;
-                    // Erabiltzaileak ezin du gelaxketan idatzi (Irakurtzeko soilik)
-                    dvgInprimagailuak.ReadOnly = true;
 
-                    // Erabiltzaileak ezin ditu lerro berriak eskuz gehitu grid-aren behealdean
-                    dvgInprimagailuak.AllowUserToAddRows = false;
+                    // 3. Ezarpenak (Ordena eta Ikusgarritasuna)
+                    dvgInprimagailuak.Columns["EgoeraCombo"].DisplayIndex = dvgInprimagailuak.Columns.Count - 1;
+                    dvgInprimagailuak.Columns["egoera_balioa"].Visible = false;
 
-                    // Erabiltzaileak ezin ditu lerroak ezabatu (Supr sakatuta adibidez)
-                    dvgInprimagailuak.AllowUserToDeleteRows = false;
+                    dvgInprimagailuak.ReadOnly = false; // Grid-a editagarria izan behar da
+                                                        // Beste guztiak ReadOnly jarri
+                    foreach (DataGridViewColumn col in dvgInprimagailuak.Columns)
+                    {
+                        if (col.Name != "EgoeraCombo") col.ReadOnly = true;
+                    }
 
-                    // LERRO HAU: Zutabe guztiak grid-aren zabalerara egokitzeko
                     dvgInprimagailuak.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-
-                    // --- ID-aren zabalera eta lerrokatzea ---
-                    // ID-a txiki geratzea nahi baduzu, AutoSizeMode aldatu behar zaio berari bakarrik
-                    dvgInprimagailuak.Columns["ID"].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
-                    dvgInprimagailuak.Columns["ID"].Width = 45;
-                    dvgInprimagailuak.Columns["ID"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-
-
                 }
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Errorea datuak kargatzean: " + ex.Message);
-            }
+            catch (Exception ex) { MessageBox.Show("Errorea: " + ex.Message); }
         }
 
         private void BtnEzabatu_Click(object sender, EventArgs e)
@@ -211,6 +201,25 @@ namespace Inventarioa.formularioak
             InpBerriaSortu mintegiak = new InpBerriaSortu();
             mintegiak.ShowDialog();
             this.Close();
+        }
+
+        private void dvgInprimagailuak_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        {
+            if (dvgInprimagailuak.Columns.Contains("EgoeraCombo"))
+            {
+                foreach (DataGridViewRow row in dvgInprimagailuak.Rows)
+                {
+                    if (row.Cells["egoera_balioa"].Value != null && row.Cells["egoera_balioa"].Value != DBNull.Value)
+                    {
+                        int egoeraIndex = Convert.ToInt32(row.Cells["egoera_balioa"].Value);
+                        DataGridViewComboBoxCell cell = (DataGridViewComboBoxCell)row.Cells["EgoeraCombo"];
+                        if (egoeraIndex >= 0 && egoeraIndex < cell.Items.Count)
+                        {
+                            row.Cells["EgoeraCombo"].Value = cell.Items[egoeraIndex];
+                        }
+                    }
+                }
+            }
         }
     }
 }

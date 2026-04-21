@@ -31,9 +31,10 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(HondatutakoGailuak));
             ATZERA = new Button();
             EZABATUTAKOAK = new Label();
-            dgvHondatuak = new DataGridView();
+            dgvHondatutakoak = new DataGridView();
             button1 = new Button();
-            ((System.ComponentModel.ISupportInitialize)dgvHondatuak).BeginInit();
+            btnEgoeraAldatu = new Button();
+            ((System.ComponentModel.ISupportInitialize)dgvHondatutakoak).BeginInit();
             SuspendLayout();
             // 
             // ATZERA
@@ -59,14 +60,15 @@
             EZABATUTAKOAK.TabIndex = 29;
             EZABATUTAKOAK.Text = "HONDATUTAKO GAILUAK";
             // 
-            // dgvHondatuak
+            // dgvHondatutakoak
             // 
-            dgvHondatuak.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvHondatuak.Location = new Point(497, 146);
-            dgvHondatuak.Name = "dgvHondatuak";
-            dgvHondatuak.RowHeadersWidth = 51;
-            dgvHondatuak.Size = new Size(894, 610);
-            dgvHondatuak.TabIndex = 28;
+            dgvHondatutakoak.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvHondatutakoak.Location = new Point(497, 146);
+            dgvHondatutakoak.Name = "dgvHondatutakoak";
+            dgvHondatutakoak.RowHeadersWidth = 51;
+            dgvHondatutakoak.Size = new Size(894, 610);
+            dgvHondatutakoak.TabIndex = 28;
+            dgvHondatutakoak.DataBindingComplete += dgvHondatutakoak_DataBindingComplete;
             // 
             // button1
             // 
@@ -80,20 +82,34 @@
             button1.Text = "GORDE";
             button1.UseVisualStyleBackColor = false;
             // 
+            // btnEgoeraAldatu
+            // 
+            btnEgoeraAldatu.BackColor = Color.Navy;
+            btnEgoeraAldatu.Font = new Font("Arial", 18F, FontStyle.Bold);
+            btnEgoeraAldatu.ForeColor = Color.Transparent;
+            btnEgoeraAldatu.Location = new Point(1438, 338);
+            btnEgoeraAldatu.Name = "btnEgoeraAldatu";
+            btnEgoeraAldatu.Size = new Size(320, 172);
+            btnEgoeraAldatu.TabIndex = 33;
+            btnEgoeraAldatu.Text = "EGOERA ALDATU";
+            btnEgoeraAldatu.UseVisualStyleBackColor = false;
+            btnEgoeraAldatu.Click += btnEgoeraAldatu_Click;
+            // 
             // HondatutakoGailuak
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1589, 976);
+            ClientSize = new Size(1924, 976);
+            Controls.Add(btnEgoeraAldatu);
             Controls.Add(button1);
             Controls.Add(ATZERA);
             Controls.Add(EZABATUTAKOAK);
-            Controls.Add(dgvHondatuak);
+            Controls.Add(dgvHondatutakoak);
             Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "HondatutakoGailuak";
             Text = "HondatutakoGailuak";
             Load += HondatutakoGailuak_Load;
-            ((System.ComponentModel.ISupportInitialize)dgvHondatuak).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dgvHondatutakoak).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -102,7 +118,8 @@
 
         private Button ATZERA;
         private Label EZABATUTAKOAK;
-        private DataGridView dgvHondatuak;
+        private DataGridView dgvHondatutakoak;
         private Button button1;
+        private Button btnEgoeraAldatu;
     }
 }
