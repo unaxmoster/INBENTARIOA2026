@@ -56,7 +56,9 @@
             // SARRERA
             // 
             SARRERA.AutoSize = true;
+            SARRERA.BackColor = Color.Transparent;
             SARRERA.Font = new Font("Segoe UI", 36F, FontStyle.Bold);
+            SARRERA.ForeColor = Color.WhiteSmoke;
             SARRERA.Location = new Point(808, 291);
             SARRERA.Name = "SARRERA";
             SARRERA.Size = new Size(302, 81);

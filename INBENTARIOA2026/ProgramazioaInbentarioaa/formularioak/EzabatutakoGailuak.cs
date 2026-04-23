@@ -13,32 +13,13 @@ using System.Windows.Forms;
 
 namespace Inbentarioa.formularioak
 {
-    public partial class EzabatutakoGailuak : Form
+    public partial class EzabatutakoGailuak : FormBase
     {
         public EzabatutakoGailuak()
         {
             InitializeComponent();
         }
 
-        protected override void OnPaint(PaintEventArgs e)
-        {
-            base.OnPaint(e);
-
-            // Definir los colores del degradado usando códigos hexadecimales
-            Color colorInicio = ColorTranslator.FromHtml("#C2CBED"); // Azul claro
-            Color colorFin = ColorTranslator.FromHtml("#003FA1");    // Azul oscuro
-
-            // Crear un pincel con degradado lineal
-            using (LinearGradientBrush brush = new LinearGradientBrush(
-                this.ClientRectangle, // Área donde se aplicará el degradado
-                colorInicio,         // Color inicial
-                colorFin,            // Color final
-                LinearGradientMode.Horizontal)) // Dirección del degradado (horizontal)
-            {
-                // Rellenar el fondo del formulario con el degradado
-                e.Graphics.FillRectangle(brush, this.ClientRectangle);
-            }
-        }
         private void EzabatutakoGailuak_Load(object sender, EventArgs e)
         {
             this.WindowState = FormWindowState.Maximized;
@@ -65,23 +46,35 @@ namespace Inbentarioa.formularioak
                 using (MySqlConnection conn = new MySqlConnection(konexioa))
                 {
                     conn.Open();
-                    // Zure Ezabatutakoak taulako 3 zutabeak hartzen ditugu
-                    string query = "SELECT id_ezabatua AS 'ID', id_gailua AS 'ID_Gailua',mota AS 'Gailu-Mota', marka_modeloa AS 'Modeloa', eroste_data AS 'Eroste_Data', ezabatutako_eguna AS 'ezabatze_data' FROM Ezabatutakoak";
+                    string query = "SELECT id_ezabatua AS 'ID', identifikazio_kodea AS 'Kodea', mota AS 'Gailu-Mota', " +
+                                   "marka_modeloa AS 'Modeloa', eroste_data AS 'Eroste_Data', " +
+                                   "ezabatutako_eguna AS 'ezabatze_data' FROM Ezabatutakoak";
 
                     MySqlDataAdapter adapter = new MySqlDataAdapter(query, conn);
                     DataTable dt = new DataTable();
                     adapter.Fill(dt);
 
-                    // DataGridView-ak dgvEzabatutakoak izdena du=>
+                    // 1. Datuak lotu
                     dgvEzabatuak.DataSource = dt;
-                    // LERRO HAU: Zutabe guztiak grid-aren zabalerara egokitzeko
+
+                    // 2. MODUA EZARRI (Garrantzitsua: lehenago egin zutabeak manipulatu baino lehen)
                     dgvEzabatuak.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
 
+                    // 3. ID-A EZKUTATU (Hau da funtzionatu behar duena)
+                    if (dgvEzabatuak.Columns.Contains("ID"))
+                    {
+                        dgvEzabatuak.Columns["ID"].Visible = false;
+                    }
 
-                    // Diseinu apur bat
+                    // 4. Diseinu apur bat
                     dgvEzabatuak.ReadOnly = true;
                     dgvEzabatuak.AllowUserToAddRows = false;
-                    dgvEzabatuak.Columns["ID"].Width = 50;
+
+                    // Kodea zutabea apur bat identifikagarriagoa izan dadin (hautazkoa)
+                    if (dgvEzabatuak.Columns.Contains("Kodea"))
+                    {
+                        dgvEzabatuak.Columns["Kodea"].MinimumWidth = 100;
+                    }
                 }
             }
             catch (Exception ex)

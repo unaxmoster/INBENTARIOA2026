@@ -32,8 +32,8 @@
             EZABATUTAKOAK = new Label();
             ATZERA = new Button();
             btnEzabatu = new Button();
-            button1 = new Button();
             btnEgoeraAldatu = new Button();
+            btnBerriaSortu = new Button();
             ((System.ComponentModel.ISupportInitialize)dvgGailuak).BeginInit();
             SuspendLayout();
             // 
@@ -45,13 +45,14 @@
             dvgGailuak.RowHeadersWidth = 51;
             dvgGailuak.Size = new Size(962, 595);
             dvgGailuak.TabIndex = 0;
-            dvgGailuak.CellContentClick += dataGridView1_CellContentClick;
             dvgGailuak.DataBindingComplete += dvgGailuak_DataBindingComplete;
             // 
             // EZABATUTAKOAK
             // 
             EZABATUTAKOAK.AutoSize = true;
+            EZABATUTAKOAK.BackColor = Color.Transparent;
             EZABATUTAKOAK.Font = new Font("Segoe UI", 36F, FontStyle.Bold);
+            EZABATUTAKOAK.ForeColor = Color.Transparent;
             EZABATUTAKOAK.Location = new Point(661, 27);
             EZABATUTAKOAK.Name = "EZABATUTAKOAK";
             EZABATUTAKOAK.Size = new Size(658, 81);
@@ -82,27 +83,14 @@
             btnEzabatu.TabIndex = 27;
             btnEzabatu.Text = "EZABATU";
             btnEzabatu.UseVisualStyleBackColor = false;
-            btnEzabatu.Click += btnEzabatu_Click_1;
-            // 
-            // button1
-            // 
-            button1.BackColor = Color.Navy;
-            button1.Font = new Font("Arial", 18F, FontStyle.Bold);
-            button1.ForeColor = Color.Transparent;
-            button1.Location = new Point(469, 754);
-            button1.Name = "button1";
-            button1.Size = new Size(320, 172);
-            button1.TabIndex = 28;
-            button1.Text = "BERRIA SORTU";
-            button1.UseVisualStyleBackColor = false;
-            button1.Click += button1_Click;
+            btnEzabatu.Click += btnEzabatu_Click;
             // 
             // btnEgoeraAldatu
             // 
             btnEgoeraAldatu.BackColor = Color.Navy;
             btnEgoeraAldatu.Font = new Font("Arial", 18F, FontStyle.Bold);
             btnEgoeraAldatu.ForeColor = Color.Transparent;
-            btnEgoeraAldatu.Location = new Point(1529, 495);
+            btnEgoeraAldatu.Location = new Point(1519, 375);
             btnEgoeraAldatu.Name = "btnEgoeraAldatu";
             btnEgoeraAldatu.Size = new Size(320, 172);
             btnEgoeraAldatu.TabIndex = 29;
@@ -110,13 +98,26 @@
             btnEgoeraAldatu.UseVisualStyleBackColor = false;
             btnEgoeraAldatu.Click += btnEgoeraAldatu_Click;
             // 
+            // btnBerriaSortu
+            // 
+            btnBerriaSortu.BackColor = Color.Navy;
+            btnBerriaSortu.Font = new Font("Arial", 18F, FontStyle.Bold);
+            btnBerriaSortu.ForeColor = Color.Transparent;
+            btnBerriaSortu.Location = new Point(469, 754);
+            btnBerriaSortu.Name = "btnBerriaSortu";
+            btnBerriaSortu.Size = new Size(320, 172);
+            btnBerriaSortu.TabIndex = 30;
+            btnBerriaSortu.Text = "BERRIA SORTU";
+            btnBerriaSortu.UseVisualStyleBackColor = false;
+            btnBerriaSortu.Click += btnBerriaSortu_Click;
+            // 
             // GailuGuztiak
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1924, 1055);
+            Controls.Add(btnBerriaSortu);
             Controls.Add(btnEgoeraAldatu);
-            Controls.Add(button1);
             Controls.Add(btnEzabatu);
             Controls.Add(ATZERA);
             Controls.Add(EZABATUTAKOAK);
@@ -135,7 +136,7 @@
         private Label EZABATUTAKOAK;
         private Button ATZERA;
         private Button btnEzabatu;
-        private Button button1;
         private Button btnEgoeraAldatu;
+        private Button btnBerriaSortu;
     }
 }

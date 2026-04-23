@@ -1,4 +1,5 @@
-﻿using Inbentarioa.DatuBasie;
+﻿using Inbentarioa;
+using Inbentarioa.DatuBasie;
 using Inbentarioa.formularioak;
 using MySql.Data.MySqlClient;
 using System;
@@ -14,7 +15,7 @@ using System.Windows.Forms;
 
 namespace Inventarioa.formularioak
 {
-    public partial class HondatutakoGailuak : Form
+    public partial class HondatutakoGailuak : FormBase
     {
         public HondatutakoGailuak()
         {
@@ -27,20 +28,20 @@ namespace Inventarioa.formularioak
         private void HondatutakoGailuak_Load(object sender, EventArgs e)
         {
             this.WindowState = FormWindowState.Maximized;
+            konfiguratuBaimenak();
         }
-        protected override void OnPaint(PaintEventArgs e)
-        {
-            base.OnPaint(e);
-            Color colorInicio = ColorTranslator.FromHtml("#C2CBED");
-            Color colorFin = ColorTranslator.FromHtml("#003FA1");
 
-            using (LinearGradientBrush brush = new LinearGradientBrush(
-                this.ClientRectangle,
-                colorInicio,
-                colorFin,
-                LinearGradientMode.Horizontal))
+        private void konfiguratuBaimenak()
+        {
+            string rola = Sarrera.Saioa.Rola;
+            if (rola == "Irakaslea")
             {
-                e.Graphics.FillRectangle(brush, this.ClientRectangle);
+                btnEgoeraAldatu.Enabled = false;
+                
+            }
+            else if (rola == "MintegiBurua")
+            {
+                btnEgoeraAldatu.Enabled = false;
             }
         }
 
@@ -48,58 +49,66 @@ namespace Inventarioa.formularioak
         {
             try
             {
-                string konexioa = DbKonexioa.Instantzia.GetKonexioString();
-                using (MySqlConnection conn = new MySqlConnection(konexioa))
+                // 1. Garbitu grid-a (zutabeak bikoiztu ez daitezen)
+                dgvHondatutakoak.Columns.Clear();
+                dgvHondatutakoak.DataSource = null;
+
+                // 2. Eskatu datuak klaseari
+                DataTable dt = DBGailuak.GetHondatutakoGailuak();
+
+                if (dt.Rows.Count == 0)
                 {
-                    conn.Open();
-
-                    // SQL: Bakarrik egoera = 1 (Matxuratuta) dutenak kargatzen ditu
-                    string query = @"SELECT G.id_gailua AS 'ID', 
-                                    G.marka_modeloa AS 'Modeloa', 
-                                    M.izena AS 'Mintegia', 
-                                    G.egoera AS 'egoera_balioa' 
-                                    FROM Gailuak G 
-                                    JOIN Mintegiak M ON G.id_mintegia = M.id_mintegia 
-                                    WHERE G.egoera = 1";
-
-                    MySqlDataAdapter adapter = new MySqlDataAdapter(query, conn);
-                    DataTable dt = new DataTable();
-                    adapter.Fill(dt);
-
-                    // ComboBox zutabea sortu (baldin eta existitzen ez bada)
-                    if (!dgvHondatutakoak.Columns.Contains("EgoeraCombo"))
-                    {
-                        DataGridViewComboBoxColumn comboCol = new DataGridViewComboBoxColumn();
-                        comboCol.HeaderText = "Egoera Berria";
-                        comboCol.Name = "EgoeraCombo";
-                        comboCol.Items.AddRange("Ondo", "Matxuratuta", "Konpontzen");
-                        dgvHondatutakoak.Columns.Add(comboCol);
-                    }
-
-                    // Datuak lotu
-                    dgvHondatutakoak.DataSource = dt;
-
-                    // DISEINUA ETA ORDENA
-                    dgvHondatutakoak.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-
-                    // ComboBox-a azken zutabera (eskuinera) mugitu
-                    dgvHondatutakoak.Columns["EgoeraCombo"].DisplayIndex = dgvHondatutakoak.Columns.Count - 1;
-
-                    // Zenbakia ezkutatu
-                    dgvHondatutakoak.Columns["egoera_balioa"].Visible = false;
-
-                    // Edizioa mugatu (ComboBox-a bakarrik utzi editagarri)
-                    dgvHondatutakoak.ReadOnly = false;
-                    foreach (DataGridViewColumn col in dgvHondatutakoak.Columns)
-                    {
-                        if (col.Name != "EgoeraCombo") col.ReadOnly = true;
-                    }
-
-                    dgvHondatutakoak.AllowUserToAddRows = false;
+                    MessageBox.Show("Ez dago hondatutako gailurik datu-basean.");
+                    return;
                 }
+
+                // 3. Lehenik ComboBox zutabea sortu (eskuz)
+                DataGridViewComboBoxColumn comboCol = new DataGridViewComboBoxColumn();
+                comboCol.HeaderText = "Egoera Berria";
+                comboCol.Name = "EgoeraCombo";
+                comboCol.Items.AddRange("Ondo", "Matxuratuta", "Konpontzen");
+                dgvHondatutakoak.Columns.Add(comboCol);
+
+                // 4. Lotu datuak
+                dgvHondatutakoak.DataSource = dt;
+                //4-5. Zutabe zuriak ezkutatu (ComboBox-a bakarrik utzi editagarri)
+                        // 1. Grid osoari editatzen utzi (hau garrantzitsua da)
+                        dgvHondatutakoak.ReadOnly = false;
+
+                        // 2. Erabiltzaileak lerro berriak eskuz gehitzea desgaitu (azken lerro zuri hori kentzeko)
+                        dgvHondatutakoak.AllowUserToAddRows = false;
+
+                        // 3. Datuak lotu ondoren, zutabeka kontrolatu baimenak
+                        foreach (DataGridViewColumn col in dgvHondatutakoak.Columns)
+                        {
+                            if (col.Name == "EgoeraCombo")
+                            {
+                                // ComboBox-a denez, editagarri utzi
+                                col.ReadOnly = false;
+                                col.Visible = true;
+                            }
+                        }
+                if (dgvHondatutakoak.Columns.Contains("EgoeraCombo"))
+                {
+                    // DisplayIndex-ari balio altu bat emanez (adibidez, zutabe kopurua - 1),
+                    // azkenengo tokira mugitzen da automatikoki.
+                    dgvHondatutakoak.Columns["EgoeraCombo"].DisplayIndex = dgvHondatutakoak.Columns.Count - 1;
+                }
+
+                // 5. Ezkutatu ID-a eta egoera balioa (Datu-baseko zutabeak)
+                if (dgvHondatutakoak.Columns.Contains("ID")) dgvHondatutakoak.Columns["ID"].Visible = false;
+                if (dgvHondatutakoak.Columns.Contains("egoera_balioa")) dgvHondatutakoak.Columns["egoera_balioa"].Visible = false;
+
+                dgvHondatutakoak.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             }
-            catch (Exception ex) { MessageBox.Show("Errorea kargatzean: " + ex.Message); }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Errorea kargatzean: " + ex.Message);
+            }
         }
+
+        
+
         private void KargatuEgoeraBalioakGrid()
         {
             foreach (DataGridViewRow row in dgvHondatutakoak.Rows)

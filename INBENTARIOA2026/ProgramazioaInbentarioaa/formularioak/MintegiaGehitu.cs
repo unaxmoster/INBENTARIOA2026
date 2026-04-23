@@ -13,85 +13,15 @@ using System.Windows.Forms;
 
 namespace Inbentarioa.formularioak
 {
-    public partial class MintegiaGehitu : Form
+    public partial class MintegiaGehitu : FormBase
     {
         public MintegiaGehitu()
         {
             InitializeComponent();
-            // ComboBox-a betetzeko metodoari deeia
-            KargatuArduradunLibreak();
         }
 
-        protected override void OnPaint(PaintEventArgs e)
-        {
-            base.OnPaint(e);
 
-            // Definir los colores del degradado usando códigos hexadecimales
-            Color colorInicio = ColorTranslator.FromHtml("#C2CBED"); // Azul claro
-            Color colorFin = ColorTranslator.FromHtml("#003FA1");    // Azul oscuro
-
-            // Crear un pincel con degradado lineal
-            using (LinearGradientBrush brush = new LinearGradientBrush(
-                this.ClientRectangle, // Área donde se aplicará el degradado
-                colorInicio,         // Color inicial
-                colorFin,            // Color final
-                LinearGradientMode.Horizontal)) // Dirección del degradado (horizontal)
-            {
-                // Rellenar el fondo del formulario con el degradado
-                e.Graphics.FillRectangle(brush, this.ClientRectangle);
-            }
-        }
-
-        private void KargatuArduradunakCombo()
-        {
-            string konexioa = DbKonexioa.Instantzia.GetKonexioString();
-            using (MySqlConnection conn = new MySqlConnection(konexioa))
-            {
-                conn.Open();
-                // Egiaztatu zure 'erabiltzaileak' taulako zutabe izen zuzena (izena, erabiltzailea...)
-                string sql = "SELECT id_erabiltzailea, izena FROM erabiltzaileak";
-                MySqlDataAdapter adapter = new MySqlDataAdapter(sql, conn);
-                DataTable dt = new DataTable();
-                adapter.Fill(dt);
-
-                cmbArduraduna.DataSource = dt;
-                cmbArduraduna.DisplayMember = "izena";           // Ikusten den testua
-                cmbArduraduna.ValueMember = "id_erabiltzailea";  // Atzean gordetzen den IDa
-            }
-        }
-        private void KargatuArduradunLibreak()
-        {
-            try
-            {
-                string konexioa = DbKonexioa.Instantzia.GetKonexioString();
-                using (MySqlConnection conn = new MySqlConnection(konexioa))
-                {
-                    conn.Open();
-                    // Kontsulta honek: 
-                    // 1. MintegiBurua direnak soilik hartzen ditu.
-                    // 2. Jada mintegi bat esleituta dutenak kanpoan uzten ditu.
-                    string sql = @"SELECT id_erabiltzailea, erabiltzailea 
-                           FROM erabiltzaileak 
-                           WHERE rola = 'MintegiBurua' 
-                           AND id_erabiltzailea NOT IN (SELECT id_arduraduna FROM mintegiak WHERE id_arduraduna IS NOT NULL)";
-
-                    MySqlDataAdapter adapter = new MySqlDataAdapter(sql, conn);
-                    DataTable dt = new DataTable();
-                    adapter.Fill(dt);
-
-                    cmbArduraduna.DataSource = dt;
-                    cmbArduraduna.DisplayMember = "erabiltzailea";   // ComboBox-ean ikusiko dena
-                    cmbArduraduna.ValueMember = "id_erabiltzailea"; // DBan gordeko den IDa
-
-                    // Hautapenik gabe hasteko (opcionala)
-                    cmbArduraduna.SelectedIndex = -1;
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Errorea arduradunak kargatzean: " + ex.Message);
-            }
-        }
+       
         private void MintegiaGehitu_Load(object sender, EventArgs e)
         {
             this.WindowState = FormWindowState.Maximized;
@@ -111,36 +41,44 @@ namespace Inbentarioa.formularioak
         }
 
         private void EZABATUTAKOAK_Click(object sender, EventArgs e)
-        {// Balidazio txiki bat: izena eta arduraduna hautatuta daudela ziurtatu
-            if (string.IsNullOrEmpty(txtMintegiIzena.Text) || cmbArduraduna.SelectedValue == null)
+        {// 1. Balidazioak: Testu kutxak hutsik ez egotea
+            if (string.IsNullOrWhiteSpace(txtMintegiIzena.Text) ||
+                string.IsNullOrWhiteSpace(txtErab.Text) ||
+                string.IsNullOrWhiteSpace(txtPass.Text))
             {
-                MessageBox.Show("Mesedez, bete datu guztiak.");
+                MessageBox.Show("Mesedez, bete eremu guztiak: Mintegia, Erabiltzailea eta Pasahitza.");
                 return;
             }
 
-            string konexioa = DbKonexioa.Instantzia.GetKonexioString();
-            using (MySqlConnection conn = new MySqlConnection(konexioa))
+            try
             {
-                try
+                // 2. Klaseko metodoari deitu (Logika guztia han dago)
+                bool ondo = DBMintegiak.MintegiaEtaBuruaSortu(
+                    txtMintegiIzena.Text.Trim(),
+                    txtErab.Text.Trim(),
+                    txtPass.Text.Trim()
+                );
+
+                if (ondo)
                 {
-                    conn.Open();
-                    // ID-A KENDUTA, HORRELA GERATU BEHAR DU:
-                    string sql = "INSERT INTO mintegiak (izena, id_arduraduna) VALUES (@izena, @idArduraduna)";
-                    MySqlCommand cmd = new MySqlCommand(sql, conn);
-                    cmd.Parameters.AddWithValue("@izena", txtMintegiIzena.Text);
-                    cmd.Parameters.AddWithValue("@idArduraduna", cmbArduraduna.SelectedValue);
-
-                    cmd.ExecuteNonQuery();
-                    MessageBox.Show("Mintegia ondo gorde da!");
-
+                    MessageBox.Show("Mintegia eta bere arduraduna ondo sortu dira!");
                     this.DialogResult = DialogResult.OK;
                     this.Close();
                 }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Errorea gordetzean: " + ex.Message);
-                }
             }
+            catch (MySqlException ex) when (ex.Number == 1062) // 1062 = Duplicate entry (erabiltzaile izena hartuta badago)
+            {
+                MessageBox.Show("Errorea: Erabiltzaile izen hori jada existitzen da.");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Errore ezezagun bat gertatu da: " + ex.Message);
+            }
+        }
+
+        private void label3_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

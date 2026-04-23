@@ -54,7 +54,9 @@
             // EZABATUTAKOAK
             // 
             EZABATUTAKOAK.AutoSize = true;
+            EZABATUTAKOAK.BackColor = Color.Transparent;
             EZABATUTAKOAK.Font = new Font("Segoe UI", 36F, FontStyle.Bold);
+            EZABATUTAKOAK.ForeColor = Color.WhiteSmoke;
             EZABATUTAKOAK.Location = new Point(482, 61);
             EZABATUTAKOAK.Name = "EZABATUTAKOAK";
             EZABATUTAKOAK.Size = new Size(917, 81);
@@ -108,6 +110,7 @@
             btnEgoeraAldatu.TabIndex = 35;
             btnEgoeraAldatu.Text = "EGOERA ALDATU";
             btnEgoeraAldatu.UseVisualStyleBackColor = false;
+            btnEgoeraAldatu.Click += btnEgoeraAldatu_Click;
             // 
             // InprimagailuGuztiak
             // 

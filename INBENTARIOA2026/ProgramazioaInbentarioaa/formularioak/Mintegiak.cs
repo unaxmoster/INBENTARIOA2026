@@ -13,7 +13,7 @@ using System.Windows.Forms;
 
 namespace Inbentarioa.formularioak
 {
-    public partial class Mintegiak : Form
+    public partial class Mintegiak : FormBase
     {
         public Mintegiak()
         {
@@ -24,25 +24,21 @@ namespace Inbentarioa.formularioak
         {
             this.WindowState = FormWindowState.Maximized;
             // Mintegiak kargatzeko metodoari deia=>
+            konfiguratuBaimenak();
             KargatuMintegiak();
         }
-        protected override void OnPaint(PaintEventArgs e)
+
+        private void konfiguratuBaimenak()
         {
-            base.OnPaint(e);
-
-            // Definir los colores del degradado usando códigos hexadecimales
-            Color colorInicio = ColorTranslator.FromHtml("#C2CBED"); // Azul claro
-            Color colorFin = ColorTranslator.FromHtml("#003FA1");    // Azul oscuro
-
-            // Crear un pincel con degradado lineal
-            using (LinearGradientBrush brush = new LinearGradientBrush(
-                this.ClientRectangle, // Área donde se aplicará el degradado
-                colorInicio,         // Color inicial
-                colorFin,            // Color final
-                LinearGradientMode.Horizontal)) // Dirección del degradado (horizontal)
+            string rola = Sarrera.Saioa.Rola;
+            if (rola == "Irakaslea")
             {
-                // Rellenar el fondo del formulario con el degradado
-                e.Graphics.FillRectangle(brush, this.ClientRectangle);
+                EZABATUTAKOAK.Enabled = false;
+                btnEzabatu.Enabled = false;
+            }
+            else if (rola == "MintegiBurua")
+            {
+                EZABATUTAKOAK.Enabled = false;
             }
         }
 
@@ -58,11 +54,12 @@ namespace Inbentarioa.formularioak
                     conn.Open();
 
                     // SQL kontsulta: id_mintegia eta izena bakarrik
+                    // SQL kontsulta zuzendua: Gehitu M.id_mintegia AS 'ID'
                     string query = @"SELECT M.id_mintegia AS 'ID', 
                         M.izena AS 'Mintegiaren Izena', 
                         E.erabiltzailea AS 'Arduraduna' 
-                      FROM mintegiak M
-                      LEFT JOIN erabiltzaileak E ON M.id_arduraduna = E.id_erabiltzailea";
+                    FROM mintegiak M
+                    LEFT JOIN erabiltzaileak E ON M.id_arduraduna = E.id_erabiltzailea";
 
                     MySqlDataAdapter adapter = new MySqlDataAdapter(query, conn);
                     DataTable dt = new DataTable();
@@ -70,6 +67,12 @@ namespace Inbentarioa.formularioak
 
                     // Datuak Grid-ean kargatu
                     dgvMintegiLista.DataSource = dt;
+
+                    // ID zutabea ezkutatu (horrela Cells["ID"] erabili dezakezu baina ez da ikusten)
+                    if (dgvMintegiLista.Columns.Contains("ID"))
+                    {
+                        dgvMintegiLista.Columns["ID"].Visible = false;
+                    }
 
                     // --- Formatu txukuna emateko ---
                     dgvMintegiLista.ReadOnly = true;
@@ -90,32 +93,25 @@ namespace Inbentarioa.formularioak
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Errorea mintegiak kargatzean: " + ex.Message);
+                MessageBox.Show("Errorea mintegiak kargatzean: ");
             }
         }
         private void IRTEN_Click(object sender, EventArgs e)
         {
-            this.Hide();
-            Menua mintegiak = new Menua();
-            mintegiak.ShowDialog();
+            this.DialogResult = DialogResult.Cancel;
             this.Close();
         }
 
-        private void GAILUAK_Click(object sender, EventArgs e)
-        {
-            this.Hide();
-            MintegiLista mintegiak = new MintegiLista();
-            mintegiak.ShowDialog();
-            this.Close();
-        }
+
 
         private void EZABATUTAKOAK_Click(object sender, EventArgs e)
         {
-            //  this.Hide();
-            //  MintegiaGehitu mintegiak = new MintegiaGehitu();
-            //  mintegiak.ShowDialog();
-            // this.Close();
+              this.Hide();
+              MintegiaGehitu mintegiak = new MintegiaGehitu();
+              mintegiak.ShowDialog();
+              this.Close();
             //______________________________________
+            /*
             // Formularioa ireki
             MintegiaGehitu gehituForm = new MintegiaGehitu();
 
@@ -127,6 +123,7 @@ namespace Inbentarioa.formularioak
             }
             // KONTUZ: Hemen ez jarri 'this.Close()' edo 'this.Hide()', 
             // bestela formulario nagusia itxi egingo da.
+            */
         }
 
 
@@ -138,95 +135,63 @@ namespace Inbentarioa.formularioak
 
         private void btnEzabatu_Click(object sender, EventArgs e)
         {
+
             if (dgvMintegiLista.SelectedRows.Count > 0)
             {
+                // Kontuz: ziurtatu Grid-eko zutabearen izena "ID" dela
                 int idMintegia = Convert.ToInt32(dgvMintegiLista.SelectedRows[0].Cells["ID"].Value);
                 string izena = dgvMintegiLista.SelectedRows[0].Cells["Mintegiaren Izena"].Value.ToString();
 
-                var erantzuna = MessageBox.Show($"Ziur zaude '{izena}' eta bere gailuak historikora mugitu nahi dituzula?",
-                    "Berretsi", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-
-                if (erantzuna == DialogResult.Yes)
+                try
                 {
-                    try
+                    using (MySqlConnection conn = new MySqlConnection(DbKonexioa.Instantzia.GetKonexioString()))
                     {
-                        using (MySqlConnection conn = new MySqlConnection(DbKonexioa.Instantzia.GetKonexioString()))
+                        conn.Open();
+
+                        // 1. EGIAZTAPENA: Gailuak (id_mintegia zutabea badago gailuetan)
+                        string sqlGailuak = "SELECT COUNT(*) FROM gailuak WHERE id_mintegia = @id";
+                        MySqlCommand cmdGailuak = new MySqlCommand(sqlGailuak, conn);
+                        cmdGailuak.Parameters.AddWithValue("@id", idMintegia);
+                        int gailuKopuru = Convert.ToInt32(cmdGailuak.ExecuteScalar());
+
+                        // 2. EGIAZTAPENA: Arduraduna (Erabiltzaileak taulan ez dagoenez id_mintegia, 
+                        // begiratu dugu ea mintegi honek arduradunik esleituta duen)
+                        string sqlArduraduna = "SELECT id_arduraduna FROM mintegiak WHERE id_mintegia = @id";
+                        MySqlCommand cmdArduraduna = new MySqlCommand(sqlArduraduna, conn);
+                        cmdArduraduna.Parameters.AddWithValue("@id", idMintegia);
+                        object arduradunaObj = cmdArduraduna.ExecuteScalar();
+
+                        // DBNull ez bada, esan nahi du erabiltzaile bat lotuta dagoela arduradun gisa
+                        bool arduradunaDu = (arduradunaObj != null && arduradunaObj != DBNull.Value);
+
+                        // BALDINTZA: Gailuak baditu EDO arduradun bat badu, ezin da ezabatu
+                        if (gailuKopuru > 0 || arduradunaDu)
                         {
-                            conn.Open();
-                            using (MySqlTransaction trans = conn.BeginTransaction())
-                            {
-                                try
-                                {
-                                    string insertHistory = @"
-                                        INSERT INTO Ezabatutakoak (id_gailua, marka_modeloa, mota, eroste_data)
-                                        SELECT 
-                                            g.id_gailua, 
-                                            IFNULL(g.marka_modeloa, 'Ezezaguna')as marka_modeloa,
-                                            (CASE 
-                                                 WHEN o.id_gailua IS NOT NULL THEN 'Ordenagailua' 
-                                                 WHEN i.id_gailua IS NOT NULL THEN 'Inprimagailua' 
-                                                 ELSE 'Besterik' 
-                                             END) as mota,
-                                             g.eroste_data
-                                        FROM gailuak g
-                                        LEFT JOIN ordenagailuak o ON g.id_gailua = o.id_gailua
-                                        LEFT JOIN inprimagailuak i ON g.id_gailua = i.id_gailua
-                                        WHERE g.id_mintegia = @idMin";
-
-
-                                    MySqlCommand cmdHistory = new MySqlCommand(insertHistory, conn, trans);
-                                    cmdHistory.Parameters.AddWithValue("@idMin", idMintegia);
-
-
-                                    // DEBUG: Ikusi nahi dugu ea zerbait kopiatzen duen
-                                    int kopurua = cmdHistory.ExecuteNonQuery();
-
-                                    if (kopurua == 0)
-                                    {
-                                        // Kontuz! Hemen badakigu gailuak ez direla kopiatu
-                                        // Mezua aterako dugu jakiteko
-                                        MessageBox.Show("Abisua: Mintegi honek ez du gailurik kopiatzeko.");
-                                    }
-                                    else
-                                    {
-                                        // 2. URRATSA: EZABATU UMEAK (Letra xehez)
-                                        string delUmeak = @"
-                                        DELETE FROM ordenagailuak WHERE id_gailua IN (SELECT id_gailua FROM gailuak WHERE id_mintegia = @id);
-                                        DELETE FROM inprimagailuak WHERE id_gailua IN (SELECT id_gailua FROM gailuak WHERE id_mintegia = @id);
-                                        DELETE FROM hondatutakoak WHERE id_gailua IN (SELECT id_gailua FROM gailuak WHERE id_mintegia = @id);";
-                                        
-                                        MySqlCommand cmdDelUmeak = new MySqlCommand(delUmeak, conn, trans);
-                                        cmdDelUmeak.Parameters.AddWithValue("@id", idMintegia);
-                                        cmdDelUmeak.ExecuteNonQuery();
-                                   
-                                        // 3. URRATSA: EZABATU GURASOAK ETA MINTEGIA
-                                        MySqlCommand cmdDelGailuak = new MySqlCommand("DELETE FROM gailuak WHERE id_mintegia = @id", conn, trans);
-                                        cmdDelGailuak.Parameters.AddWithValue("@id", idMintegia);
-                                        cmdDelGailuak.ExecuteNonQuery();
-                                    }
-                                    MySqlCommand cmdDelMintegia = new MySqlCommand("DELETE FROM mintegiak WHERE id_mintegia = @id", conn, trans);
-                                        cmdDelMintegia.Parameters.AddWithValue("@id", idMintegia);
-                                        cmdDelMintegia.ExecuteNonQuery();
-                                    
-
-                                    trans.Commit();
-                                    MessageBox.Show($"{kopurua} gailu historikora mugitu dira eta mintegia ezabatu da.");
-                                }
-                                catch (Exception ex)
-                                {
-                                    MessageBox.Show("ERROR INSERT: " + ex.ToString());
-                                    trans.Rollback();
-                                    // trans.Rollback();
-                                    throw ex;
-                                }
-                            }
+                            string arrazoia = gailuKopuru > 0 ? $"{gailuKopuru} gailu lotuta ditu." : "arduradun bat esleituta du (Erabiltzaile lotua).";
+                            MessageBox.Show($"Ezin da '{izena}' mintegia ezabatu: {arrazoia}\n\nLehenik hustu behar duzu.",
+                                            "Ekintza galarazita", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                            return;
                         }
-                        KargatuMintegiak();
+
+                        // 3. EZABATZEA: Dena hutsik badago
+                        var erantzuna = MessageBox.Show($"Ziur zaude '{izena}' mintegi HUTSA ezabatu nahi duzula?",
+                                                        "Berretsi", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+                        if (erantzuna == DialogResult.Yes)
+                        {
+                            string sqlDel = "DELETE FROM mintegiak WHERE id_mintegia = @id";
+                            MySqlCommand cmdDel = new MySqlCommand(sqlDel, conn);
+                            cmdDel.Parameters.AddWithValue("@id", idMintegia);
+                            cmdDel.ExecuteNonQuery();
+
+                            MessageBox.Show("Mintegia ondo ezabatu da.");
+                            KargatuMintegiak(); // Freskatu Grid-a
+                        }
                     }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show("Errore teknikoa: " + ex.Message);
-                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Errorea egiaztapenak egitean: " + ex.Message);
                 }
             }
         }

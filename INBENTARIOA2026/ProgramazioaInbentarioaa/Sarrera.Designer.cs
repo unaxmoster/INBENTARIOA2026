@@ -40,7 +40,7 @@
             // 
             lblizena.AutoSize = true;
             lblizena.BackColor = Color.Transparent;
-            lblizena.Font = new Font("Arial Black", 48F, FontStyle.Bold, GraphicsUnit.Point);
+            lblizena.Font = new Font("Arial Black", 48F, FontStyle.Bold);
             lblizena.ForeColor = Color.Navy;
             lblizena.Location = new Point(728, 334);
             lblizena.Name = "lblizena";
@@ -53,7 +53,7 @@
             // 
             lblpass.AutoSize = true;
             lblpass.BackColor = Color.Transparent;
-            lblpass.Font = new Font("Arial Black", 48F, FontStyle.Bold, GraphicsUnit.Point);
+            lblpass.Font = new Font("Arial Black", 48F, FontStyle.Bold);
             lblpass.ForeColor = Color.Navy;
             lblpass.Location = new Point(536, 437);
             lblpass.Name = "lblpass";
@@ -64,32 +64,32 @@
             // SartuBotoia
             // 
             SartuBotoia.BackColor = Color.Navy;
-            SartuBotoia.Font = new Font("Arial Narrow", 18F, FontStyle.Bold, GraphicsUnit.Point);
+            SartuBotoia.Font = new Font("Arial Narrow", 18F, FontStyle.Bold);
             SartuBotoia.ForeColor = SystemColors.ButtonHighlight;
-            SartuBotoia.Location = new Point(1042, 577);
+            SartuBotoia.Location = new Point(1107, 562);
             SartuBotoia.Name = "SartuBotoia";
             SartuBotoia.Size = new Size(255, 88);
-            SartuBotoia.TabIndex = 2;
+            SartuBotoia.TabIndex = 3;
             SartuBotoia.Text = "SARTU";
             SartuBotoia.UseVisualStyleBackColor = false;
             SartuBotoia.Click += button1_Click;
             // 
             // textpass
             // 
-            textpass.Font = new Font("Segoe UI", 28.2F, FontStyle.Regular, GraphicsUnit.Point);
+            textpass.Font = new Font("Segoe UI", 28.2F);
             textpass.Location = new Point(1042, 472);
             textpass.Name = "textpass";
             textpass.PasswordChar = '*';
-            textpass.Size = new Size(255, 70);
-            textpass.TabIndex = 4;
+            textpass.Size = new Size(408, 70);
+            textpass.TabIndex = 2;
             // 
             // textizena
             // 
-            textizena.Font = new Font("Segoe UI", 28.2F, FontStyle.Regular, GraphicsUnit.Point);
+            textizena.Font = new Font("Segoe UI", 28.2F);
             textizena.Location = new Point(1042, 369);
             textizena.Name = "textizena";
-            textizena.Size = new Size(255, 70);
-            textizena.TabIndex = 5;
+            textizena.Size = new Size(408, 70);
+            textizena.TabIndex = 1;
             // 
             // Sarrera
             // 

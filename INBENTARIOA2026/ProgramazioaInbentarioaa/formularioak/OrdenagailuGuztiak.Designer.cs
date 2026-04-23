@@ -29,102 +29,103 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(OrdenagailuGuztiak));
-            ATZERA = new Button();
+            btnEgoeraAldatuOr = new Button();
+            btnBerriaSortuOr = new Button();
+            BtnEzabatuOr = new Button();
+            btnAtzeraOr = new Button();
             EZABATUTAKOAK = new Label();
             dvgOrdenagailuak = new DataGridView();
-            button1 = new Button();
-            BtnEzabatu = new Button();
-            btnEgoeraAldatu = new Button();
             ((System.ComponentModel.ISupportInitialize)dvgOrdenagailuak).BeginInit();
             SuspendLayout();
             // 
-            // ATZERA
+            // btnEgoeraAldatuOr
             // 
-            ATZERA.BackColor = Color.Crimson;
-            ATZERA.Font = new Font("Arial", 18F, FontStyle.Bold);
-            ATZERA.ForeColor = Color.Transparent;
-            ATZERA.Location = new Point(1199, 784);
-            ATZERA.Name = "ATZERA";
-            ATZERA.Size = new Size(320, 172);
-            ATZERA.TabIndex = 29;
-            ATZERA.Text = "ATZERA";
-            ATZERA.UseVisualStyleBackColor = false;
-            ATZERA.Click += ATZERA_Click;
+            btnEgoeraAldatuOr.BackColor = Color.Navy;
+            btnEgoeraAldatuOr.Font = new Font("Arial", 18F, FontStyle.Bold);
+            btnEgoeraAldatuOr.ForeColor = Color.Transparent;
+            btnEgoeraAldatuOr.Location = new Point(1470, 360);
+            btnEgoeraAldatuOr.Name = "btnEgoeraAldatuOr";
+            btnEgoeraAldatuOr.Size = new Size(320, 172);
+            btnEgoeraAldatuOr.TabIndex = 41;
+            btnEgoeraAldatuOr.Text = "EGOERA ALDATU";
+            btnEgoeraAldatuOr.UseVisualStyleBackColor = false;
+            btnEgoeraAldatuOr.Click += btnEgoeraAldatuOr_Click;
+            // 
+            // btnBerriaSortuOr
+            // 
+            btnBerriaSortuOr.BackColor = Color.Navy;
+            btnBerriaSortuOr.Font = new Font("Arial", 18F, FontStyle.Bold);
+            btnBerriaSortuOr.ForeColor = Color.Transparent;
+            btnBerriaSortuOr.Location = new Point(410, 747);
+            btnBerriaSortuOr.Name = "btnBerriaSortuOr";
+            btnBerriaSortuOr.Size = new Size(320, 172);
+            btnBerriaSortuOr.TabIndex = 40;
+            btnBerriaSortuOr.Text = "BERRIA SORTU";
+            btnBerriaSortuOr.UseVisualStyleBackColor = false;
+            btnBerriaSortuOr.Click += btnBerriaSortuOr_Click;
+            // 
+            // BtnEzabatuOr
+            // 
+            BtnEzabatuOr.BackColor = Color.Maroon;
+            BtnEzabatuOr.Font = new Font("Arial", 18F, FontStyle.Bold);
+            BtnEzabatuOr.ForeColor = Color.Transparent;
+            BtnEzabatuOr.Location = new Point(758, 749);
+            BtnEzabatuOr.Name = "BtnEzabatuOr";
+            BtnEzabatuOr.Size = new Size(320, 172);
+            BtnEzabatuOr.TabIndex = 39;
+            BtnEzabatuOr.Text = "EZABATU";
+            BtnEzabatuOr.UseVisualStyleBackColor = false;
+            BtnEzabatuOr.Click += BtnEzabatuOr_Click;
+            // 
+            // btnAtzeraOr
+            // 
+            btnAtzeraOr.BackColor = Color.Crimson;
+            btnAtzeraOr.Font = new Font("Arial", 18F, FontStyle.Bold);
+            btnAtzeraOr.ForeColor = Color.Transparent;
+            btnAtzeraOr.Location = new Point(1112, 747);
+            btnAtzeraOr.Name = "btnAtzeraOr";
+            btnAtzeraOr.Size = new Size(320, 172);
+            btnAtzeraOr.TabIndex = 38;
+            btnAtzeraOr.Text = "ATZERA";
+            btnAtzeraOr.UseVisualStyleBackColor = false;
+            btnAtzeraOr.Click += btnAtzeraOr_Click;
             // 
             // EZABATUTAKOAK
             // 
             EZABATUTAKOAK.AutoSize = true;
+            EZABATUTAKOAK.BackColor = Color.Transparent;
             EZABATUTAKOAK.Font = new Font("Segoe UI", 36F, FontStyle.Bold);
-            EZABATUTAKOAK.Location = new Point(547, 63);
+            EZABATUTAKOAK.ForeColor = Color.WhiteSmoke;
+            EZABATUTAKOAK.Location = new Point(464, 33);
             EZABATUTAKOAK.Name = "EZABATUTAKOAK";
             EZABATUTAKOAK.Size = new Size(906, 81);
-            EZABATUTAKOAK.TabIndex = 28;
+            EZABATUTAKOAK.TabIndex = 37;
             EZABATUTAKOAK.Text = "ORDENAGAILU GUZTIAK IKUSI";
             // 
             // dvgOrdenagailuak
             // 
             dvgOrdenagailuak.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dvgOrdenagailuak.Location = new Point(486, 147);
+            dvgOrdenagailuak.Location = new Point(435, 148);
             dvgOrdenagailuak.Name = "dvgOrdenagailuak";
             dvgOrdenagailuak.RowHeadersWidth = 51;
-            dvgOrdenagailuak.Size = new Size(1033, 588);
-            dvgOrdenagailuak.TabIndex = 27;
-            dvgOrdenagailuak.CellContentClick += dvgOrdenagailuak_CellContentClick;
+            dvgOrdenagailuak.Size = new Size(965, 573);
+            dvgOrdenagailuak.TabIndex = 36;
             dvgOrdenagailuak.DataBindingComplete += dvgOrdenagailuak_DataBindingComplete;
-            // 
-            // button1
-            // 
-            button1.BackColor = Color.Navy;
-            button1.Font = new Font("Arial", 18F, FontStyle.Bold);
-            button1.ForeColor = Color.Transparent;
-            button1.Location = new Point(486, 784);
-            button1.Name = "button1";
-            button1.Size = new Size(320, 172);
-            button1.TabIndex = 30;
-            button1.Text = "BERRIA SORTU";
-            button1.UseVisualStyleBackColor = false;
-            button1.Click += button1_Click;
-            // 
-            // BtnEzabatu
-            // 
-            BtnEzabatu.BackColor = Color.Maroon;
-            BtnEzabatu.Font = new Font("Arial", 18F, FontStyle.Bold);
-            BtnEzabatu.ForeColor = Color.Transparent;
-            BtnEzabatu.Location = new Point(841, 784);
-            BtnEzabatu.Name = "BtnEzabatu";
-            BtnEzabatu.Size = new Size(320, 172);
-            BtnEzabatu.TabIndex = 31;
-            BtnEzabatu.Text = "EZABATU";
-            BtnEzabatu.UseVisualStyleBackColor = false;
-            BtnEzabatu.Click += BtnEzabatu_Click;
-            // 
-            // btnEgoeraAldatu
-            // 
-            btnEgoeraAldatu.BackColor = Color.Navy;
-            btnEgoeraAldatu.Font = new Font("Arial", 18F, FontStyle.Bold);
-            btnEgoeraAldatu.ForeColor = Color.Transparent;
-            btnEgoeraAldatu.Location = new Point(1541, 355);
-            btnEgoeraAldatu.Name = "btnEgoeraAldatu";
-            btnEgoeraAldatu.Size = new Size(320, 172);
-            btnEgoeraAldatu.TabIndex = 32;
-            btnEgoeraAldatu.Text = "EGOERA ALDATU";
-            btnEgoeraAldatu.UseVisualStyleBackColor = false;
-            btnEgoeraAldatu.Click += btnEgoeraAldatu_Click;
             // 
             // OrdenagailuGuztiak
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1924, 1055);
-            Controls.Add(btnEgoeraAldatu);
-            Controls.Add(BtnEzabatu);
-            Controls.Add(button1);
-            Controls.Add(ATZERA);
+            ClientSize = new Size(1924, 1004);
+            Controls.Add(btnEgoeraAldatuOr);
+            Controls.Add(btnBerriaSortuOr);
+            Controls.Add(BtnEzabatuOr);
+            Controls.Add(btnAtzeraOr);
             Controls.Add(EZABATUTAKOAK);
             Controls.Add(dvgOrdenagailuak);
             Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "OrdenagailuGuztiak";
-            Text = "OrdenagailuGuztiak";
+            Text = "ORDENAGAILU GUZTIAK IKUSI";
             Load += OrdenagailuGuztiak_Load;
             ((System.ComponentModel.ISupportInitialize)dvgOrdenagailuak).EndInit();
             ResumeLayout(false);
@@ -133,11 +134,11 @@
 
         #endregion
 
-        private Button ATZERA;
+        private Button btnEgoeraAldatuOr;
+        private Button btnBerriaSortuOr;
+        private Button BtnEzabatuOr;
+        private Button btnAtzeraOr;
         private Label EZABATUTAKOAK;
         private DataGridView dvgOrdenagailuak;
-        private Button button1;
-        private Button BtnEzabatu;
-        private Button btnEgoeraAldatu;
     }
 }

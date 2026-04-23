@@ -12,7 +12,7 @@ using System.Windows.Forms;
 
 namespace Inbentarioa.formularioak
 {
-    public partial class IKUSI : Form
+    public partial class IKUSI : FormBase
     {
         public IKUSI()
         {
@@ -22,25 +22,6 @@ namespace Inbentarioa.formularioak
         private void GailuakIkusi_Load(object sender, EventArgs e)
         {
             this.WindowState = FormWindowState.Maximized;
-        }
-        protected override void OnPaint(PaintEventArgs e)
-        {
-            base.OnPaint(e);
-
-            // Definir los colores del degradado usando códigos hexadecimales
-            Color colorInicio = ColorTranslator.FromHtml("#C2CBED"); // Azul claro
-            Color colorFin = ColorTranslator.FromHtml("#003FA1");    // Azul oscuro
-
-            // Crear un pincel con degradado lineal
-            using (LinearGradientBrush brush = new LinearGradientBrush(
-                this.ClientRectangle, // Área donde se aplicará el degradado
-                colorInicio,         // Color inicial
-                colorFin,            // Color final
-                LinearGradientMode.Horizontal)) // Dirección del degradado (horizontal)
-            {
-                // Rellenar el fondo del formulario con el degradado
-                e.Graphics.FillRectangle(brush, this.ClientRectangle);
-            }
         }
 
         private void ATZERA_Click(object sender, EventArgs e)

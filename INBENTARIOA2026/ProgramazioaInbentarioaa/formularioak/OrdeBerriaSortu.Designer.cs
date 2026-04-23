@@ -41,6 +41,8 @@
             cmbRAM = new ComboBox();
             txtROM = new TextBox();
             txtCPU = new TextBox();
+            label2 = new Label();
+            txtIdentifikazioa = new TextBox();
             SuspendLayout();
             // 
             // btmOrdBerria
@@ -164,11 +166,31 @@
             txtCPU.Size = new Size(633, 70);
             txtCPU.TabIndex = 47;
             // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Font = new Font("Segoe UI", 28.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label2.Location = new Point(116, 67);
+            label2.Name = "label2";
+            label2.Size = new Size(362, 62);
+            label2.TabIndex = 48;
+            label2.Text = "Identifikatzailea:";
+            // 
+            // txtIdentifikazioa
+            // 
+            txtIdentifikazioa.Font = new Font("Segoe UI", 28.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            txtIdentifikazioa.Location = new Point(514, 64);
+            txtIdentifikazioa.Name = "txtIdentifikazioa";
+            txtIdentifikazioa.Size = new Size(633, 70);
+            txtIdentifikazioa.TabIndex = 49;
+            // 
             // OrdeBerriaSortu
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1559, 1055);
+            Controls.Add(txtIdentifikazioa);
+            Controls.Add(label2);
             Controls.Add(txtCPU);
             Controls.Add(txtROM);
             Controls.Add(cmbRAM);
@@ -203,5 +225,7 @@
         private ComboBox cmbRAM;
         private TextBox txtROM;
         private TextBox txtCPU;
+        private Label label2;
+        private TextBox txtIdentifikazioa;
     }
 }

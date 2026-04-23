@@ -40,17 +40,19 @@
             // dgvErabiltzaileak
             // 
             dgvErabiltzaileak.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvErabiltzaileak.Location = new Point(700, 275);
+            dgvErabiltzaileak.Location = new Point(700, 114);
             dgvErabiltzaileak.Name = "dgvErabiltzaileak";
             dgvErabiltzaileak.RowHeadersWidth = 51;
-            dgvErabiltzaileak.Size = new Size(516, 295);
+            dgvErabiltzaileak.Size = new Size(516, 541);
             dgvErabiltzaileak.TabIndex = 1;
             // 
             // EZABATUTAKOAK
             // 
             EZABATUTAKOAK.AutoSize = true;
+            EZABATUTAKOAK.BackColor = Color.Transparent;
             EZABATUTAKOAK.Font = new Font("Segoe UI", 36F, FontStyle.Bold);
-            EZABATUTAKOAK.Location = new Point(700, 164);
+            EZABATUTAKOAK.ForeColor = Color.WhiteSmoke;
+            EZABATUTAKOAK.Location = new Point(691, 30);
             EZABATUTAKOAK.Name = "EZABATUTAKOAK";
             EZABATUTAKOAK.Size = new Size(509, 81);
             EZABATUTAKOAK.TabIndex = 24;
@@ -61,7 +63,7 @@
             ATZERA.BackColor = Color.Crimson;
             ATZERA.Font = new Font("Arial", 18F, FontStyle.Bold);
             ATZERA.ForeColor = SystemColors.ButtonHighlight;
-            ATZERA.Location = new Point(1112, 603);
+            ATZERA.Location = new Point(1113, 683);
             ATZERA.Name = "ATZERA";
             ATZERA.Size = new Size(250, 130);
             ATZERA.TabIndex = 25;
@@ -74,7 +76,7 @@
             ErabBerriaSortu.BackColor = Color.Navy;
             ErabBerriaSortu.Font = new Font("Arial", 18F, FontStyle.Bold);
             ErabBerriaSortu.ForeColor = SystemColors.ButtonHighlight;
-            ErabBerriaSortu.Location = new Point(555, 603);
+            ErabBerriaSortu.Location = new Point(552, 683);
             ErabBerriaSortu.Name = "ErabBerriaSortu";
             ErabBerriaSortu.Size = new Size(250, 130);
             ErabBerriaSortu.TabIndex = 26;
@@ -87,7 +89,7 @@
             button2.BackColor = Color.Navy;
             button2.Font = new Font("Arial", 18F, FontStyle.Bold);
             button2.ForeColor = SystemColors.ButtonHighlight;
-            button2.Location = new Point(835, 603);
+            button2.Location = new Point(835, 683);
             button2.Name = "button2";
             button2.Size = new Size(250, 130);
             button2.TabIndex = 27;

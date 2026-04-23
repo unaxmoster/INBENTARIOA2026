@@ -101,7 +101,7 @@
             BtnEzabatu.BackColor = Color.Maroon;
             BtnEzabatu.Font = new Font("Arial", 18F, FontStyle.Bold);
             BtnEzabatu.ForeColor = Color.Transparent;
-            BtnEzabatu.Location = new Point(812, 775);
+            BtnEzabatu.Location = new Point(817, 775);
             BtnEzabatu.Name = "BtnEzabatu";
             BtnEzabatu.Size = new Size(320, 172);
             BtnEzabatu.TabIndex = 39;

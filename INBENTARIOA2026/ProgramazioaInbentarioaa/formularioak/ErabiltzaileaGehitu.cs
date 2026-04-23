@@ -14,7 +14,7 @@ using System.Windows.Forms;
 
 namespace Inventarioa.formularioak
 {
-    public partial class ErabiltzaileaGehitu : Form
+    public partial class ErabiltzaileaGehitu : FormBase
     {
         public ErabiltzaileaGehitu()
         {
@@ -22,27 +22,14 @@ namespace Inventarioa.formularioak
             // HEMEN deituko ditugu datuak kargatzeko funtzioak=>>
             KargatuMintegiakCombo();
             KargatuRolakEskuz();
+            // Tabulazio ordena ezarri:
+            txtErIzena.TabIndex = 0;   // 1.goa
+            txtPass.TabIndex = 1;      // 2.goa
+            cbMintegia.TabIndex = 2;   // 3.goa
+            cbArduraduna.TabIndex = 3; // 4.goa
+            btnGorde.TabIndex = 4;     // 5.goa
         }
 
-        protected override void OnPaint(PaintEventArgs e)
-        {
-            base.OnPaint(e);
-
-            // Definir los colores del degradado usando códigos hexadecimales
-            Color colorInicio = ColorTranslator.FromHtml("#C2CBED"); // Azul claro
-            Color colorFin = ColorTranslator.FromHtml("#003FA1");    // Azul oscuro
-
-            // Crear un pincel con degradado lineal
-            using (LinearGradientBrush brush = new LinearGradientBrush(
-                this.ClientRectangle, // Área donde se aplicará el degradado
-                colorInicio,         // Color inicial
-                colorFin,            // Color final
-                LinearGradientMode.Horizontal)) // Dirección del degradado (horizontal)
-            {
-                // Rellenar el fondo del formulario con el degradado
-                e.Graphics.FillRectangle(brush, this.ClientRectangle);
-            }
-        }
 
         private void ErabiltzaileaGehitu_Load(object sender, EventArgs e)
         {
@@ -53,10 +40,10 @@ namespace Inventarioa.formularioak
         private void KargatuRolakEskuz()
         {
             cbArduraduna.Items.Clear();
-            cbArduraduna.Items.Add("Ikt");
+            cbArduraduna.Items.Add("Irakaslea"); // Orain hau da 0 indizea
             cbArduraduna.Items.Add("MintegiBurua");
-            cbArduraduna.Items.Add("Irakaslea");
-            cbArduraduna.SelectedIndex = 0; // Lehenengoa hautatu lehenetsi gisa
+            cbArduraduna.Items.Add("Ikt");
+            cbArduraduna.SelectedIndex = 0;
         }
         // MINTEGIAK kargatu (Datu-basetik)
         private void KargatuMintegiakCombo()
@@ -77,7 +64,7 @@ namespace Inventarioa.formularioak
                     cbMintegia.ValueMember = "id_mintegia";
                 }
             }
-            catch (Exception ex) { MessageBox.Show("Errorea mintegiak kargatzean: " + ex.Message); }
+            catch (Exception ex) { MessageBox.Show("Errorea mintegiak kargatzean: "); }
         }
         //Kargatu arduradunak comboBox-a=>
 
@@ -114,7 +101,22 @@ namespace Inventarioa.formularioak
                 using (MySqlConnection conn = new MySqlConnection(konexioa))
                 {
                     conn.Open();
-                    // 0 --- EGIAZTATU MINTEGIA LIBRE DAGOEN ---
+
+                    // --- 1. EGIAZTATU ERABILTZAILE IZEN HORI JADA BADAGOEN ---
+                    string sqlCheckUser = "SELECT COUNT(*) FROM erabiltzaileak WHERE erabiltzailea = @izena";
+                    using (MySqlCommand cmdCheck = new MySqlCommand(sqlCheckUser, conn))
+                    {
+                        cmdCheck.Parameters.AddWithValue("@izena", txtErIzena.Text);
+                        int existitzenDa = Convert.ToInt32(cmdCheck.ExecuteScalar());
+
+                        if (existitzenDa > 0)
+                        {
+                            MessageBox.Show("Errorea: '" + txtErIzena.Text + "' erabiltzaile izena jada hartuta dago.");
+                            return;
+                        }
+                    }
+
+                    // --- 2. EGIAZTATU MINTEGIA LIBRE DAGOEN (MintegiBurua bada) ---
                     if (cbArduraduna.SelectedItem.ToString() == "MintegiBurua")
                     {
                         string checkQuery = "SELECT id_arduraduna FROM mintegiak WHERE id_mintegia = @idMintegia";
@@ -123,27 +125,31 @@ namespace Inventarioa.formularioak
                             checkCmd.Parameters.AddWithValue("@idMintegia", cbMintegia.SelectedValue);
                             object result = checkCmd.ExecuteScalar();
 
-                            // DBNull.Value ez bada, esan nahi du jada ID bat daukala (arduradun bat du)
                             if (result != null && result != DBNull.Value)
                             {
                                 MessageBox.Show("Errorea: Mintegi honek badu jada MintegiBurua esleituta.");
-                                return; // Metodotik irten, ez dugu gordeko
+                                return;
                             }
                         }
                     }
 
-                    // 1. Erabiltzailea sortu (txtPass erabiliz)
-                    string query = "INSERT INTO erabiltzaileak (erabiltzailea, rola, pasahitza) VALUES (@izena, @rola, @pasahitza)";
+                    // --- 3. ERABILTZAILEA SORTU (GAKOA: id_mintegia gehitu dugu) ---
+                    // SQL query-an id_mintegia gehitu dugu erabiltzaile bakoitza bere mintegiarekin lotzeko
+                    string query = "INSERT INTO erabiltzaileak (erabiltzailea, rola, pasahitza, id_mintegia) VALUES (@izena, @rola, @pasahitza, @idMintegia)";
+
                     using (MySqlCommand cmd = new MySqlCommand(query, conn))
                     {
                         cmd.Parameters.AddWithValue("@izena", txtErIzena.Text);
                         cmd.Parameters.AddWithValue("@rola", cbArduraduna.SelectedItem.ToString());
-                        // HEMEN: Lehen txtErIzena erabiltzen genuen, orain txtPass.Text
                         cmd.Parameters.AddWithValue("@pasahitza", txtPass.Text);
+
+                        // HEMEN HARTZEN DUGU COMBOBOX-EAN HAUTATUTAKO ID-A
+                        cmd.Parameters.AddWithValue("@idMintegia", cbMintegia.SelectedValue);
+
                         cmd.ExecuteNonQuery();
                     }
 
-                    // 2. MintegiBurua bada, Mintegiak taula eguneratu
+                    // --- 4. MINTEGIBURUA BADA, MINTEGIAK TAULA EGUNERATU ---
                     if (cbArduraduna.SelectedItem.ToString() == "MintegiBurua")
                     {
                         string getID = "SELECT LAST_INSERT_ID()";
@@ -160,16 +166,15 @@ namespace Inventarioa.formularioak
                     }
 
                     MessageBox.Show("Erabiltzailea ondo gorde da!");
-                    // 1. Zerrenda formularioa ireki
-                    Erabiltzaileak zerrenda = new Erabiltzaileak();
-                    zerrenda.Show();
 
+                    // Elkarrizketa-koadroari OK dela esan
+                    this.DialogResult = DialogResult.OK;
 
-                    this.DialogResult = DialogResult.OK; // Honek esaten dio 'using' horri datuak freskatu behar direla
+                    // Formulario hau itxi (kontrola atzera bueltatuko da)
                     this.Close();
                 }
             }
-            catch (Exception ex) { MessageBox.Show("Errorea: " + ex.Message); }
+            catch (Exception ex) { MessageBox.Show("Erroreaegon da saiatu berriro"); }
         }
 
         private void label3_Click(object sender, EventArgs e)

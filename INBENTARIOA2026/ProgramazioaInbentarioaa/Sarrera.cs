@@ -1,10 +1,19 @@
+using Inbentarioa.DatuBasie;
 using Inbentarioa.formularioak;
+using Inventarioa.formularioak;
+using MySql.Data.MySqlClient;
 using System.Drawing.Drawing2D;
 
 namespace Inbentarioa
 {
-    public partial class Sarrera : Form
+    public partial class Sarrera : FormBase
     {
+        public static class Saioa
+        {
+            public static int IdErabiltzailea { get; set; }
+            public static string Erabiltzailea { get; set; }
+            public static string Rola { get; set; }
+        }
         public Sarrera()
         {
             InitializeComponent();
@@ -14,26 +23,6 @@ namespace Inbentarioa
         {
             // Opción 1: Maximizar la ventana (recomendada)
             this.WindowState = FormWindowState.Maximized;
-        }
-
-        protected override void OnPaint(PaintEventArgs e)
-        {
-            base.OnPaint(e);
-
-            // Definir los colores del degradado usando códigos hexadecimales
-            Color colorInicio = ColorTranslator.FromHtml("#C2CBED"); // Azul claro
-            Color colorFin = ColorTranslator.FromHtml("#003FA1");    // Azul oscuro
-
-            // Crear un pincel con degradado lineal
-            using (LinearGradientBrush brush = new LinearGradientBrush(
-                this.ClientRectangle, // Área donde se aplicará el degradado
-                colorInicio,         // Color inicial
-                colorFin,            // Color final
-                LinearGradientMode.Horizontal)) // Dirección del degradado (horizontal)
-            {
-                // Rellenar el fondo del formulario con el degradado
-                e.Graphics.FillRectangle(brush, this.ClientRectangle);
-            }
         }
 
         private void Sarrera_kargatu(object sender, EventArgs e)
@@ -48,16 +37,37 @@ namespace Inbentarioa
 
         private void button1_Click(object sender, EventArgs e)
         {
-                // Ocultamos primero el formulario actual
-                this.Hide();
+            try
+            {
+                // Klaseari deitzen diogu login-a egiteko
+                var erabiltzailea = DBErabiltzaileak.Login(textizena.Text, textpass.Text);
 
-                // Creamos y abrimos el nuevo formulario
-                Menua menu = new Menua();
-                menu.ShowDialog();
+                if (erabiltzailea != null)
+                {
+                    // Saioaren datu estatikoak bete
+                    Saioa.IdErabiltzailea = erabiltzailea.IdErabiltzailea;
+                    Saioa.Rola = erabiltzailea.Rola;
+                    Saioa.Erabiltzailea = erabiltzailea.Izena;
 
-                // Cuando el usuario cierre Menua, cerramos definitivamente este formulario
-                this.Close();
-            
+                    using (ByteGuardians ongiEtorri = new ByteGuardians("Ongi etorri, " + Saioa.Erabiltzailea))
+                    {
+                        ongiEtorri.ShowDialog();
+                    }
+
+                    // Leihoa itxi bezain lasar Menua irekiko da
+                    Menua menua = new Menua();
+                    this.Hide(); // Sarrera ezkutatu (ez itxi!)
+                    menua.Show(); // ShowDialog() ordez Show() erabili, katea ez blokeatzeko
+                }
+                else
+                {
+                    MessageBox.Show("Erabiltzailea edo pasahitza okerra da.", "Errorea", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
         private void button3_Click(object sender, EventArgs e)
         {

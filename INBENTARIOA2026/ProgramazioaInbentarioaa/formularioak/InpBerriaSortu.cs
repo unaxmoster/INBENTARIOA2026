@@ -1,5 +1,6 @@
 ﻿using Inbentarioa.DatuBasie;
 using Inbentarioa.formularioak;
+using Inventarioa.Objetuak;
 using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
@@ -14,7 +15,7 @@ using System.Windows.Forms;
 
 namespace Inventarioa.formularioak
 {
-    public partial class InpBerriaSortu : Form
+    public partial class InpBerriaSortu : FormBase
     {
         public InpBerriaSortu()
         {
@@ -24,22 +25,7 @@ namespace Inventarioa.formularioak
         private void InpBerriaSortu_Load(object sender, EventArgs e)
         {
             this.WindowState = FormWindowState.Maximized;
-            KargatuMintegiakCombo(); // Metodo hau ordenagailuen formularioan daukagun bera da
-        }
-        protected override void OnPaint(PaintEventArgs e)
-        {
-            base.OnPaint(e);
-            Color colorInicio = ColorTranslator.FromHtml("#C2CBED");
-            Color colorFin = ColorTranslator.FromHtml("#003FA1");
-
-            using (LinearGradientBrush brush = new LinearGradientBrush(
-                this.ClientRectangle,
-                colorInicio,
-                colorFin,
-                LinearGradientMode.Horizontal))
-            {
-                e.Graphics.FillRectangle(brush, this.ClientRectangle);
-            }
+            KargatuMintegiakCombo(); 
         }
 
         private void KargatuMintegiakCombo()
@@ -74,70 +60,51 @@ namespace Inventarioa.formularioak
 
         private void ATZERA_Click(object sender, EventArgs e)
         {
-            this.Hide();
-            IKUSI mintegiak = new IKUSI();
-            mintegiak.ShowDialog();
-            this.Close();
+            this.Hide(); // Ezkutatu bakarrik
+            Menua menua = new Menua();
+            menua.ShowDialog();
+            this.Show(); // Menua itxi ondoren, berriz erakutsi
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            // 1. Logika: Testua zenbaki bihurtu (0 Koloretakoa, 1 Zuri-beltza)
-            // ComboBox-ean 'Koloretakoa' hautatzen bada 0 gorde, bestela 1
-            int tintaZenbakia = (txtTinta.Text == "Koloretakoa") ? 0 : 1;
-
-            string konexioaString = DbKonexioa.Instantzia.GetKonexioString();
-
-            using (MySqlConnection conn = new MySqlConnection(konexioaString))
+            try
             {
-                try
+                // 1. Balidazio basikoa (adibidez)
+                if (string.IsNullOrWhiteSpace(textInpIdentifikatzailea.Text))
                 {
-                    conn.Open();
-                    using (MySqlTransaction trans = conn.BeginTransaction())
-                    {
-                        try
-                        {
-                            // 1. TXERTATU GAILUAK TAULAN
-                            string sqlGailua = @"INSERT INTO Gailuak (marka_modeloa, id_mintegia, eroste_data, egoera) 
-                                         VALUES (@marka, @mintegia, @data, @egoera);
-                                         SELECT LAST_INSERT_ID();";
-
-                            MySqlCommand cmdGailua = new MySqlCommand(sqlGailua, conn, trans);
-                            cmdGailua.Parameters.AddWithValue("@marka", txtMarka.Text);
-                            cmdGailua.Parameters.AddWithValue("@mintegia", cmbMintegia.SelectedValue);
-                            cmdGailua.Parameters.AddWithValue("@data", DateTime.Now);
-                            cmdGailua.Parameters.AddWithValue("@egoera", 0);
-
-                            int berriaId = Convert.ToInt32(cmdGailua.ExecuteScalar());
-
-                            // 2. TXERTATU INPRIMAGAILUAK TAULAN
-                            // KONTUZ: Hemen 'konexio_mota' kendu dugu, zure DBan ez baitago
-                            string sqlInp = @"INSERT INTO Inprimagailuak (id_gailua, koloretakoa) 
-                                      VALUES (@id, @tinta)";
-
-                            MySqlCommand cmdInp = new MySqlCommand(sqlInp, conn, trans);
-                            cmdInp.Parameters.AddWithValue("@id", berriaId);
-                            cmdInp.Parameters.AddWithValue("@tinta", tintaZenbakia); // 0 edo 1
-
-                            cmdInp.ExecuteNonQuery();
-
-                            trans.Commit();
-                            MessageBox.Show("Inprimagailua ondo gorde da!");
-
-                            this.DialogResult = DialogResult.OK;
-                            this.Close();
-                        }
-                        catch (Exception ex)
-                        {
-                            trans.Rollback();
-                            throw ex;
-                        }
-                    }
+                    MessageBox.Show("Identifikatzailea beharrezkoa da.");
+                    return;
                 }
-                catch (Exception ex)
+
+                // 2. OBJEKTUA SORTU (Inprimagailua klasea erabiliz)
+                // koloretakoa: txtTinta-ren arabera (true/false)
+                bool isKoloretakoa = (txtTinta.Text == "Koloretakoa");
+
+                Inprimagailua inprimagailuBerria = new Inprimagailua(
+                    textInpIdentifikatzailea.Text,
+                    txtMarka.Text,
+                    Convert.ToInt32(cmbMintegia.SelectedValue),
+                    isKoloretakoa
+                );
+
+                inprimagailuBerria.Egoera = 0; // Hasierako egoera: Ondo
+
+                // 3. Klaseari deitu gordetzeko
+                if (DBGailuak.GehituInprimagailuaPOO(inprimagailuBerria))
                 {
-                    MessageBox.Show("Errorea gordetzean: " + ex.Message);
+                    MessageBox.Show("Inprimagailua ondo gorde da!");
+
+                    // 4. Leihoak kudeatu
+                    this.Hide();
+                    InprimagailuGuztiak leihoa = new InprimagailuGuztiak();
+                    leihoa.ShowDialog();
+                    this.Close();
                 }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Errorea inprimagailua sortzean: " + ex.Message);
             }
         }
     }

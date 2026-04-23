@@ -46,7 +46,7 @@
             ATZERA.BackColor = Color.Crimson;
             ATZERA.Font = new Font("Arial", 18F, FontStyle.Bold);
             ATZERA.ForeColor = SystemColors.ButtonHighlight;
-            ATZERA.Location = new Point(1097, 599);
+            ATZERA.Location = new Point(1187, 599);
             ATZERA.Name = "ATZERA";
             ATZERA.Size = new Size(250, 130);
             ATZERA.TabIndex = 26;
@@ -59,7 +59,7 @@
             btnGorde.BackColor = Color.Navy;
             btnGorde.Font = new Font("Arial", 18F, FontStyle.Bold);
             btnGorde.ForeColor = SystemColors.ButtonHighlight;
-            btnGorde.Location = new Point(830, 599);
+            btnGorde.Location = new Point(869, 599);
             btnGorde.Name = "btnGorde";
             btnGorde.Size = new Size(250, 130);
             btnGorde.TabIndex = 27;

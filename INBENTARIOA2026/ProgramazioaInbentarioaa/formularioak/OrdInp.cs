@@ -12,27 +12,11 @@ using System.Windows.Forms;
 
 namespace Inventarioa.formularioak
 {
-    public partial class OrdInp : Form
+    public partial class OrdInp : FormBase
     {
         public OrdInp()
         {
             InitializeComponent();
-        }
-
-        protected override void OnPaint(PaintEventArgs e)
-        {
-            base.OnPaint(e);
-            Color colorInicio = ColorTranslator.FromHtml("#C2CBED");
-            Color colorFin = ColorTranslator.FromHtml("#003FA1");
-
-            using (LinearGradientBrush brush = new LinearGradientBrush(
-                this.ClientRectangle,
-                colorInicio,
-                colorFin,
-                LinearGradientMode.Horizontal))
-            {
-                e.Graphics.FillRectangle(brush, this.ClientRectangle);
-            }
         }
 
         private void OrdInp_Load(object sender, EventArgs e)
@@ -45,11 +29,7 @@ namespace Inventarioa.formularioak
             // Ez egin 'this.Hide()' hemen
             using (OrdeBerriaSortu ordeForm = new OrdeBerriaSortu())
             {
-                // ShowDialog-ek leihoa irekita mantentzen du eta hau blokeatzen du
-                if (ordeForm.ShowDialog() == DialogResult.OK)
-                {
-                   // ordeForm.ShowDialog();
-                }
+                    ordeForm.ShowDialog();
             }
             
         }
@@ -57,9 +37,17 @@ namespace Inventarioa.formularioak
         {
             using (InpBerriaSortu inpForm = new InpBerriaSortu())
             {
-                if (inpForm.ShowDialog() == DialogResult.OK)
+                DialogResult emaitza = inpForm.ShowDialog();
+
+                if (emaitza == DialogResult.OK)
                 {
-                    //inpForm.ShowDialog();
+                    // Inprimagailua ondo sortu da, eguneratu zerrenda edo egin zerbait
+                    MessageBox.Show("Inprimagailua ondo sortu da!");
+                }
+                else if (emaitza == DialogResult.Cancel)
+                {
+                    // Erabiltzaileak atzera egin du
+                    MessageBox.Show("Ezeztatu egin da sorkuntza");
                 }
             }
         }

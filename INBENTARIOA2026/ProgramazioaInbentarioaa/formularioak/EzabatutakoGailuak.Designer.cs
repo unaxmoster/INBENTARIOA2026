@@ -51,7 +51,9 @@
             // EZABATUTAKOAK
             // 
             EZABATUTAKOAK.AutoSize = true;
+            EZABATUTAKOAK.BackColor = Color.Transparent;
             EZABATUTAKOAK.Font = new Font("Segoe UI", 36F, FontStyle.Bold);
+            EZABATUTAKOAK.ForeColor = Color.WhiteSmoke;
             EZABATUTAKOAK.Location = new Point(626, 99);
             EZABATUTAKOAK.Name = "EZABATUTAKOAK";
             EZABATUTAKOAK.Size = new Size(728, 81);

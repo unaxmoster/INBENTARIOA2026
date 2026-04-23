@@ -11,10 +11,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Inventarioa.Objetuak; // Ziurtatu namespace hau zure klasearena dela
 
 namespace Inventarioa.formularioak
 {
-    public partial class OrdeBerriaSortu : Form
+    public partial class OrdeBerriaSortu : FormBase
     {
         public OrdeBerriaSortu()
         {
@@ -29,22 +30,7 @@ namespace Inventarioa.formularioak
             KargatuMintegiakCombo();
         }
 
-        protected override void OnPaint(PaintEventArgs e)
-        {
-            base.OnPaint(e);
-            Color colorInicio = ColorTranslator.FromHtml("#C2CBED");
-            Color colorFin = ColorTranslator.FromHtml("#003FA1");
-
-            using (LinearGradientBrush brush = new LinearGradientBrush(
-                this.ClientRectangle,
-                colorInicio,
-                colorFin,
-                LinearGradientMode.Horizontal))
-            {
-                e.Graphics.FillRectangle(brush, this.ClientRectangle);
-            }
-        }
-
+     
         private void KargatuMintegiakCombo()
         {
             try
@@ -86,64 +72,29 @@ namespace Inventarioa.formularioak
 
         private void btmOrdBerria_Click(object sender, EventArgs e)
         {
-            string konexioa = DbKonexioa.Instantzia.GetKonexioString();
-
-            using (MySqlConnection conn = new MySqlConnection(konexioa))
+            try
             {
-                try
+                // 1. Objektua sortu datuekin (POO erara)
+                Ordenagailua ordeBerria = new Ordenagailua(
+                    txtIdentifikazioa.Text,
+                    txtMarka.Text,
+                    Convert.ToInt32(cmbMintegia.SelectedValue),
+                    cmbRAM.Text,
+                    txtROM.Text,
+                    txtCPU.Text
+                );
+
+                // 2. Logika klaseari deitu objektu osoa bidaliz
+                if (DBGailuak.GehituOrdenagailuaPOO(ordeBerria))
                 {
-                    conn.Open();
-                    using (MySqlTransaction trans = conn.BeginTransaction())
-                    {
-                        try
-                        {
-                            // 1. TXERTATU GAILUAK TAULAN (Gurasoa)
-                            // Ez dugu id_gailua jartzen, AUTO_INCREMENT delako orain.
-                            string sqlGailua = @"INSERT INTO Gailuak (marka_modeloa, id_mintegia, eroste_data, egoera) 
-                                         VALUES (@marka, @mintegia, @data, @egoera);
-                                         SELECT LAST_INSERT_ID();";
-
-                            MySqlCommand cmdGailua = new MySqlCommand(sqlGailua, conn, trans);
-                            cmdGailua.Parameters.AddWithValue("@marka", txtMarka.Text);
-                            cmdGailua.Parameters.AddWithValue("@mintegia", cmbMintegia.SelectedValue);
-                            cmdGailua.Parameters.AddWithValue("@data", DateTime.Now);
-                            cmdGailua.Parameters.AddWithValue("@egoera", 0); // Defektuz 0 = Ondo
-
-                            // MySQL-k sortu duen ID berria jasotzen dugu
-                            int berriaId = Convert.ToInt32(cmdGailua.ExecuteScalar());
-
-                            // 2. TXERTATU ORDENAGAILUAK TAULAN (Umea)
-                            // Hemen gurasoan sortutako ID berbera erabiltzen dugu lotura egiteko
-                            string sqlOrdenagailua = @"INSERT INTO Ordenagailuak (id_gailua, ram, rom, cpu) 
-                                               VALUES (@id, @ram, @rom, @cpu)";
-
-                            MySqlCommand cmdOrd = new MySqlCommand(sqlOrdenagailua, conn, trans);
-                            cmdOrd.Parameters.AddWithValue("@id", berriaId);
-                            cmdOrd.Parameters.AddWithValue("@ram", cmbRAM.Text);
-                            cmdOrd.Parameters.AddWithValue("@rom", txtROM.Text);
-                            cmdOrd.Parameters.AddWithValue("@cpu", txtCPU.Text);
-
-                            cmdOrd.ExecuteNonQuery();
-
-                            // Dena ondo badoa, aldaketak gorde
-                            trans.Commit();
-                            MessageBox.Show("Ordenagailua ondo gorde da! (ID: " + berriaId + ")");
-                            // Formularioa kargatzeko eguneratutako datuekin
-                            this.DialogResult = DialogResult.OK;
-
-                            this.Close(); // Formularioa itxi
-                        }
-                        catch (Exception ex)
-                        {
-                            trans.Rollback();
-                            throw ex; // Kanpoko catch-era bidali
-                        }
-                    }
+                    MessageBox.Show("Ordenagailua ondo gorde da!");
+                    this.DialogResult = DialogResult.OK;
+                    this.Close();
                 }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Errorea gordetzean: " + ex.Message);
-                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Errorea: " + ex.Message);
             }
         }
 

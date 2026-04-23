@@ -32,7 +32,6 @@
             ATZERA = new Button();
             EZABATUTAKOAK = new Label();
             dgvHondatutakoak = new DataGridView();
-            button1 = new Button();
             btnEgoeraAldatu = new Button();
             ((System.ComponentModel.ISupportInitialize)dgvHondatutakoak).BeginInit();
             SuspendLayout();
@@ -42,9 +41,9 @@
             ATZERA.BackColor = Color.Crimson;
             ATZERA.Font = new Font("Arial", 18F, FontStyle.Bold);
             ATZERA.ForeColor = SystemColors.ButtonHighlight;
-            ATZERA.Location = new Point(958, 797);
+            ATZERA.Location = new Point(974, 792);
             ATZERA.Name = "ATZERA";
-            ATZERA.Size = new Size(250, 160);
+            ATZERA.Size = new Size(320, 166);
             ATZERA.TabIndex = 30;
             ATZERA.Text = "ATZERA";
             ATZERA.UseVisualStyleBackColor = false;
@@ -53,7 +52,9 @@
             // EZABATUTAKOAK
             // 
             EZABATUTAKOAK.AutoSize = true;
+            EZABATUTAKOAK.BackColor = Color.Transparent;
             EZABATUTAKOAK.Font = new Font("Segoe UI", 36F, FontStyle.Bold);
+            EZABATUTAKOAK.ForeColor = Color.WhiteSmoke;
             EZABATUTAKOAK.Location = new Point(575, 43);
             EZABATUTAKOAK.Name = "EZABATUTAKOAK";
             EZABATUTAKOAK.Size = new Size(761, 81);
@@ -70,24 +71,12 @@
             dgvHondatutakoak.TabIndex = 28;
             dgvHondatutakoak.DataBindingComplete += dgvHondatutakoak_DataBindingComplete;
             // 
-            // button1
-            // 
-            button1.BackColor = Color.Navy;
-            button1.Font = new Font("Arial", 18F, FontStyle.Bold);
-            button1.ForeColor = Color.Transparent;
-            button1.Location = new Point(670, 797);
-            button1.Name = "button1";
-            button1.Size = new Size(243, 160);
-            button1.TabIndex = 31;
-            button1.Text = "GORDE";
-            button1.UseVisualStyleBackColor = false;
-            // 
             // btnEgoeraAldatu
             // 
             btnEgoeraAldatu.BackColor = Color.Navy;
             btnEgoeraAldatu.Font = new Font("Arial", 18F, FontStyle.Bold);
             btnEgoeraAldatu.ForeColor = Color.Transparent;
-            btnEgoeraAldatu.Location = new Point(1438, 338);
+            btnEgoeraAldatu.Location = new Point(593, 792);
             btnEgoeraAldatu.Name = "btnEgoeraAldatu";
             btnEgoeraAldatu.Size = new Size(320, 172);
             btnEgoeraAldatu.TabIndex = 33;
@@ -101,7 +90,6 @@
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1924, 976);
             Controls.Add(btnEgoeraAldatu);
-            Controls.Add(button1);
             Controls.Add(ATZERA);
             Controls.Add(EZABATUTAKOAK);
             Controls.Add(dgvHondatutakoak);
@@ -119,7 +107,6 @@
         private Button ATZERA;
         private Label EZABATUTAKOAK;
         private DataGridView dgvHondatutakoak;
-        private Button button1;
         private Button btnEgoeraAldatu;
     }
 }

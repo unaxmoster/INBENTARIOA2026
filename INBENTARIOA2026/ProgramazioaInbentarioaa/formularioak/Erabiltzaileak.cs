@@ -14,7 +14,7 @@ using System.Windows.Forms;
 
 namespace Inbentarioa.formularioak
 {
-    public partial class Erabiltzaileak : Form
+    public partial class Erabiltzaileak : FormBase
     {
         public Erabiltzaileak()
         {
@@ -22,29 +22,25 @@ namespace Inbentarioa.formularioak
             KargatuErabiltzaileak(); // Formularioa irekitzean datuak kargatu
         }
 
-        protected override void OnPaint(PaintEventArgs e)
-        {
-            base.OnPaint(e);
-
-            // Definir los colores del degradado usando códigos hexadecimales
-            Color colorInicio = ColorTranslator.FromHtml("#C2CBED"); // Azul claro
-            Color colorFin = ColorTranslator.FromHtml("#003FA1");    // Azul oscuro
-
-            // Crear un pincel con degradado lineal
-            using (LinearGradientBrush brush = new LinearGradientBrush(
-                this.ClientRectangle, // Área donde se aplicará el degradado
-                colorInicio,         // Color inicial
-                colorFin,            // Color final
-                LinearGradientMode.Horizontal)) // Dirección del degradado (horizontal)
-            {
-                // Rellenar el fondo del formulario con el degradado
-                e.Graphics.FillRectangle(brush, this.ClientRectangle);
-            }
-        }
-
         private void Erabiltzaileak_Load(object sender, EventArgs e)
         {
             this.WindowState = FormWindowState.Maximized;
+            konfiguratuBaimenak();
+        }
+
+        private void konfiguratuBaimenak()
+        {
+            string rola = Sarrera.Saioa.Rola;
+            if (rola == "Irakaslea")
+            {
+                ErabBerriaSortu.Enabled = false;
+                button2.Enabled = false;
+                
+            }
+            else if (rola == "MintegiBurua")
+            {
+                ErabBerriaSortu.Visible = false;
+            }
         }
 
         // --- DATUAK KARGATZEKO METODOA ---
@@ -52,35 +48,17 @@ namespace Inbentarioa.formularioak
         {
             try
             {
-                string konexioa = DbKonexioa.Instantzia.GetKonexioString();
-                using (MySqlConnection conn = new MySqlConnection(konexioa))
+                // DBErabiltzaileak klaseari eskatzen dizkiogu datuak eta Grid-ari esleitu
+                dgvErabiltzaileak.DataSource = DBErabiltzaileak.GetErabiltzaileGuztiakPOO();
+
+                dgvErabiltzaileak.ReadOnly = true;
+                dgvErabiltzaileak.AllowUserToAddRows = false;
+                dgvErabiltzaileak.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+                dgvErabiltzaileak.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+
+                if (dgvErabiltzaileak.Columns.Contains("ID"))
                 {
-                    conn.Open();
-
-                    // SQL: Erabiltzailea eta Rola bakarrik hautatzen ditugu
-                    // Ziurtatu zure taulako zutabeak 'erabiltzailea' eta 'rola' deitzen direla
-                    string query = "SELECT id_erabiltzailea AS 'ID', erabiltzailea AS 'Erabiltzailea', rola AS 'Rola' FROM Erabiltzaileak";
-
-                    MySqlDataAdapter adapter = new MySqlDataAdapter(query, conn);
-                    DataTable dt = new DataTable();
-                    adapter.Fill(dt);
-
-                    // dgvErabiltzaileak da zure Grid-aren izena
-                    dgvErabiltzaileak.DataSource = dt;
-
-                    // --- DISEINUA ETA KONFIGURAZIOA ---
-                    dgvErabiltzaileak.ReadOnly = true; // Erabiltzaileak ezin du grid-ean zuzenean idatzi
-                    dgvErabiltzaileak.AllowUserToAddRows = false; // Lerro huts automatikoa kendu
-                    dgvErabiltzaileak.SelectionMode = DataGridViewSelectionMode.FullRowSelect; // Lerro osoa hautatu klik egitean
-
-                    // Zabalera grid osora egokitu
-                    dgvErabiltzaileak.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-
-                    // ID zutabea ezkutatu (barnean kudeatzeko erabilgarria da, baina ez dugu erakutsi behar)
-                    if (dgvErabiltzaileak.Columns.Contains("ID"))
-                    {
-                        dgvErabiltzaileak.Columns["ID"].Visible = false;
-                    }
+                    dgvErabiltzaileak.Columns["ID"].Visible = false;
                 }
             }
             catch (Exception ex)
@@ -98,26 +76,18 @@ namespace Inbentarioa.formularioak
 
         private void button1_Click(object sender, EventArgs e)
         {
-            // 1. Uneko formularioa (zerrenda) ezkutatu besterik ez
-            this.Hide();
+            this.Hide(); // Zerrenda ezkutatu
 
             using (ErabiltzaileaGehitu gehituForm = new ErabiltzaileaGehitu())
             {
-                // 2. Gehitu formularioa ireki eta itxaron
+                // 'ShowDialog' lerroan programa gelditu egingo da 'Gehitu' itxi arte
                 if (gehituForm.ShowDialog() == DialogResult.OK)
                 {
-                    // --- GAKOA HEMEN DAGO ---
-                    // Ez dugu 'new Erabiltzaileak()' sortu behar.
-                    // Uneko formularioa (this) erabiliko dugu berriro.
+                    KargatuErabiltzaileak(); // Datuak freskatu grid-ean
+                }
 
-                    this.Show(); // Zerrenda berriro erakutsi
-                    KargatuErabiltzaileak(); // Grid-a freskatu datu berriekin
-                }
-                else
-                {
-                    // Erabiltzaileak ezer gorde gabe itxi badu (Cancel), erakutsi berriro freskatu gabe
-                    this.Show();
-                }
+                // GAKOA: Gehitu leihoa itxi denean, zerrenda BERRIRO ERAKUTSI
+                this.Show();
             }
         }
 
@@ -125,37 +95,42 @@ namespace Inbentarioa.formularioak
         {
             if (dgvErabiltzaileak.SelectedRows.Count > 0)
             {
-                var erantzuna = MessageBox.Show("Ziur zaude erabiltzaile hau ezabatu nahi duzula?", "Berretsi", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-
-                if (erantzuna == DialogResult.Yes)
+                try
                 {
-                    try
-                    {
-                        int idErabiltzailea = Convert.ToInt32(dgvErabiltzaileak.SelectedRows[0].Cells["ID"].Value);
-                        string konexioa = DbKonexioa.Instantzia.GetKonexioString();
+                    int idHautatua = Convert.ToInt32(dgvErabiltzaileak.SelectedRows[0].Cells["ID"].Value);
 
-                        using (MySqlConnection conn = new MySqlConnection(konexioa))
-                        {
-                            conn.Open();
-                            string sql = "DELETE FROM Erabiltzaileak WHERE id_erabiltzailea = @id";
-                            using (MySqlCommand cmd = new MySqlCommand(sql, conn))
-                            {
-                                cmd.Parameters.AddWithValue("@id", idErabiltzailea);
-                                cmd.ExecuteNonQuery();
-                                MessageBox.Show("Erabiltzailea ondo ezabatu da.");
-                            }
-                        }
-                        KargatuErabiltzaileak(); // Zerrenda freskatu
-                    }
-                    catch (Exception ex)
+                    // 1. KONTROLA: Saioa hasita duen erabiltzailea?
+                    if (idHautatua == Sarrera.Saioa.IdErabiltzailea)
                     {
-                        MessageBox.Show("Errorea ezabatzean: " + ex.Message);
+                        MessageBox.Show("Ezin duzu zure burua ezabatu saioa hasita duzun bitartean.");
+                        return;
+                    }
+
+                    // 2. KONTROLA (BERRIA): Mintegi baten arduraduna da?
+                    // Deitu oraintxe sortu dugun metodoari
+                    if (DBErabiltzaileak.MintegiarenArduradunaDa(idHautatua))
+                    {
+                        MessageBox.Show("Ezin da erabiltzailea ezabatu mintegi baten arduraduna delako. " +
+                                        "Aldatu mintegi horren arduraduna lehenago.",
+                                        "Ekintza galarazita", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                        return;
+                    }
+
+                    // 3. EZABATZEA (Dena ondo badago)
+                    var erantzuna = MessageBox.Show("Ziur zaude erabiltzaile hau ezabatu nahi duzula?", "Berretsi", MessageBoxButtons.YesNo);
+                    if (erantzuna == DialogResult.Yes)
+                    {
+                        if (DBErabiltzaileak.EzabatuErabiltzailea(idHautatua))
+                        {
+                            MessageBox.Show("Erabiltzailea ondo ezabatu da.");
+                            KargatuErabiltzaileak(); // Grid-a freskatu
+                        }
                     }
                 }
-            }
-            else
-            {
-                MessageBox.Show("Mesedez, hautatu erabiltzaile bat zerrendatik.");
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Errorea: " + ex.Message);
+                }
             }
         }
     }

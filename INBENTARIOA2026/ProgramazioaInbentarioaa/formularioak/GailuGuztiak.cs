@@ -1,214 +1,154 @@
 ﻿using Inbentarioa.DatuBasie;
 using Inventarioa.formularioak;
+using Inventarioa.Objetuak;
 using MySql.Data.MySqlClient;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace Inbentarioa.formularioak
 {
-    public partial class GailuGuztiak : Form
+    public partial class GailuGuztiak : FormBase
     {
         public GailuGuztiak()
         {
             InitializeComponent();
-            KargatuGailuak(); // <-- Hemen deitu behar diogu datuak kargatzeko!
+            // GARRANTZITSUA: Resize egiten denean hondoa berriz margotzeko
+            this.ResizeRedraw = true;
         }
 
         private void GailuGuztiak_Load(object sender, EventArgs e)
         {
             this.WindowState = FormWindowState.Maximized;
+            konfiguratuBaimenak();
+            KargatuDatuak();
         }
 
-        protected override void OnPaint(PaintEventArgs e)
-        {
-            base.OnPaint(e);
-            Color colorInicio = ColorTranslator.FromHtml("#C2CBED");
-            Color colorFin = ColorTranslator.FromHtml("#003FA1");
-
-            using (LinearGradientBrush brush = new LinearGradientBrush(
-                this.ClientRectangle,
-                colorInicio,
-                colorFin,
-                LinearGradientMode.Horizontal))
+        private void konfiguratuBaimenak()
+        {   //Enabled=>Desabilitatu bakarrik
+            //Visible=> Bistatik ezkutatu
+            string rola = Sarrera.Saioa.Rola;
+            if (rola == "Irakaslea")
             {
-                e.Graphics.FillRectangle(brush, this.ClientRectangle);
+                btnEzabatu.Enabled= false;
+                btnEgoeraAldatu.Enabled = false;
+                btnBerriaSortu.Enabled = false; 
+                //_______Visible erabili beharrean {.Enabled}} jarriz gero (DESABILITATU bakarrik egoten du)
+            }
+            else if (rola == "MintegiBurua")
+            {
+                btnBerriaSortu.Visible = false;
             }
         }
 
-        private void ATZERA_Click(object sender, EventArgs e)
-        {
-            this.Hide();
-            IKUSI mintegiak = new IKUSI();
-            mintegiak.ShowDialog();
-            this.Close();
-        }
-
-        // Gailuak ikusteko funtzioa
-        private void KargatuGailuak()
+        private void KargatuDatuak()
         {
             try
             {
-                string konexioa = DbKonexioa.Instantzia.GetKonexioString();
-                using (MySqlConnection conn = new MySqlConnection(konexioa))
+                DataTable dt = DBGailuak.GetGailuGuztiak();
+                dvgGailuak.DataSource = dt;
+                //__  Zutabeak ez modifikatu ahal izateko __
+                // Zutabe zehatzak irakurtzeko soilik jarri (ezin dira editatu)
+                // 1. Grid osoa blokeatu
+                dvgGailuak.ReadOnly = false; // Gurasoa false egon behar da umeak aldatu ahal izateko
+                dvgGailuak.AllowUserToAddRows = false;    // Beheko lerro zuria kentzeko
+                dvgGailuak.AllowUserToDeleteRows = false; // 'Supr' sakatzean ez ezabatzeko
+                //_______________________________
+                //_______________________________
+
+                // 1. Egoera testu-zutabea ezkutatu
+                if (dvgGailuak.Columns.Contains("Egoera")) dvgGailuak.Columns["Egoera"].Visible = false;
+                if (dvgGailuak.Columns.Contains("egoera_balioa")) dvgGailuak.Columns["egoera_balioa"].Visible = false;
+                if (dvgGailuak.Columns.Contains("ID")) dvgGailuak.Columns["ID"].Visible = false;
+
+                // 2. ComboBox zutabea sortu (dagoeneko ez badago)
+                if (!dvgGailuak.Columns.Contains("EgoeraCombo"))
                 {
-                    conn.Open();
-                    string query = "SELECT G.id_gailua AS 'ID', " +
-                                   "CASE WHEN O.id_gailua IS NOT NULL THEN 'Ordenagailua' WHEN I.id_gailua IS NOT NULL THEN 'Inprimagailua' ELSE 'Besterik' END AS 'Gailu mota', " +
-                                   "G.marka_modeloa AS 'Modeloa', M.izena AS 'Mintegia', G.eroste_data AS 'Data', " +
-                                   "G.egoera AS 'egoera_balioa' FROM Gailuak G " +
-                                   "JOIN Mintegiak M ON G.id_mintegia = M.id_mintegia " +
-                                   "LEFT JOIN Ordenagailuak O ON G.id_gailua = O.id_gailua " +
-                                   "LEFT JOIN Inprimagailuak I ON G.id_gailua = I.id_gailua";
+                    DataGridViewComboBoxColumn comboCol = new DataGridViewComboBoxColumn();
+                    comboCol.HeaderText = "Egoera Aldatu";
+                    comboCol.Name = "EgoeraCombo";
 
-                    MySqlDataAdapter adapter = new MySqlDataAdapter(query, conn);
-                    DataTable dt = new DataTable();
-                    adapter.Fill(dt);
+                    // Aukerak gehitu (Datu-baseko ordena berean: 0, 1, 2)
+                    comboCol.Items.Add("Ondo");      // Index 0
+                    comboCol.Items.Add("Hondatuta"); // Index 1
+                    comboCol.Items.Add("Konpontzen"); // Index 2
 
-                    // 1. ComboBox zutabea sortu (DataSource baino lehen, errorea ekiditeko)
-                    if (!dvgGailuak.Columns.Contains("EgoeraCombo"))
-                    {
-                        DataGridViewComboBoxColumn comboCol = new DataGridViewComboBoxColumn();
-                        comboCol.HeaderText = "Egoera";
-                        comboCol.Name = "EgoeraCombo";
-                        comboCol.Items.AddRange("Ondo", "Hondatuta", "Kompontzen");
-                        dvgGailuak.Columns.Add(comboCol);
-                    }
-
-                    // 2. Datuak lotu
-                    dvgGailuak.DataSource = dt;
-
-                    // 3. ORDENA ALDATU: ComboBox zutabea azkena dela ziurtatu
-                    // Zutabe guztiak kargatuta daudenean, DisplayIndex erabiliko dugu
-                    int zutabeKopurua = dvgGailuak.Columns.Count;
-                    dvgGailuak.Columns["EgoeraCombo"].DisplayIndex = zutabeKopurua - 1;
-
-                    // Ezkutatu eta ReadOnly ezarpenak
-                    if (dvgGailuak.Columns.Contains("egoera_balioa"))
-                        dvgGailuak.Columns["egoera_balioa"].Visible = false;
-
-                    dvgGailuak.ReadOnly = false;
-                    dvgGailuak.Columns["ID"].ReadOnly = true;
-                    dvgGailuak.Columns["Gailu mota"].ReadOnly = true;
-                    dvgGailuak.Columns["Modeloa"].ReadOnly = true;
-                    dvgGailuak.Columns["Mintegia"].ReadOnly = true;
-                    dvgGailuak.Columns["Data"].ReadOnly = true;
+                    dvgGailuak.Columns.Add(comboCol);
                 }
+
+                // 3. ComboBox-aren balioa hasieratu datu-baseko balioarekin
+                foreach (DataGridViewRow row in dvgGailuak.Rows)
+                {
+                    if (row.Cells["egoera_balioa"].Value != null)
+                    {
+                        int egoeraIndex = Convert.ToInt32(row.Cells["egoera_balioa"].Value);
+                        row.Cells["EgoeraCombo"].Value = ((DataGridViewComboBoxColumn)dvgGailuak.Columns["EgoeraCombo"]).Items[egoeraIndex];
+                    }
+                }
+
+                dvgGailuak.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Errorea gailuak kargatzean: " + ex.Message);
-            }
+            catch (Exception ex) { MessageBox.Show("Errorea kargatzean: " + ex.Message); }
         }
 
-        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-            // Hemen zerbait egin nahi baduzu gelaxka baten gainean klik egitean
-        }
-
-        private void btnEzabatu_Click_1(object sender, EventArgs e)
+        private void btnEzabatu_Click(object sender, EventArgs e)
         {
             if (dvgGailuak.SelectedRows.Count > 0)
             {
-                var erantzuna = MessageBox.Show("Gailu hau betirako ezabatu eta historikora mugitu nahi duzu?", "Berretsi", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-
-                if (erantzuna == DialogResult.Yes)
+                using (FormMezua mezua = new FormMezua("Gailu hau historikora mugitu nahi duzu?"))
                 {
-                    try
+                    if (mezua.ShowDialog() == DialogResult.Yes)
                     {
-                        int id = Convert.ToInt32(dvgGailuak.SelectedRows[0].Cells["ID"].Value);
-                        string mota = dvgGailuak.SelectedRows[0].Cells["Gailu mota"].Value.ToString();
-                        string konexioa = DbKonexioa.Instantzia.GetKonexioString();
-
-                        using (MySqlConnection conn = new MySqlConnection(konexioa))
+                        try
                         {
-                            conn.Open();
-                            using (MySqlTransaction trans = conn.BeginTransaction())
+                            DataGridViewRow row = dvgGailuak.SelectedRows[0];
+                            int id = Convert.ToInt32(row.Cells["ID"].Value);
+                            string mota = row.Cells["mota"].Value.ToString();
+                            bool emaitza = false;
+
+                            // Mota bakoitzaren arabera, bere objektua sortu eta metodoari deitu
+                            if (mota == "Inprimagailua")
                             {
-                                try
-                                {
-                                    // 1. KOPIATU datuak historikora (3 zutabeak)
-                                    // INSERT kontsulta berria, CASE logika barruan duela:
-                                    string insertQuery = @"
-                                                        INSERT INTO Ezabatutakoak (id_gailua, marka_modeloa, mota, eroste_data, id_mintegia) 
-                                                        SELECT 
-                                                            G.id_gailua, 
-                                                            G.marka_modeloa, 
-                                                            CASE 
-                                                                WHEN O.id_gailua IS NOT NULL THEN 'Ordenagailua' 
-                                                                WHEN I.id_gailua IS NOT NULL THEN 'Inprimagailua' 
-                                                                ELSE 'Besterik' 
-                                                            END, -- Honek 'mota' zutabea beteko du
-                                                            G.eroste_data, 
-                                                            G.id_mintegia
-                                                        FROM Gailuak G
-                                                        LEFT JOIN Ordenagailuak O ON G.id_gailua = O.id_gailua
-                                                        LEFT JOIN Inprimagailuak I ON G.id_gailua = I.id_gailua
-                                                        WHERE G.id_gailua = @id";
+                                Inprimagailua inp = new Inprimagailua();
+                                inp.Id = id;
+                                inp.IdentifikazioKodea = row.Cells["identifikazio_kodea"].Value.ToString();
+                                // Kontuz: Grid-ean 'izena' baduzu 'MarkaModeloa'ren ordez, egokitu:
+                                inp.MarkaModeloa = row.Cells["marka_modeloa"].Value.ToString();
 
-                                    MySqlCommand cmdInsert = new MySqlCommand(insertQuery, conn, trans);
-                                    cmdInsert.Parameters.AddWithValue("@id", id);
-                                    cmdInsert.ExecuteNonQuery();
+                                emaitza = DBGailuak.EzabatuInprimagailuaPOO(inp);
+                            }
+                            else if (mota == "Ordenagailua")
+                            {
+                                // Zure eraikitzailea erabiliz: (kodea, modeloa, mintegia, ram, rom, cpu)
+                                // Grid-eko zutabe izenak zure SQL-ko "AS" izenekin bat etorri behar dira
+                                string kodea = row.Cells["identifikazio_kodea"].Value.ToString();
+                                string modeloa = row.Cells["marka_modeloa"].Value.ToString(); // SQL-an 'izena' jarri duzu
+                                int mintegia = 0; // Grid-ean id_mintegia ez baduzu, 0 jarri daiteke ezabatzeko soilik bada
 
-                                    // 2. EZABATU UMEA (Ordenagailua edo Inprimagailua)
-                                    // Lehenik 'Hondatutakoak'
-                                    string deleteHondatu = "DELETE FROM Hondatutakoak WHERE id_gailua = @id";
-                                    MySqlCommand cmdHondatu = new MySqlCommand(deleteHondatu, conn, trans);
-                                    cmdHondatu.Parameters.AddWithValue("@id", id);
-                                    cmdHondatu.ExecuteNonQuery();
-                                    // Herentzia mantentzeko, umea lehenago ezabatu behar da FK-agatik
-                                    string deleteUmeaQuery = "";
-                                    if (mota == "Ordenagailua") deleteUmeaQuery = "DELETE FROM Ordenagailuak WHERE id_gailua = @id";
-                                    else if (mota == "Inprimagailua") deleteUmeaQuery = "DELETE FROM Inprimagailuak WHERE id_gailua = @id";
+                                Ordenagailua ord = new Ordenagailua(kodea, modeloa, mintegia, "", "", "");
+                                ord.Id = id; // IDa Gailua klasetik dator
 
-                                    if (!string.IsNullOrEmpty(deleteUmeaQuery))
-                                    {
-                                        MySqlCommand cmdUmea = new MySqlCommand(deleteUmeaQuery, conn, trans);
-                                        cmdUmea.Parameters.AddWithValue("@id", id);
-                                        cmdInsert.Parameters.AddWithValue("@mota", mota); // Hemen pasatzen diogu Grid-etik hartutako testua
-                                        cmdUmea.ExecuteNonQuery();
-                                    }
+                                emaitza = DBGailuak.EzabatuOrdenagailuaPOO(ord);
+                            }
 
-                                    // 3. EZABATU GURASOA (Gailuak taulatik)
-                                    string deleteGurasoaQuery = "DELETE FROM Gailuak WHERE id_gailua = @id";
-                                    MySqlCommand cmdGurasoa = new MySqlCommand(deleteGurasoaQuery, conn, trans);
-                                    cmdGurasoa.Parameters.AddWithValue("@id", id);
-                                    cmdGurasoa.ExecuteNonQuery();
-
-                                    trans.Commit();
-                                    MessageBox.Show("Gailua ondo ezabatu eta historikora mugitu da.");
-                                }
-                                catch (Exception ex)
-                                {
-                                    trans.Rollback();
-                                    throw ex;
-                                }
+                            if (emaitza)
+                            {
+                                MessageBox.Show("Gailua ondo ezabatu eta historikora mugitu da.");
+                                KargatuDatuak();
+                            }
+                            else
+                            {
+                                MessageBox.Show("Ezin izan da gailua ezabatu.");
                             }
                         }
-                        KargatuGailuak(); // Grid-a freskatu
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show("Errorea ezabatzean: " + ex.Message);
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show("Errorea prozesuan: " + ex.Message);
+                        }
                     }
                 }
             }
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            this.Hide();
-            OrdInp mintegiak = new OrdInp();
-            mintegiak.ShowDialog();
-            this.Close();
         }
 
         private void btnEgoeraAldatu_Click(object sender, EventArgs e)
@@ -217,27 +157,28 @@ namespace Inbentarioa.formularioak
             {
                 try
                 {
-                    int id = Convert.ToInt32(dvgGailuak.SelectedRows[0].Cells["ID"].Value);
-                    string hautatutakoTestua = dvgGailuak.SelectedRows[0].Cells["EgoeraCombo"].Value.ToString();
+                    DataGridViewRow row = dvgGailuak.SelectedRows[0];
 
-                    // Testua zenbakira itzuli datu-baserako
+                    // 1. Datuak jaso
+                    int idGailua = Convert.ToInt32(row.Cells["ID"].Value);
+                    string aukeratutakoEgoera = row.Cells["EgoeraCombo"].Value.ToString();
+
+                    // 2. Zenbakira bihurtu
                     int egoeraBerria = 0;
-                    if (hautatutakoTestua == "Hondatuta") egoeraBerria = 1;
-                    else if (hautatutakoTestua == "Kompontzen") egoeraBerria = 2;
+                    if (aukeratutakoEgoera == "Hondatuta") egoeraBerria = 1;
+                    else if (aukeratutakoEgoera == "Konpontzen") egoeraBerria = 2;
 
-                    string konexioa = DbKonexioa.Instantzia.GetKonexioString();
-                    using (MySqlConnection conn = new MySqlConnection(konexioa))
+                    // 3. POO: Gailu objektu bat prestatu
+                    Gailua gailua = new Gailua();
+                    gailua.Id = idGailua;
+                    gailua.Egoera = egoeraBerria;
+
+                    // 4. Klaseari deitu
+                    if (DBGailuak.EguneratuEgoeraPOO(gailua))
                     {
-                        conn.Open();
-                        string updateQuery = "UPDATE Gailuak SET egoera = @egoera WHERE id_gailua = @id";
-                        MySqlCommand cmd = new MySqlCommand(updateQuery, conn);
-                        cmd.Parameters.AddWithValue("@egoera", egoeraBerria);
-                        cmd.Parameters.AddWithValue("@id", id);
-
-                        cmd.ExecuteNonQuery();
-                        MessageBox.Show("Egoera ondo eguneratu da!");
+                        MessageBox.Show("Egoera ondo eguneratu da.");
+                        KargatuDatuak(); // Taula freskatu kolore berriak ikusteko
                     }
-                    KargatuGailuak(); // Zerrenda freskatu
                 }
                 catch (Exception ex)
                 {
@@ -246,27 +187,67 @@ namespace Inbentarioa.formularioak
             }
             else
             {
-                MessageBox.Show("Mesedez, hautatu gailu bat lerroaren hasieran klik eginez.");
+                MessageBox.Show("Mesedez, hautatu lerro bat lehenik.");
             }
+        }
+
+        private void ATZERA_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            IKUSI ikusi = new IKUSI();
+            ikusi.ShowDialog();
+            this.Close();
+        }
+        public static DataTable GetGailuGuztiak()
+        {
+            DataTable dt = new DataTable();
+            string konexioa = DbKonexioa.Instantzia.GetKonexioString();
+
+            // SQL honek 'mota' zutabea sortzen du unean bertan
+            string sql = @"
+        SELECT g.id_gailua AS ID, g.identifikazio_kodea, g.izena, 'Ordenagailua' AS mota 
+        FROM gailuak g 
+        INNER JOIN ordenagailuak o ON g.id_gailua = o.id_gailua
+        UNION
+        SELECT g.id_gailua AS ID, g.identifikazio_kodea, g.izena, 'Inprimagailua' AS mota 
+        FROM gailuak g 
+        INNER JOIN inprimagailuak i ON g.id_gailua = i.id_gailua";
+
+            try
+            {
+                using (MySqlConnection conn = new MySqlConnection(konexioa))
+                {
+                    MySqlDataAdapter da = new MySqlDataAdapter(sql, conn);
+                    da.Fill(dt);
+                }
+            }
+            catch (Exception ex)
+            {
+                // Errorea kudeatu
+            }
+            return dt;
         }
 
         private void dvgGailuak_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
         {
             foreach (DataGridViewRow row in dvgGailuak.Rows)
             {
-                // Ziurtatu lerroa ez dela berria edo nulua
-                if (row.Cells["egoera_balioa"].Value != null && row.Cells["egoera_balioa"].Value != DBNull.Value)
+                if (row.Cells["egoera_balioa"].Value != null)
                 {
                     int balioa = Convert.ToInt32(row.Cells["egoera_balioa"].Value);
-                    DataGridViewComboBoxCell cell = (DataGridViewComboBoxCell)row.Cells["EgoeraCombo"];
-
-                    // Indizea egokia dela ziurtatu (0, 1, 2)
-                    if (balioa >= 0 && balioa < cell.Items.Count)
-                    {
-                        row.Cells["EgoeraCombo"].Value = cell.Items[balioa];
-                    }
+                    if (balioa == 0) row.DefaultCellStyle.BackColor = Color.LightGreen; // Ondo
+                    if (balioa == 1) row.DefaultCellStyle.BackColor = Color.LightCoral; // Hondatuta
+                    if (balioa == 2) row.DefaultCellStyle.BackColor = Color.LightYellow; // Konpontzen
                 }
             }
+        }
+
+        private void btnBerriaSortu_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            OrdInp ikusi = new OrdInp();
+            ikusi.ShowDialog();
+            this.Close();
         }
     }
 }

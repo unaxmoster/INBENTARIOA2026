@@ -36,6 +36,8 @@
             label1 = new Label();
             cmbMintegia = new ComboBox();
             label4 = new Label();
+            labelIdent = new Label();
+            textInpIdentifikatzailea = new TextBox();
             SuspendLayout();
             // 
             // button1
@@ -43,7 +45,7 @@
             button1.BackColor = Color.Navy;
             button1.Font = new Font("Arial", 18F, FontStyle.Bold);
             button1.ForeColor = Color.Transparent;
-            button1.Location = new Point(1219, 238);
+            button1.Location = new Point(395, 710);
             button1.Name = "button1";
             button1.Size = new Size(320, 172);
             button1.TabIndex = 34;
@@ -56,7 +58,7 @@
             ATZERA.BackColor = Color.Crimson;
             ATZERA.Font = new Font("Arial", 18F, FontStyle.Bold);
             ATZERA.ForeColor = Color.Transparent;
-            ATZERA.Location = new Point(1219, 484);
+            ATZERA.Location = new Point(826, 710);
             ATZERA.Name = "ATZERA";
             ATZERA.Size = new Size(320, 172);
             ATZERA.TabIndex = 33;
@@ -121,11 +123,31 @@
             label4.TabIndex = 46;
             label4.Text = "Mintegia:";
             // 
+            // labelIdent
+            // 
+            labelIdent.AutoSize = true;
+            labelIdent.Font = new Font("Segoe UI", 28.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            labelIdent.Location = new Point(147, 87);
+            labelIdent.Name = "labelIdent";
+            labelIdent.Size = new Size(362, 62);
+            labelIdent.TabIndex = 48;
+            labelIdent.Text = "Identifikatzailea:";
+            // 
+            // textInpIdentifikatzailea
+            // 
+            textInpIdentifikatzailea.Font = new Font("Segoe UI", 28.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            textInpIdentifikatzailea.Location = new Point(554, 84);
+            textInpIdentifikatzailea.Name = "textInpIdentifikatzailea";
+            textInpIdentifikatzailea.Size = new Size(633, 70);
+            textInpIdentifikatzailea.TabIndex = 49;
+            // 
             // InpBerriaSortu
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1564, 1020);
+            Controls.Add(textInpIdentifikatzailea);
+            Controls.Add(labelIdent);
             Controls.Add(cmbMintegia);
             Controls.Add(label4);
             Controls.Add(txtTinta);
@@ -151,5 +173,7 @@
         private Label label1;
         private ComboBox cmbMintegia;
         private Label label4;
+        private Label labelIdent;
+        private TextBox textInpIdentifikatzailea;
     }
 }
