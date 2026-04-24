@@ -101,6 +101,7 @@
             // 
             // cmbMintegia
             // 
+            cmbMintegia.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbMintegia.Font = new Font("Segoe UI", 28.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
             cmbMintegia.FormattingEnabled = true;
             cmbMintegia.Location = new Point(514, 312);
@@ -141,6 +142,7 @@
             // 
             // cmbRAM
             // 
+            cmbRAM.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbRAM.Font = new Font("Segoe UI", 28.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
             cmbRAM.FormattingEnabled = true;
             cmbRAM.Items.AddRange(new object[] { "4", "8", "16", "32", "64" });

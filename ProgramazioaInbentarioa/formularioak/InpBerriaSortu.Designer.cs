@@ -68,6 +68,7 @@
             // 
             // txtTinta
             // 
+            txtTinta.DropDownStyle = ComboBoxStyle.DropDownList;
             txtTinta.Font = new Font("Segoe UI", 28.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
             txtTinta.FormattingEnabled = true;
             txtTinta.Items.AddRange(new object[] { "Koloretakoa", "Zuri-beltza" });
@@ -106,6 +107,7 @@
             // 
             // cmbMintegia
             // 
+            cmbMintegia.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbMintegia.Font = new Font("Segoe UI", 28.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
             cmbMintegia.FormattingEnabled = true;
             cmbMintegia.Location = new Point(557, 566);

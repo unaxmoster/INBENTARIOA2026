@@ -114,6 +114,7 @@
             // 
             // cbMintegia
             // 
+            cbMintegia.DropDownStyle = ComboBoxStyle.DropDownList;
             cbMintegia.Font = new Font("Segoe UI", 28.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
             cbMintegia.FormattingEnabled = true;
             cbMintegia.Location = new Point(1125, 388);
@@ -124,6 +125,7 @@
             // 
             // cbArduraduna
             // 
+            cbArduraduna.DropDownStyle = ComboBoxStyle.DropDownList;
             cbArduraduna.Font = new Font("Segoe UI", 28.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
             cbArduraduna.FormattingEnabled = true;
             cbArduraduna.Items.AddRange(new object[] { "IKT arduraduna", "Mintegi burua", "Irakaslea" });
