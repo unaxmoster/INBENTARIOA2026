@@ -58,7 +58,7 @@
             txtMintegiIzena.Location = new Point(1213, 134);
             txtMintegiIzena.Name = "txtMintegiIzena";
             txtMintegiIzena.Size = new Size(473, 70);
-            txtMintegiIzena.TabIndex = 9;
+            txtMintegiIzena.TabIndex = 1;
             // 
             // label1
             // 
@@ -80,7 +80,7 @@
             btnGehitu.Location = new Point(816, 623);
             btnGehitu.Name = "btnGehitu";
             btnGehitu.Size = new Size(250, 130);
-            btnGehitu.TabIndex = 26;
+            btnGehitu.TabIndex = 4;
             btnGehitu.Text = "GEHITU";
             btnGehitu.UseVisualStyleBackColor = false;
             btnGehitu.Click += EZABATUTAKOAK_Click;
@@ -93,7 +93,7 @@
             IRTEN.Location = new Point(1091, 623);
             IRTEN.Name = "IRTEN";
             IRTEN.Size = new Size(291, 130);
-            IRTEN.TabIndex = 28;
+            IRTEN.TabIndex = 5;
             IRTEN.Text = "ATZERA";
             IRTEN.UseVisualStyleBackColor = false;
             IRTEN.Click += IRTEN_Click;
@@ -129,7 +129,7 @@
             txtErab.Location = new Point(1213, 366);
             txtErab.Name = "txtErab";
             txtErab.Size = new Size(473, 70);
-            txtErab.TabIndex = 44;
+            txtErab.TabIndex = 2;
             // 
             // txtPass
             // 
@@ -138,7 +138,7 @@
             txtPass.Name = "txtPass";
             txtPass.PasswordChar = '*';
             txtPass.Size = new Size(473, 70);
-            txtPass.TabIndex = 45;
+            txtPass.TabIndex = 3;
             // 
             // MintegiaGehitu
             // 

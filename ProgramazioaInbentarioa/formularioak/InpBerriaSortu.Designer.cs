@@ -48,7 +48,7 @@
             button1.Location = new Point(395, 710);
             button1.Name = "button1";
             button1.Size = new Size(320, 172);
-            button1.TabIndex = 34;
+            button1.TabIndex = 3;
             button1.Text = "BERRIA SORTU";
             button1.UseVisualStyleBackColor = false;
             button1.Click += button1_Click;
@@ -61,7 +61,7 @@
             ATZERA.Location = new Point(826, 710);
             ATZERA.Name = "ATZERA";
             ATZERA.Size = new Size(320, 172);
-            ATZERA.TabIndex = 33;
+            ATZERA.TabIndex = 4;
             ATZERA.Text = "ATZERA";
             ATZERA.UseVisualStyleBackColor = false;
             ATZERA.Click += ATZERA_Click;
@@ -82,7 +82,7 @@
             txtMarka.Location = new Point(554, 235);
             txtMarka.Name = "txtMarka";
             txtMarka.Size = new Size(633, 70);
-            txtMarka.TabIndex = 42;
+            txtMarka.TabIndex = 2;
             // 
             // label2
             // 
@@ -139,7 +139,7 @@
             textInpIdentifikatzailea.Location = new Point(554, 84);
             textInpIdentifikatzailea.Name = "textInpIdentifikatzailea";
             textInpIdentifikatzailea.Size = new Size(633, 70);
-            textInpIdentifikatzailea.TabIndex = 49;
+            textInpIdentifikatzailea.TabIndex = 1;
             // 
             // InpBerriaSortu
             // 

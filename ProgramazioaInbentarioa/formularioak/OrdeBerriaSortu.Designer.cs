@@ -53,7 +53,7 @@
             btmOrdBerria.Location = new Point(1208, 312);
             btmOrdBerria.Name = "btmOrdBerria";
             btmOrdBerria.Size = new Size(320, 172);
-            btmOrdBerria.TabIndex = 32;
+            btmOrdBerria.TabIndex = 5;
             btmOrdBerria.Text = "BERRIA SORTU";
             btmOrdBerria.UseVisualStyleBackColor = false;
             btmOrdBerria.Click += btmOrdBerria_Click;
@@ -66,7 +66,7 @@
             ATZERA.Location = new Point(1208, 554);
             ATZERA.Name = "ATZERA";
             ATZERA.Size = new Size(320, 172);
-            ATZERA.TabIndex = 31;
+            ATZERA.TabIndex = 6;
             ATZERA.Text = "ATZERA";
             ATZERA.UseVisualStyleBackColor = false;
             ATZERA.Click += ATZERA_Click;
@@ -97,7 +97,7 @@
             txtMarka.Location = new Point(514, 185);
             txtMarka.Name = "txtMarka";
             txtMarka.Size = new Size(633, 70);
-            txtMarka.TabIndex = 38;
+            txtMarka.TabIndex = 2;
             // 
             // cmbMintegia
             // 
@@ -155,7 +155,7 @@
             txtROM.Location = new Point(514, 572);
             txtROM.Name = "txtROM";
             txtROM.Size = new Size(633, 70);
-            txtROM.TabIndex = 46;
+            txtROM.TabIndex = 3;
             txtROM.TextChanged += textBox2_TextChanged;
             // 
             // txtCPU
@@ -164,7 +164,7 @@
             txtCPU.Location = new Point(514, 707);
             txtCPU.Name = "txtCPU";
             txtCPU.Size = new Size(633, 70);
-            txtCPU.TabIndex = 47;
+            txtCPU.TabIndex = 4;
             // 
             // label2
             // 
@@ -182,7 +182,7 @@
             txtIdentifikazioa.Location = new Point(514, 64);
             txtIdentifikazioa.Name = "txtIdentifikazioa";
             txtIdentifikazioa.Size = new Size(633, 70);
-            txtIdentifikazioa.TabIndex = 49;
+            txtIdentifikazioa.TabIndex = 1;
             // 
             // OrdeBerriaSortu
             // 
