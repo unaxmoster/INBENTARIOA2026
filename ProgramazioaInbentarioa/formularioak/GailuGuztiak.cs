@@ -14,8 +14,10 @@ namespace Inbentarioa.formularioak
         public GailuGuztiak()
         {
             InitializeComponent();
-            // GARRANTZITSUA: Resize egiten denean hondoa berriz margotzeko
             this.ResizeRedraw = true;
+            dvgGailuak.CellFormatting += dvgGailuak_CellFormatting;
+            dvgGailuak.CellBeginEdit += dvgGailuak_CellBeginEdit;
+            dvgGailuak.DataBindingComplete += dvgGailuak_DataBindingComplete;
         }
 
         private void GailuGuztiak_Load(object sender, EventArgs e)
@@ -26,19 +28,18 @@ namespace Inbentarioa.formularioak
         }
 
         private void konfiguratuBaimenak()
-        {   //Enabled=>Desabilitatu bakarrik
-            //Visible=> Bistatik ezkutatu
+        {
             string rola = Sarrera.Saioa.Rola;
             if (rola == "Irakaslea")
             {
-                btnEzabatu.Enabled= false;
+                btnEzabatu.Enabled = false;
                 btnEgoeraAldatu.Enabled = false;
-                btnBerriaSortu.Enabled = false; 
-                //_______Visible erabili beharrean {.Enabled}} jarriz gero (DESABILITATU bakarrik egoten du)
+                btnBerriaSortu.Enabled = false;
             }
             else if (rola == "MintegiBurua")
             {
-                btnBerriaSortu.Visible = false;
+                btnBerriaSortu.Enabled = false;
+                btnEzabatu.Enabled = false;
             }
         }
 
@@ -48,48 +49,201 @@ namespace Inbentarioa.formularioak
             {
                 DataTable dt = DBGailuak.GetGailuGuztiak();
                 dvgGailuak.DataSource = dt;
-                //__  Zutabeak ez modifikatu ahal izateko __
-                // Zutabe zehatzak irakurtzeko soilik jarri (ezin dira editatu)
-                // 1. Grid osoa blokeatu
-                dvgGailuak.ReadOnly = false; // Gurasoa false egon behar da umeak aldatu ahal izateko
-                dvgGailuak.AllowUserToAddRows = false;    // Beheko lerro zuria kentzeko
-                dvgGailuak.AllowUserToDeleteRows = false; // 'Supr' sakatzean ez ezabatzeko
-                //_______________________________
-                //_______________________________
 
-                // 1. Egoera testu-zutabea ezkutatu
-                if (dvgGailuak.Columns.Contains("Egoera")) dvgGailuak.Columns["Egoera"].Visible = false;
-                if (dvgGailuak.Columns.Contains("egoera_balioa")) dvgGailuak.Columns["egoera_balioa"].Visible = false;
+                // Zutabeak ezkutatu
                 if (dvgGailuak.Columns.Contains("ID")) dvgGailuak.Columns["ID"].Visible = false;
+                if (dvgGailuak.Columns.Contains("egoera_balioa")) dvgGailuak.Columns["egoera_balioa"].Visible = false;
+                if (dvgGailuak.Columns.Contains("id_mintegia")) dvgGailuak.Columns["id_mintegia"].Visible = false;
 
-                // 2. ComboBox zutabea sortu (dagoeneko ez badago)
+                // ComboBox zutabea sortu
                 if (!dvgGailuak.Columns.Contains("EgoeraCombo"))
                 {
                     DataGridViewComboBoxColumn comboCol = new DataGridViewComboBoxColumn();
-                    comboCol.HeaderText = "Egoera Aldatu";
+                    comboCol.HeaderText = "Egoera";
                     comboCol.Name = "EgoeraCombo";
-
-                    // Aukerak gehitu (Datu-baseko ordena berean: 0, 1, 2)
-                    comboCol.Items.Add("Ondo");      // Index 0
-                    comboCol.Items.Add("Hondatuta"); // Index 1
-                    comboCol.Items.Add("Konpontzen"); // Index 2
-
+                    comboCol.Items.Add("Ondo");
+                    comboCol.Items.Add("Hondatuta");
+                    comboCol.Items.Add("Konpontzen");
                     dvgGailuak.Columns.Add(comboCol);
                 }
 
-                // 3. ComboBox-aren balioa hasieratu datu-baseko balioarekin
+                // ComboBox eskuinean kokatu
+                dvgGailuak.Columns["EgoeraCombo"].DisplayIndex = dvgGailuak.Columns.Count - 1;
+
+                // ComboBox balioa hasieratu
                 foreach (DataGridViewRow row in dvgGailuak.Rows)
                 {
-                    if (row.Cells["egoera_balioa"].Value != null)
+                    if (row.Cells["egoera_balioa"].Value != null && row.Cells["egoera_balioa"].Value != DBNull.Value)
                     {
                         int egoeraIndex = Convert.ToInt32(row.Cells["egoera_balioa"].Value);
-                        row.Cells["EgoeraCombo"].Value = ((DataGridViewComboBoxColumn)dvgGailuak.Columns["EgoeraCombo"]).Items[egoeraIndex];
+                        if (egoeraIndex >= 0 && egoeraIndex <= 2)
+                        {
+                            row.Cells["EgoeraCombo"].Value = ((DataGridViewComboBoxColumn)dvgGailuak.Columns["EgoeraCombo"]).Items[egoeraIndex];
+                        }
+                    }
+                }
+
+                // Konfigurazioak
+                dvgGailuak.ReadOnly = false;
+                dvgGailuak.AllowUserToAddRows = false;
+                dvgGailuak.AllowUserToDeleteRows = false;
+
+                // ComboBox zutabea BAKARRIK editagarria
+                foreach (DataGridViewColumn col in dvgGailuak.Columns)
+                {
+                    if (col.Name != "EgoeraCombo")
+                    {
+                        col.ReadOnly = true;
                     }
                 }
 
                 dvgGailuak.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+
+                // Baimenak konfiguratu
+                KonfiguratuLerroenBaimenak();
+
+                // Behartu birmarrazketa
+                dvgGailuak.Invalidate();
+                dvgGailuak.Refresh();
             }
             catch (Exception ex) { MessageBox.Show("Errorea kargatzean: " + ex.Message); }
+        }
+
+        private void KonfiguratuLerroenBaimenak()
+        {
+            string rola = Sarrera.Saioa.Rola;
+            int erabiltzaileMintegiId = Sarrera.Saioa.IdMintegia;
+
+            bool idMintegiaExistitzenDa = dvgGailuak.Columns.Contains("id_mintegia");
+            bool egoeraComboExistitzenDa = dvgGailuak.Columns.Contains("EgoeraCombo");
+
+            if (!egoeraComboExistitzenDa) return;
+
+            foreach (DataGridViewRow row in dvgGailuak.Rows)
+            {
+                if (row.IsNewRow) continue;
+
+                row.Cells["EgoeraCombo"].ReadOnly = true;
+
+                if (rola == "Ikt")
+                {
+                    row.Cells["EgoeraCombo"].ReadOnly = false;
+                }
+                else if (rola == "MintegiBurua")
+                {
+                    if (idMintegiaExistitzenDa && row.Cells["id_mintegia"].Value != null && row.Cells["id_mintegia"].Value != DBNull.Value)
+                    {
+                        int gailuMintegiId = Convert.ToInt32(row.Cells["id_mintegia"].Value);
+                        if (gailuMintegiId == erabiltzaileMintegiId)
+                        {
+                            row.Cells["EgoeraCombo"].ReadOnly = false;
+                        }
+                    }
+                }
+            }
+        }
+
+        private void dvgGailuak_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
+        {
+            if (dvgGailuak.Columns[e.ColumnIndex].Name != "EgoeraCombo")
+            {
+                e.Cancel = true;
+            }
+        }
+
+        private void dvgGailuak_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            if (e.RowIndex < 0) return;
+
+            DataGridViewRow row = dvgGailuak.Rows[e.RowIndex];
+            string rola = Sarrera.Saioa.Rola;
+
+            // 1. KOLOREA EZARRI ROLAREN ARABERA
+            if (rola == "Ikt")
+            {
+                // Ikt: egoeraren kolorea
+                if (dvgGailuak.Columns.Contains("egoera_balioa"))
+                {
+                    var egoeraValue = row.Cells["egoera_balioa"].Value;
+                    if (egoeraValue != null && egoeraValue != DBNull.Value)
+                    {
+                        int egoera = Convert.ToInt32(egoeraValue);
+                        switch (egoera)
+                        {
+                            case 0: row.DefaultCellStyle.BackColor = Color.LightGreen; break;
+                            case 1: row.DefaultCellStyle.BackColor = Color.Salmon; break;
+                            case 2: row.DefaultCellStyle.BackColor = Color.LightYellow; break;
+                            default: row.DefaultCellStyle.BackColor = Color.White; break;
+                        }
+                    }
+                }
+
+                if (dvgGailuak.Columns.Contains("EgoeraCombo"))
+                {
+                    row.Cells["EgoeraCombo"].ReadOnly = false;
+                }
+            }
+            else if (rola == "MintegiBurua")
+            {
+                bool idMintegiaExistitzenDa = dvgGailuak.Columns.Contains("id_mintegia");
+                bool bereMintegikoa = false;
+
+                if (idMintegiaExistitzenDa && row.Cells["id_mintegia"].Value != null && row.Cells["id_mintegia"].Value != DBNull.Value)
+                {
+                    int gailuMintegiId = Convert.ToInt32(row.Cells["id_mintegia"].Value);
+                    int erabiltzaileMintegiId = Sarrera.Saioa.IdMintegia;
+                    bereMintegikoa = (gailuMintegiId == erabiltzaileMintegiId);
+                }
+
+                if (bereMintegikoa)
+                {
+                    // Bere mintegiko gailuak: egoeraren kolorea
+                    if (dvgGailuak.Columns.Contains("egoera_balioa"))
+                    {
+                        var egoeraValue = row.Cells["egoera_balioa"].Value;
+                        if (egoeraValue != null && egoeraValue != DBNull.Value)
+                        {
+                            int egoera = Convert.ToInt32(egoeraValue);
+                            switch (egoera)
+                            {
+                                case 0: row.DefaultCellStyle.BackColor = Color.LightGreen; break;
+                                case 1: row.DefaultCellStyle.BackColor = Color.Salmon; break;
+                                case 2: row.DefaultCellStyle.BackColor = Color.LightYellow; break;
+                                default: row.DefaultCellStyle.BackColor = Color.White; break;
+                            }
+                        }
+                    }
+
+                    if (dvgGailuak.Columns.Contains("EgoeraCombo"))
+                    {
+                        row.Cells["EgoeraCombo"].ReadOnly = false;
+                    }
+                }
+                else
+                {
+                    // Beste mintegiko gailuak: gris argia
+                    row.DefaultCellStyle.BackColor = Color.LightGray;
+
+                    if (dvgGailuak.Columns.Contains("EgoeraCombo"))
+                    {
+                        row.Cells["EgoeraCombo"].ReadOnly = true;
+                    }
+                }
+            }
+            else // Irakaslea
+            {
+                row.DefaultCellStyle.BackColor = Color.White;
+
+                if (dvgGailuak.Columns.Contains("EgoeraCombo"))
+                {
+                    row.Cells["EgoeraCombo"].ReadOnly = true;
+                }
+            }
+        }
+
+        private void dvgGailuak_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        {
+            dvgGailuak.Invalidate();
         }
 
         private void btnEzabatu_Click(object sender, EventArgs e)
@@ -107,28 +261,20 @@ namespace Inbentarioa.formularioak
                             string mota = row.Cells["mota"].Value.ToString();
                             bool emaitza = false;
 
-                            // Mota bakoitzaren arabera, bere objektua sortu eta metodoari deitu
                             if (mota == "Inprimagailua")
                             {
                                 Inprimagailua inp = new Inprimagailua();
                                 inp.Id = id;
                                 inp.IdentifikazioKodea = row.Cells["identifikazio_kodea"].Value.ToString();
-                                // Kontuz: Grid-ean 'izena' baduzu 'MarkaModeloa'ren ordez, egokitu:
                                 inp.MarkaModeloa = row.Cells["marka_modeloa"].Value.ToString();
-
                                 emaitza = DBGailuak.EzabatuInprimagailuaPOO(inp);
                             }
                             else if (mota == "Ordenagailua")
                             {
-                                // Zure eraikitzailea erabiliz: (kodea, modeloa, mintegia, ram, rom, cpu)
-                                // Grid-eko zutabe izenak zure SQL-ko "AS" izenekin bat etorri behar dira
                                 string kodea = row.Cells["identifikazio_kodea"].Value.ToString();
-                                string modeloa = row.Cells["marka_modeloa"].Value.ToString(); // SQL-an 'izena' jarri duzu
-                                int mintegia = 0; // Grid-ean id_mintegia ez baduzu, 0 jarri daiteke ezabatzeko soilik bada
-
-                                Ordenagailua ord = new Ordenagailua(kodea, modeloa, mintegia, "", "", "");
-                                ord.Id = id; // IDa Gailua klasetik dator
-
+                                string modeloa = row.Cells["marka_modeloa"].Value.ToString();
+                                Ordenagailua ord = new Ordenagailua(kodea, modeloa, 0, "", "", "");
+                                ord.Id = id;
                                 emaitza = DBGailuak.EzabatuOrdenagailuaPOO(ord);
                             }
 
@@ -159,25 +305,33 @@ namespace Inbentarioa.formularioak
                 {
                     DataGridViewRow row = dvgGailuak.SelectedRows[0];
 
-                    // 1. Datuak jaso
-                    int idGailua = Convert.ToInt32(row.Cells["ID"].Value);
-                    string aukeratutakoEgoera = row.Cells["EgoeraCombo"].Value.ToString();
+                    if (row.Cells["EgoeraCombo"].Value == null)
+                    {
+                        MessageBox.Show("Aukeratu egoera bat lehenik.");
+                        return;
+                    }
 
-                    // 2. Zenbakira bihurtu
-                    int egoeraBerria = 0;
-                    if (aukeratutakoEgoera == "Hondatuta") egoeraBerria = 1;
-                    else if (aukeratutakoEgoera == "Konpontzen") egoeraBerria = 2;
+                    string egoeraTestua = row.Cells["EgoeraCombo"].Value.ToString();
+                    int egoeraBerria;
 
-                    // 3. POO: Gailu objektu bat prestatu
+                    switch (egoeraTestua)
+                    {
+                        case "Ondo": egoeraBerria = 0; break;
+                        case "Hondatuta": egoeraBerria = 1; break;
+                        case "Konpontzen": egoeraBerria = 2; break;
+                        default:
+                            MessageBox.Show("Egoera balio ezezaguna: " + egoeraTestua);
+                            return;
+                    }
+
                     Gailua gailua = new Gailua();
-                    gailua.Id = idGailua;
+                    gailua.Id = Convert.ToInt32(row.Cells["ID"].Value);
                     gailua.Egoera = egoeraBerria;
 
-                    // 4. Klaseari deitu
                     if (DBGailuak.EguneratuEgoeraPOO(gailua))
                     {
                         MessageBox.Show("Egoera ondo eguneratu da.");
-                        KargatuDatuak(); // Taula freskatu kolore berriak ikusteko
+                        KargatuDatuak();
                     }
                 }
                 catch (Exception ex)
@@ -197,49 +351,6 @@ namespace Inbentarioa.formularioak
             IKUSI ikusi = new IKUSI();
             ikusi.ShowDialog();
             this.Close();
-        }
-        public static DataTable GetGailuGuztiak()
-        {
-            DataTable dt = new DataTable();
-            string konexioa = DbKonexioa.Instantzia.GetKonexioString();
-
-            // SQL honek 'mota' zutabea sortzen du unean bertan
-            string sql = @"
-        SELECT g.id_gailua AS ID, g.identifikazio_kodea, g.izena, 'Ordenagailua' AS mota 
-        FROM gailuak g 
-        INNER JOIN ordenagailuak o ON g.id_gailua = o.id_gailua
-        UNION
-        SELECT g.id_gailua AS ID, g.identifikazio_kodea, g.izena, 'Inprimagailua' AS mota 
-        FROM gailuak g 
-        INNER JOIN inprimagailuak i ON g.id_gailua = i.id_gailua";
-
-            try
-            {
-                using (MySqlConnection conn = new MySqlConnection(konexioa))
-                {
-                    MySqlDataAdapter da = new MySqlDataAdapter(sql, conn);
-                    da.Fill(dt);
-                }
-            }
-            catch (Exception ex)
-            {
-                // Errorea kudeatu
-            }
-            return dt;
-        }
-
-        private void dvgGailuak_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
-        {
-            foreach (DataGridViewRow row in dvgGailuak.Rows)
-            {
-                if (row.Cells["egoera_balioa"].Value != null)
-                {
-                    int balioa = Convert.ToInt32(row.Cells["egoera_balioa"].Value);
-                    if (balioa == 0) row.DefaultCellStyle.BackColor = Color.LightGreen; // Ondo
-                    if (balioa == 1) row.DefaultCellStyle.BackColor = Color.LightCoral; // Hondatuta
-                    if (balioa == 2) row.DefaultCellStyle.BackColor = Color.LightYellow; // Konpontzen
-                }
-            }
         }
 
         private void btnBerriaSortu_Click(object sender, EventArgs e)

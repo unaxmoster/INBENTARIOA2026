@@ -2,6 +2,7 @@
 using System.Data;
 using MySql.Data.MySqlClient;
 using Inventarioa.Objetuak;
+using Inbentarioa.formularioak;
 
 namespace Inbentarioa.DatuBasie
 {
@@ -109,20 +110,14 @@ namespace Inbentarioa.DatuBasie
                 using (MySqlConnection conn = new MySqlConnection(konexioa))
                 {
                     conn.Open();
-                    // SQLan objektuaren propietateak erabiltzen ditugu
-                    string sql = "UPDATE Gailuak SET egoera = @egoera WHERE id_gailua = @id";
+                    string sql = "UPDATE gailuak SET egoera = @egoera WHERE id_gailua = @id";
                     MySqlCommand cmd = new MySqlCommand(sql, conn);
-
                     cmd.Parameters.AddWithValue("@egoera", orde.Egoera);
                     cmd.Parameters.AddWithValue("@id", orde.Id);
-
                     return cmd.ExecuteNonQuery() > 0;
                 }
             }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
+            catch { return false; }
         }
         public static bool EzabatuInprimagailuaPOO(Inprimagailua inp)
         {
@@ -539,49 +534,29 @@ namespace Inbentarioa.DatuBasie
             DataTable dt = new DataTable();
             string konexioa = DbKonexioa.Instantzia.GetKonexioString();
 
-            // CASE WHEN erabiliko dugu 0, 1, 2 horiek testu bihurtzeko SQLan bertan
             string sql = @"
-        SELECT 
-            g.id_gailua AS ID, 
-            g.identifikazio_kodea, 
-            g.marka_modeloa, 
-            g.egoera AS egoera_balioa,
-            CASE 
-                WHEN g.egoera = 0 THEN 'Ondo'
-                WHEN g.egoera = 1 THEN 'Hondatuta'
-                WHEN g.egoera = 2 THEN 'Konpontzen'
-                ELSE 'Ezezaguna'
-            END AS Egoera,
-            'Ordenagailua' AS mota 
+        SELECT g.id_gailua AS ID, 
+               g.identifikazio_kodea, 
+               g.marka_modeloa, 
+               g.egoera AS egoera_balioa,
+               g.id_mintegia,
+               'Ordenagailua' AS mota 
         FROM gailuak g 
         INNER JOIN ordenagailuak o ON g.id_gailua = o.id_gailua
         UNION
-        SELECT 
-            g.id_gailua AS ID, 
-            g.identifikazio_kodea, 
-            g.marka_modeloa, 
-            g.egoera AS egoera_balioa,
-            CASE 
-                WHEN g.egoera = 0 THEN 'Ondo'
-                WHEN g.egoera = 1 THEN 'Hondatuta'
-                WHEN g.egoera = 2 THEN 'Konpontzen'
-                ELSE 'Ezezaguna'
-            END AS Egoera,
-            'Inprimagailua' AS mota 
+        SELECT g.id_gailua AS ID, 
+               g.identifikazio_kodea, 
+               g.marka_modeloa, 
+               g.egoera AS egoera_balioa,
+               g.id_mintegia,
+               'Inprimagailua' AS mota 
         FROM gailuak g 
         INNER JOIN inprimagailuak i ON g.id_gailua = i.id_gailua";
 
-            try
+            using (MySqlConnection conn = new MySqlConnection(konexioa))
             {
-                using (MySqlConnection conn = new MySqlConnection(konexioa))
-                {
-                    MySqlDataAdapter da = new MySqlDataAdapter(sql, conn);
-                    da.Fill(dt);
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Errorea SQL-an: " + ex.Message);
+                MySqlDataAdapter da = new MySqlDataAdapter(sql, conn);
+                da.Fill(dt);
             }
             return dt;
         }
@@ -599,26 +574,26 @@ namespace Inbentarioa.DatuBasie
         }
 
         // 3. ORDENAGAILU GUZTIAK (OrdenagailuGuztiak.cs-rako)
+        // 3. ORDENAGAILU GUZTIAK (OrdenagailuGuztiak.cs-rako)
         public static DataTable GetOrdenagailuGuztiak()
         {
             DataTable dt = new DataTable();
-            // LEFT JOIN beharrean INNER JOIN erabili
-            string sql = @"SELECT G.id_gailua AS 'ID', 
-                          G.identifikazio_kodea AS 'Kodea', 
-                          G.marka_modeloa AS 'Modeloa', 
-                          O.ram, O.rom, O.cpu, 
-                          G.egoera AS 'egoera_balioa' 
-                   FROM Gailuak G 
-                   INNER JOIN Ordenagailuak O ON G.id_gailua = O.id_gailua";
-            try
+            string konexioa = DbKonexioa.Instantzia.GetKonexioString();
+            using (MySqlConnection conn = new MySqlConnection(konexioa))
             {
-                using (MySqlConnection conn = new MySqlConnection(DbKonexioa.Instantzia.GetKonexioString()))
-                {
-                    MySqlDataAdapter da = new MySqlDataAdapter(sql, conn);
-                    da.Fill(dt);
-                }
+                conn.Open();
+                string sql = @"SELECT g.id_gailua AS ID, 
+                              g.identifikazio_kodea AS Kodea,
+                              g.marka_modeloa AS Modeloa,
+                              o.ram, o.rom, o.cpu,
+                              g.egoera AS egoera_balioa,
+                              g.id_mintegia
+                       FROM gailuak g
+                       INNER JOIN ordenagailuak o ON g.id_gailua = o.id_gailua";  // INNER JOIN, LEFT JOIN ez!
+
+                MySqlDataAdapter adapter = new MySqlDataAdapter(sql, conn);
+                adapter.Fill(dt);
             }
-            catch (Exception ex) { /* Log errorea */ }
             return dt;
         }
 
@@ -626,30 +601,25 @@ namespace Inbentarioa.DatuBasie
         public static DataTable GetInprimagailuGuztiak()
         {
             DataTable dt = new DataTable();
-
-            // CASE WHEN erabiliko dugu 0/1 hori testu bihurtzeko
-            string sql = @"SELECT G.id_gailua AS ID, 
-                          G.identifikazio_kodea AS Kodea, 
-                          G.marka_modeloa AS Modeloa, 
-                          CASE 
-                             WHEN I.koloretakoa = 1 THEN 'Koloretakoa' 
-                             ELSE 'Zuri-beltza' 
-                          END AS Mota,
-                          G.egoera AS egoera_balioa 
-                   FROM gailuak G 
-                   INNER JOIN inprimagailuak I ON G.id_gailua = I.id_gailua";
-
-            try
+            string konexioa = DbKonexioa.Instantzia.GetKonexioString();
+            using (MySqlConnection conn = new MySqlConnection(konexioa))
             {
-                using (MySqlConnection conn = new MySqlConnection(DbKonexioa.Instantzia.GetKonexioString()))
-                {
-                    MySqlDataAdapter da = new MySqlDataAdapter(sql, conn);
-                    da.Fill(dt);
-                }
-            }
-            catch (Exception ex)
-            {
-                System.Windows.Forms.MessageBox.Show("SQL Errorea: " + ex.Message);
+                conn.Open();
+                string sql = @"SELECT g.id_gailua AS ID, 
+                              g.identifikazio_kodea AS Kodea,
+                              g.marka_modeloa AS Modeloa,
+                              CASE 
+                                  WHEN i.koloretakoa = 1 THEN 'Koloretakoa' 
+                                  ELSE 'Zuri-beltza' 
+                              END AS Mota,
+                              g.egoera AS egoera_balioa,
+                              g.id_mintegia,
+                              'Inprimagailua' AS GailuMota
+                       FROM gailuak g 
+                       INNER JOIN inprimagailuak i ON g.id_gailua = i.id_gailua";
+
+                MySqlDataAdapter adapter = new MySqlDataAdapter(sql, conn);
+                adapter.Fill(dt);
             }
             return dt;
         }
@@ -766,6 +736,62 @@ namespace Inbentarioa.DatuBasie
             }
             catch { return false; }
         }
+
+        /// <summary>
+        /// Gailu bat hondatutakoak taulan gordetzen du
+        /// </summary>
+        public static bool GordeHondatutakoGailua(int gailuId, string mota)
+        {
+
+            string konexioa = DbKonexioa.Instantzia.GetKonexioString();
+            using (MySqlConnection conn = new MySqlConnection(konexioa))
+            {
+                conn.Open();
+                using (MySqlTransaction trans = conn.BeginTransaction())
+                {
+                    try
+                    {
+                        // 1. Egiaztatu gailua jada existitzen den hondatutakoak taulan
+                        string checkQuery = "SELECT COUNT(*) FROM hondatutakoak WHERE id_gailua = @id";
+                        MySqlCommand checkCmd = new MySqlCommand(checkQuery, conn, trans);
+                        checkCmd.Parameters.AddWithValue("@id", gailuId);
+                        int existitzenDa = Convert.ToInt32(checkCmd.ExecuteScalar());
+
+                        if (existitzenDa > 0)
+                        {
+                            // Existitzen bada, matxura kopurua eguneratu
+                            string updateQuery = @"UPDATE hondatutakoak 
+                                           SET matxuraKopurua = matxuraKopurua + 1,
+                                               hondatutako_data = NOW()
+                                           WHERE id_gailua = @id";
+                            MySqlCommand updateCmd = new MySqlCommand(updateQuery, conn, trans);
+                            updateCmd.Parameters.AddWithValue("@id", gailuId);
+                            updateCmd.ExecuteNonQuery();
+                        }
+                        else
+                        {
+                            // Existitzen ez bada, txertatu (mota erabiliz)
+                            string insertQuery = @"INSERT INTO hondatutakoak (id_gailua, hondatutako_data, matxuraKopurua, deskribapena) 
+                                           VALUES (@id, NOW(), 1, @mota)";
+                            MySqlCommand insertCmd = new MySqlCommand(insertQuery, conn, trans);
+                            insertCmd.Parameters.AddWithValue("@id", gailuId);
+                            insertCmd.Parameters.AddWithValue("@mota", mota);  // Orain mota parametroa existitzen da
+                            insertCmd.ExecuteNonQuery();
+                        }
+
+                        trans.Commit();
+                        return true;
+                    }
+                    catch (Exception ex)
+                    {
+                        trans.Rollback();
+                        System.Diagnostics.Debug.WriteLine("Errorea GordeHondatutakoGailua: " + ex.Message);
+                        return false;
+                    }
+                }
+            }
+        }
+
         public static bool EzabatuGailuaOsoa(int id, string mota)
         {
             string konexioa = DbKonexioa.Instantzia.GetKonexioString();
@@ -816,6 +842,9 @@ namespace Inbentarioa.DatuBasie
                 }
             }
         }
+
+
+
         public static DataTable GetHondatutakoGailuak()
         {
             DataTable dt = new DataTable();
@@ -829,6 +858,7 @@ namespace Inbentarioa.DatuBasie
             g.marka_modeloa AS Modeloa, 
             m.izena AS Mintegia,
             g.egoera AS egoera_balioa,
+            g.id_mintegia,                    -- GEHITU HAU!
             'Ordenagailua' AS Mota
         FROM gailuak g 
         INNER JOIN ordenagailuak o ON g.id_gailua = o.id_gailua
@@ -843,6 +873,7 @@ namespace Inbentarioa.DatuBasie
             g.marka_modeloa AS Modeloa, 
             m.izena AS Mintegia,
             g.egoera AS egoera_balioa,
+            g.id_mintegia,                    -- GEHITU HAU!
             'Inprimagailua' AS Mota
         FROM gailuak g 
         INNER JOIN inprimagailuak i ON g.id_gailua = i.id_gailua

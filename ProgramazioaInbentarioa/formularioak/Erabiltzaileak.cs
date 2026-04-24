@@ -39,7 +39,8 @@ namespace Inbentarioa.formularioak
             }
             else if (rola == "MintegiBurua")
             {
-                ErabBerriaSortu.Visible = false;
+                ErabBerriaSortu.Enabled = false;
+                button2.Enabled = false;
             }
         }
 

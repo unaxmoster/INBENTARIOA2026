@@ -39,6 +39,7 @@ namespace Inbentarioa.formularioak
             else if (rola == "MintegiBurua")
             {
                 EZABATUTAKOAK.Enabled = false;
+                btnEzabatu.Enabled = false;
             }
         }
 
