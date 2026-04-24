@@ -23,12 +23,14 @@ namespace Inventarioa.formularioak
             InitializeComponent();
             //Zutabeak koloreztatzeko=>
             dvgInprimagailuak.CellFormatting += dvgInprimagailuak_CellFormatting;
-            KargatuGailuak();
+            dvgInprimagailuak.DataBindingComplete += dvgInprimagailuak_DataBindingComplete;
         }
+
         private void InprimagailuGuztiak_Load(object sender, EventArgs e)
         {
             this.WindowState = FormWindowState.Maximized;
             konfiguratuBaimenak();
+            KargatuGailuak();
         }
 
         private void konfiguratuBaimenak()
@@ -39,7 +41,6 @@ namespace Inventarioa.formularioak
                 button1.Enabled = false;
                 BtnEzabatu2.Enabled = false;
                 btnEgoeraAldatu.Enabled = false;
-                //_______Visible erabili beharrean {.}} jarriz gero (DESABILITATU bakarrik egoten du)
             }
             else if (rola == "MintegiBurua")
             {
@@ -68,42 +69,201 @@ namespace Inventarioa.formularioak
             mintegiak.ShowDialog();
             this.Close();
         }
+
         private void KargatuGailuak()
         {
             try
             {
+                dvgInprimagailuak.DataSource = null;
+
                 // 1. Datuak lortu
                 DataTable dt = DBGailuak.GetInprimagailuGuztiak();
                 dvgInprimagailuak.DataSource = dt;
 
-                // 2. ComboBox-a sortu (ez badago)
+                // 2. EZABATU ZUTABE HUTSAK (daturik ez duten zutabeak)
+                for (int i = dvgInprimagailuak.Columns.Count - 1; i >= 0; i--)
+                {
+                    DataGridViewColumn col = dvgInprimagailuak.Columns[i];
+
+                    // Garrantzitsua: ComboBox oraindik ez dago, beraz zutabe originalak bakarrik
+                    bool zutabeHutsa = true;
+
+                    foreach (DataGridViewRow row in dvgInprimagailuak.Rows)
+                    {
+                        if (row.IsNewRow) continue;
+
+                        if (row.Cells[col.Index].Value != null &&
+                            row.Cells[col.Index].Value != DBNull.Value &&
+                            !string.IsNullOrWhiteSpace(row.Cells[col.Index].Value.ToString()))
+                        {
+                            zutabeHutsa = false;
+                            break;
+                        }
+                    }
+
+                    if (zutabeHutsa)
+                    {
+                        dvgInprimagailuak.Columns.RemoveAt(i);
+                    }
+                }
+
+                // 3. ComboBox-a sortu (ez badago)
                 if (!dvgInprimagailuak.Columns.Contains("EgoeraCombo"))
                 {
                     DataGridViewComboBoxColumn comboCol = new DataGridViewComboBoxColumn();
                     comboCol.HeaderText = "Egoera";
-                    comboCol.Name = "EgoeraCombo"; // Hau da kodean erabili beharreko ID-a
+                    comboCol.Name = "EgoeraCombo";
                     comboCol.Items.AddRange("Ondo", "Matxuratuta", "Konpontzen");
                     dvgInprimagailuak.Columns.Add(comboCol);
                 }
 
-                // 3. Ordena aldatu: EgoeraCombo azkena jarri
-                // Garrantzitsua: DataSource jarri ondoren egin behar da
+                // 4. ComboBox-a eskuinean kokatzeko (azkena)
                 if (dvgInprimagailuak.Columns.Contains("EgoeraCombo"))
                 {
                     dvgInprimagailuak.Columns["EgoeraCombo"].DisplayIndex = dvgInprimagailuak.ColumnCount - 1;
                 }
 
-                // 4. Zutabeak konfiguratu (ezkutatu behar direnak)
-                // Begiratu zure SQL-ak 'id_gailua' ala 'ID' itzultzen duen
-                if (dvgInprimagailuak.Columns.Contains("id_gailua")) dvgInprimagailuak.Columns["id_gailua"].Visible = false;
-                if (dvgInprimagailuak.Columns.Contains("ID")) dvgInprimagailuak.Columns["ID"].Visible = false;
-                if (dvgInprimagailuak.Columns.Contains("egoera_balioa")) dvgInprimagailuak.Columns["egoera_balioa"].Visible = false;
+                // 5. Zutabeak ezkutatu (beharrezkoak ez direnak)
+                if (dvgInprimagailuak.Columns.Contains("id_gailua"))
+                    dvgInprimagailuak.Columns["id_gailua"].Visible = false;
+                if (dvgInprimagailuak.Columns.Contains("ID"))
+                    dvgInprimagailuak.Columns["ID"].Visible = false;
+                if (dvgInprimagailuak.Columns.Contains("egoera_balioa"))
+                    dvgInprimagailuak.Columns["egoera_balioa"].Visible = false;
+
+                // 6. ComboBox-en balioa hasieratu (DataBindingComplete baino lehen)
+                foreach (DataGridViewRow row in dvgInprimagailuak.Rows)
+                {
+                    if (row.IsNewRow) continue;
+
+                    if (dvgInprimagailuak.Columns.Contains("egoera_balioa") &&
+                        row.Cells["egoera_balioa"].Value != null &&
+                        row.Cells["egoera_balioa"].Value != DBNull.Value)
+                    {
+                        int egoeraIndex = Convert.ToInt32(row.Cells["egoera_balioa"].Value);
+                        if (egoeraIndex >= 0 && egoeraIndex <= 2)
+                        {
+                            row.Cells["EgoeraCombo"].Value = ((DataGridViewComboBoxColumn)dvgInprimagailuak.Columns["EgoeraCombo"]).Items[egoeraIndex];
+                        }
+                    }
+                }
+
+                // 7. KONFIGURAZIOAK
+                dvgInprimagailuak.ReadOnly = false;
+                dvgInprimagailuak.AllowUserToAddRows = false;    // Beheko lerro zuria kentzeko
+                dvgInprimagailuak.AllowUserToDeleteRows = false;
+
+                // 8. ComboBox zutabea BAKARRIK editagarria
+                foreach (DataGridViewColumn col in dvgInprimagailuak.Columns)
+                {
+                    if (col.Name != "EgoeraCombo")
+                    {
+                        col.ReadOnly = true;
+                    }
+                }
+
+                // 9. Konfiguratu baimenak lerroz lerro
+                KonfiguratuLerroenBaimenak();
 
                 dvgInprimagailuak.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Errorea kargatzean: " + ex.Message);
+            }
+        }
+
+        private void KonfiguratuLerroenBaimenak()
+        {
+            string rola = Sarrera.Saioa.Rola;
+            int erabiltzaileMintegiId = Sarrera.Saioa.IdMintegia;
+
+            foreach (DataGridViewRow row in dvgInprimagailuak.Rows)
+            {
+                if (row.IsNewRow) continue;
+
+                // ComboBox-a irakurtzeko soilik hasieran
+                if (dvgInprimagailuak.Columns.Contains("EgoeraCombo"))
+                {
+                    row.Cells["EgoeraCombo"].ReadOnly = true;
+
+                    // Baimendutako erabiltzaileak bakarrik
+                    if (rola == "Ikt")
+                    {
+                        row.Cells["EgoeraCombo"].ReadOnly = false;
+                    }
+                    else if (rola == "MintegiBurua")
+                    {
+                        // Egiaztatu gailu hau bere mintegikoa den
+                        if (dvgInprimagailuak.Columns.Contains("id_mintegia") &&
+                            row.Cells["id_mintegia"].Value != null &&
+                            row.Cells["id_mintegia"].Value != DBNull.Value)
+                        {
+                            int gailuMintegiId = Convert.ToInt32(row.Cells["id_mintegia"].Value);
+                            if (gailuMintegiId == erabiltzaileMintegiId)
+                            {
+                                row.Cells["EgoeraCombo"].ReadOnly = false;
+                            }
+                        }
+                    }
+                }
+
+                // Beste zelula guztiak irakurtzeko soilik
+                foreach (DataGridViewCell cell in row.Cells)
+                {
+                    if (dvgInprimagailuak.Columns[cell.ColumnIndex].Name != "EgoeraCombo")
+                    {
+                        cell.ReadOnly = true;
+                    }
+                }
+            }
+        }
+
+        private void dvgInprimagailuak_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        {
+            // ComboBox-a behar bezala konfiguratu
+            if (dvgInprimagailuak.Columns.Contains("EgoeraCombo"))
+            {
+                foreach (DataGridViewRow row in dvgInprimagailuak.Rows)
+                {
+                    if (row.IsNewRow) continue;
+
+                    if (dvgInprimagailuak.Columns.Contains("egoera_balioa") &&
+                        row.Cells["egoera_balioa"].Value != null &&
+                        row.Cells["egoera_balioa"].Value != DBNull.Value)
+                    {
+                        try
+                        {
+                            int egoeraIndex = Convert.ToInt32(row.Cells["egoera_balioa"].Value);
+                            if (egoeraIndex >= 0 && egoeraIndex <= 2)
+                            {
+                                row.Cells["EgoeraCombo"].Value = ((DataGridViewComboBoxColumn)dvgInprimagailuak.Columns["EgoeraCombo"]).Items[egoeraIndex];
+                            }
+                        }
+                        catch { }
+                    }
+                }
+            }
+        }
+
+        private void dvgInprimagailuak_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            // Koloreak ezarri egoeraren arabera
+            if (e.RowIndex >= 0 && dvgInprimagailuak.Columns.Contains("egoera_balioa"))
+            {
+                var cellValue = dvgInprimagailuak.Rows[e.RowIndex].Cells["egoera_balioa"].Value;
+                if (cellValue != null && cellValue != DBNull.Value)
+                {
+                    int egoera = Convert.ToInt32(cellValue);
+                    Color c = Color.White;
+                    switch (egoera)
+                    {
+                        case 0: c = Color.LightGreen; break;
+                        case 1: c = Color.Salmon; break;
+                        case 2: c = Color.LightYellow; break;
+                    }
+                    dvgInprimagailuak.Rows[e.RowIndex].DefaultCellStyle.BackColor = c;
+                }
             }
         }
 
@@ -123,10 +283,16 @@ namespace Inventarioa.formularioak
                     {
                         DataGridViewRow row = dvgInprimagailuak.SelectedRows[0];
 
-                        // GAKOA: Hemen 'id_gailua' jarri behar du (Datu-basean izen hori duelako)
-                        // Zutabea Grid-ean ikusten ez bada ere, Index-a edo Name-a ondo egon behar da.
-                        
-                        int gailuId = Convert.ToInt32(row.Cells[1].Value);
+                        // ID-a lortu (zein zutabetan dagoen egiaztatu)
+                        int gailuId = 0;
+                        if (dvgInprimagailuak.Columns.Contains("ID"))
+                        {
+                            gailuId = Convert.ToInt32(row.Cells["ID"].Value);
+                        }
+                        else if (dvgInprimagailuak.Columns.Contains("id_gailua"))
+                        {
+                            gailuId = Convert.ToInt32(row.Cells["id_gailua"].Value);
+                        }
 
                         if (DBGailuak.EzabatuInprimagailuaOsoa(gailuId))
                         {
@@ -150,52 +316,6 @@ namespace Inventarioa.formularioak
             this.Close();
         }
 
-        private void dvgInprimagailuak_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
-        {
-            if (dvgInprimagailuak.Columns.Contains("EgoeraCombo"))
-            {
-                foreach (DataGridViewRow row in dvgInprimagailuak.Rows)
-                {
-                    if (row.Cells["egoera_balioa"].Value != null && row.Cells["egoera_balioa"].Value != DBNull.Value)
-                    {
-                        int egoeraIndex = Convert.ToInt32(row.Cells["egoera_balioa"].Value);
-                        DataGridViewComboBoxCell cell = (DataGridViewComboBoxCell)row.Cells["EgoeraCombo"];
-                        if (egoeraIndex >= 0 && egoeraIndex < cell.Items.Count)
-                        {
-                            row.Cells["EgoeraCombo"].Value = cell.Items[egoeraIndex];
-                        }
-                    }
-                }
-            }
-        }
-
-        private void dvgInprimagailuak_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
-        {
-            // Ziurtatu lerroak datuak dituela
-            if (dvgInprimagailuak.Columns[e.ColumnIndex].Name == "EgoeraCombo")
-            {
-                // "egoera_balioa" zutabeko balioa lortu (0, 1 edo 2)
-                if (dvgInprimagailuak.Rows[e.RowIndex].Cells["egoera_balioa"].Value != null)
-                {
-                    int egoera = Convert.ToInt32(dvgInprimagailuak.Rows[e.RowIndex].Cells["egoera_balioa"].Value);
-
-                    // Koloreak esleitu egoeraren arabera
-                    switch (egoera)
-                    {
-                        case 0: // ONDO
-                            dvgInprimagailuak.Rows[e.RowIndex].DefaultCellStyle.BackColor = Color.LightGreen;
-                            break;
-                        case 1: // MATXURATUTA
-                            dvgInprimagailuak.Rows[e.RowIndex].DefaultCellStyle.BackColor = Color.Salmon;
-                            break;
-                        case 2: // KONPONTZEN
-                            dvgInprimagailuak.Rows[e.RowIndex].DefaultCellStyle.BackColor = Color.LightYellow;
-                            break;
-                    }
-                }
-            }
-        }
-
         private void btnEgoeraAldatu_Click(object sender, EventArgs e)
         {
             if (dvgInprimagailuak.SelectedRows.Count > 0)
@@ -204,31 +324,42 @@ namespace Inventarioa.formularioak
                 {
                     DataGridViewRow row = dvgInprimagailuak.SelectedRows[0];
 
-                    // 1. ComboBox-etik hautatutako testua jaso
-                    string hautatutakoEgoera = row.Cells["EgoeraCombo"].Value?.ToString();
-
-                    if (string.IsNullOrEmpty(hautatutakoEgoera))
+                    // 1. ComboBox-etik balioa lortu (Item-a edo Value-a)
+                    object comboValue = row.Cells["EgoeraCombo"].Value;
+                    if (comboValue == null)
                     {
                         MessageBox.Show("Mesedez, hautatu egoera bat lehenik.");
                         return;
                     }
 
-                    // 2. Testua zenbakira pasatu (Ondo=0, Matxuratuta=1, Konpontzen=2)
+                    // 2. Egoera zenbakia lortu
                     int egoeraZenbakia = 0;
-                    if (hautatutakoEgoera == "Matxuratuta") egoeraZenbakia = 1;
-                    else if (hautatutakoEgoera == "Konpontzen") egoeraZenbakia = 2;
+                    string comboText = comboValue.ToString();
 
-                    // 3. POO: Objektua sortu eta datuak esleitu
-                    // Inprimagailua gailu bat denez, datu basera bidaltzeko nahikoa dugu IDa eta Egoera berria kudeatzea
+                    if (comboText == "Matxuratuta") egoeraZenbakia = 1;
+                    else if (comboText == "Konpontzen") egoeraZenbakia = 2;
+                    else egoeraZenbakia = 0; // "Ondo"
+
+                    // 3. POO: Objektua sortu
                     Inprimagailua inpEguneratu = new Inprimagailua();
-                    inpEguneratu.Id = Convert.ToInt32(row.Cells["ID"].Value);
+
+                    // ID-a lortu
+                    if (dvgInprimagailuak.Columns.Contains("ID"))
+                    {
+                        inpEguneratu.Id = Convert.ToInt32(row.Cells["ID"].Value);
+                    }
+                    else if (dvgInprimagailuak.Columns.Contains("id_gailua"))
+                    {
+                        inpEguneratu.Id = Convert.ToInt32(row.Cells["id_gailua"].Value);
+                    }
+
                     inpEguneratu.Egoera = egoeraZenbakia;
 
-                    // 4. Klaseari deitu objektu osoa bidaliz
+                    // 4. Eguneratu
                     if (DBGailuak.EguneratuEgoeraPOO(inpEguneratu))
                     {
                         MessageBox.Show("Inprimagailuaren egoera ondo eguneratu da.");
-                        KargatuGailuak(); // Grid-a eta koloreak freskatu
+                        KargatuGailuak();
                     }
                     else
                     {

@@ -12,19 +12,23 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Inventarioa.formularioak
 {
     public partial class OrdenagailuGuztiak : FormBase
     {
+        // Aldagai globala ComboBox-en iturbururako
+        private DataTable egoeraIturburua;
+
         public OrdenagailuGuztiak()
         {
             InitializeComponent();
-            // Bi hauek ezinbestekoak dira
             dvgOrdenagailuak.CellFormatting += dvgOrdenagailuak_CellFormatting;
-            dvgOrdenagailuak.DataBindingComplete += dvgOrdenagailuak_DataBindingComplete; // Lerro hau gehitu!
-
+            dvgOrdenagailuak.DataBindingComplete += dvgOrdenagailuak_DataBindingComplete;
+            dvgOrdenagailuak.CellBeginEdit += dvgOrdenagailuak_CellBeginEdit; // Gehitu hau
         }
+
         private void OrdenagailuGuztiak_Load(object sender, EventArgs e)
         {
             this.WindowState = FormWindowState.Maximized;
@@ -39,7 +43,6 @@ namespace Inventarioa.formularioak
             {
                 btnBerriaSortuOr.Enabled = false;
                 BtnEzabatuOr.Enabled = false;
-                btnBerriaSortuOr.Enabled = false;
                 btnEgoeraAldatuOr.Enabled = false;
             }
             else if (rola == "MintegiBurua")
@@ -47,6 +50,7 @@ namespace Inventarioa.formularioak
                 btnBerriaSortuOr.Enabled = false;
             }
         }
+
         private void btnAtzeraOr_Click(object sender, EventArgs e)
         {
             this.Hide();
@@ -59,36 +63,124 @@ namespace Inventarioa.formularioak
         {
             try
             {
-                // 1. GARBITU lehendik dauden zutabeak (badaezpada)
                 dvgOrdenagailuak.DataSource = null;
 
-                // 2. SORTU ComboBox-a datuak kargatu AURRETIK
+                // Datu-baseko datuak kargatu
+                DataTable dt = DBGailuak.GetOrdenagailuGuztiak();
+                dvgOrdenagailuak.DataSource = dt;
+
+                // Zutabeak ezkutatu
+                if (dvgOrdenagailuak.Columns.Contains("ID"))
+                    dvgOrdenagailuak.Columns["ID"].Visible = false;
+                if (dvgOrdenagailuak.Columns.Contains("egoera_balioa"))
+                    dvgOrdenagailuak.Columns["egoera_balioa"].Visible = false;
+                if (dvgOrdenagailuak.Columns.Contains("id_mintegia"))
+                    dvgOrdenagailuak.Columns["id_mintegia"].Visible = false;
+
+                // EZABATU ZUTABE HUTSAK (elementurik ez dutenak)
+                for (int i = dvgOrdenagailuak.Columns.Count - 1; i >= 0; i--)
+                {
+                    DataGridViewColumn col = dvgOrdenagailuak.Columns[i];
+
+                    // EgoeraCombo oraindik ez dago, beraz zutabe originalak bakarrik egiaztatu
+                    bool zutabeHutsa = true;
+
+                    foreach (DataGridViewRow row in dvgOrdenagailuak.Rows)
+                    {
+                        if (row.IsNewRow) continue;
+
+                        if (row.Cells[col.Index].Value != null &&
+                            row.Cells[col.Index].Value != DBNull.Value &&
+                            !string.IsNullOrWhiteSpace(row.Cells[col.Index].Value.ToString()))
+                        {
+                            zutabeHutsa = false;
+                            break;
+                        }
+                    }
+
+                    if (zutabeHutsa)
+                    {
+                        dvgOrdenagailuak.Columns.RemoveAt(i);
+                    }
+                }
+
+                // ComboBox zutabea sortu (dagoeneko ez badago)
                 if (!dvgOrdenagailuak.Columns.Contains("EgoeraCombo"))
                 {
                     DataGridViewComboBoxColumn comboCol = new DataGridViewComboBoxColumn();
                     comboCol.HeaderText = "Egoera";
                     comboCol.Name = "EgoeraCombo";
-                    comboCol.Items.AddRange("Ondo", "Matxuratuta", "Konpontzen");
+
+                    // Aukerak gehitu (zure erreferentziako kodearen moduan)
+                    comboCol.Items.Add("Ondo");      // Index 0
+                    comboCol.Items.Add("Matxuratuta"); // Index 1
+                    comboCol.Items.Add("Konpontzen"); // Index 2
+
                     dvgOrdenagailuak.Columns.Add(comboCol);
                 }
 
-                // 3. ORAIN kargatu datuak
-                DataTable dt = DBGailuak.GetOrdenagailuGuztiak();
-                dvgOrdenagailuak.DataSource = dt;
-
-                // 4. KONFIGURATU zutabeak (Ezkutatu ID eta egoera_balioa)
-                if (dvgOrdenagailuak.Columns.Contains("ID")) dvgOrdenagailuak.Columns["ID"].Visible = false;
-                if (dvgOrdenagailuak.Columns.Contains("egoera_balioa")) dvgOrdenagailuak.Columns["egoera_balioa"].Visible = false;
-
+                // ComboBox-a eskuinean kokatzeko
                 dvgOrdenagailuak.Columns["EgoeraCombo"].DisplayIndex = dvgOrdenagailuak.Columns.Count - 1;
 
-                // Diseinua
-                dvgOrdenagailuak.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+                // ComboBox-aren balioa hasieratu (zure erreferentziako kodearen moduan)
+                foreach (DataGridViewRow row in dvgOrdenagailuak.Rows)
+                {
+                    if (row.Cells["egoera_balioa"].Value != null && row.Cells["egoera_balioa"].Value != DBNull.Value)
+                    {
+                        int egoeraIndex = Convert.ToInt32(row.Cells["egoera_balioa"].Value);
+                        if (egoeraIndex >= 0 && egoeraIndex <= 2)
+                        {
+                            row.Cells["EgoeraCombo"].Value = ((DataGridViewComboBoxColumn)dvgOrdenagailuak.Columns["EgoeraCombo"]).Items[egoeraIndex];
+                        }
+                    }
+                }
+
+                // KONFIGURAZIOAK (zure erreferentziako kodearen moduan)
                 dvgOrdenagailuak.ReadOnly = false;
+                dvgOrdenagailuak.AllowUserToAddRows = false;    // Beheko lerro zuria kentzeko
+                dvgOrdenagailuak.AllowUserToDeleteRows = false;
+
+                // ComboBox zutabea BAKARRIK editagarria
                 foreach (DataGridViewColumn col in dvgOrdenagailuak.Columns)
                 {
-                    if (col.Name != "EgoeraCombo") col.ReadOnly = true;
+                    if (col.Name != "EgoeraCombo")
+                    {
+                        col.ReadOnly = true;
+                    }
                 }
+
+                // Zutabe hutsak berriro egiaztatu (ComboBox gehitu ostean)
+                for (int i = dvgOrdenagailuak.Columns.Count - 1; i >= 0; i--)
+                {
+                    DataGridViewColumn col = dvgOrdenagailuak.Columns[i];
+
+                    if (col.Name == "EgoeraCombo") continue; // EgoeraCombo ez ezabatu
+
+                    bool zutabeHutsa = true;
+
+                    foreach (DataGridViewRow row in dvgOrdenagailuak.Rows)
+                    {
+                        if (row.IsNewRow) continue;
+
+                        if (row.Cells[col.Index].Value != null &&
+                            row.Cells[col.Index].Value != DBNull.Value &&
+                            !string.IsNullOrWhiteSpace(row.Cells[col.Index].Value.ToString()))
+                        {
+                            zutabeHutsa = false;
+                            break;
+                        }
+                    }
+
+                    if (zutabeHutsa)
+                    {
+                        dvgOrdenagailuak.Columns.RemoveAt(i);
+                    }
+                }
+
+                dvgOrdenagailuak.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+
+                // Baimenak konfiguratu
+                KonfiguratuLerroenBaimenak();
             }
             catch (Exception ex)
             {
@@ -96,7 +188,91 @@ namespace Inventarioa.formularioak
             }
         }
 
-        // KOLOREAK ETA EGOERA TESTUA (POO erara)
+        private void EzabatuZutabeHutsak()
+        {
+            // Atzetik aurrera ibili zutabeak ezabatzeko (indizeak ez aldatzeko)
+            for (int i = dvgOrdenagailuak.Columns.Count - 1; i >= 0; i--)
+            {
+                DataGridViewColumn col = dvgOrdenagailuak.Columns[i];
+        
+                // EgoeraCombo zutabea ez ezabatu
+                if (col.Name == "EgoeraCombo") continue;
+        
+                // Zutabe guztiak egiaztatu baliorik ote duten
+                bool zutabeHutsa = true;
+        
+                foreach (DataGridViewRow row in dvgOrdenagailuak.Rows)
+                {
+                    if (row.IsNewRow) continue;
+            
+                    if (row.Cells[col.Index].Value != null && 
+                        row.Cells[col.Index].Value != DBNull.Value &&
+                        !string.IsNullOrWhiteSpace(row.Cells[col.Index].Value.ToString()))
+                    {
+                        zutabeHutsa = false;
+                        break;
+                    }
+                }
+        
+                if (zutabeHutsa)
+                {
+                    dvgOrdenagailuak.Columns.RemoveAt(i);
+                }
+            }
+        }
+        private void KonfiguratuLerroenBaimenak()
+        {
+            string rola = Sarrera.Saioa.Rola;
+            int erabiltzaileMintegiId = Sarrera.Saioa.IdMintegia;
+
+            foreach (DataGridViewRow row in dvgOrdenagailuak.Rows)
+            {
+                if (row.IsNewRow) continue;
+
+                // ComboBox-a irakurtzeko soilik hasieran
+                if (dvgOrdenagailuak.Columns.Contains("EgoeraCombo"))
+                {
+                    row.Cells["EgoeraCombo"].ReadOnly = true;
+
+                    // Baimendutako erabiltzaileak bakarrik
+                    if (rola == "Ikt")
+                    {
+                        row.Cells["EgoeraCombo"].ReadOnly = false;
+                    }
+                    else if (rola == "MintegiBurua")
+                    {
+                        if (row.Cells["id_mintegia"].Value != null && row.Cells["id_mintegia"].Value != DBNull.Value)
+                        {
+                            int gailuMintegiId = Convert.ToInt32(row.Cells["id_mintegia"].Value);
+                            if (gailuMintegiId == erabiltzaileMintegiId)
+                            {
+                                row.Cells["EgoeraCombo"].ReadOnly = false;
+                            }
+                        }
+                    }
+                }
+
+                // Beste zelula guztiak irakurtzeko soilik (berriro ziurtatzeko)
+                foreach (DataGridViewCell cell in row.Cells)
+                {
+                    if (dvgOrdenagailuak.Columns[cell.ColumnIndex].Name != "EgoeraCombo")
+                    {
+                        cell.ReadOnly = true;
+                    }
+                }
+            }
+        }
+
+        // ZELULA EDITATZEN HASI AURETIK - ComboBox ez denetan editatzea saihestu
+        private void dvgOrdenagailuak_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
+        {
+            // ComboBox ez den zutabe bat editatu nahi bada, editazioa utzi
+            if (dvgOrdenagailuak.Columns[e.ColumnIndex].Name != "EgoeraCombo")
+            {
+                e.Cancel = true;
+            }
+        }
+
         private void dvgOrdenagailuak_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
             if (e.RowIndex >= 0 && dvgOrdenagailuak.Columns.Contains("egoera_balioa"))
@@ -115,6 +291,21 @@ namespace Inventarioa.formularioak
                     dvgOrdenagailuak.Rows[e.RowIndex].DefaultCellStyle.BackColor = c;
                 }
             }
+
+            // Zutabe hutsak zuriz eta "hutsik" testuarekin
+            if (e.Value == null || e.Value == DBNull.Value || string.IsNullOrWhiteSpace(e.Value.ToString()))
+            {
+                e.CellStyle.BackColor = Color.White;
+                e.CellStyle.ForeColor = Color.LightGray;
+                e.CellStyle.Font = new Font(dvgOrdenagailuak.Font, FontStyle.Italic);
+                e.Value = "(hutsik)";
+                e.FormattingApplied = true;
+            }
+        }
+
+        private void dvgOrdenagailuak_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        {
+
         }
 
         private void btnEgoeraAldatuOr_Click(object sender, EventArgs e)
@@ -125,31 +316,47 @@ namespace Inventarioa.formularioak
                 {
                     DataGridViewRow row = dvgOrdenagailuak.SelectedRows[0];
 
-                    // 1. ComboBox-etik aukeratutako testua hartu
-                    string hautatutakoEgoera = row.Cells["EgoeraCombo"].Value?.ToString();
-                    if (string.IsNullOrEmpty(hautatutakoEgoera)) return;
+                    // ComboBox-etik testu-balioa lortu
+                    if (row.Cells["EgoeraCombo"].Value == null)
+                    {
+                        MessageBox.Show("Aukeratu egoera bat lehenik.");
+                        return;
+                    }
 
-                    // 2. Testua zenbaki (int) bihurtu
-                    int egoeraZenbakia = 0; // Ondo
-                    if (hautatutakoEgoera == "Matxuratuta") egoeraZenbakia = 1;
-                    else if (hautatutakoEgoera == "Konpontzen") egoeraZenbakia = 2;
+                    string egoeraTestua = row.Cells["EgoeraCombo"].Value.ToString();
+                    int egoeraZenbakia;
 
-                    // 3. OBJEKTUA SORTU (Egoera berriarekin)
-                    // Eraikitzaileak datu asko eskatzen badizkizu, garrantzitsuenak IDa eta Egoera dira kasu honetan
+                    // Testua integer-era bihurtu
+                    switch (egoeraTestua)
+                    {
+                        case "Ondo":
+                            egoeraZenbakia = 0;
+                            break;
+                        case "Matxuratuta":
+                            egoeraZenbakia = 1;
+                            break;
+                        case "Konpontzen":
+                            egoeraZenbakia = 2;
+                            break;
+                        default:
+                            MessageBox.Show("Egoera balio ezezaguna: " + egoeraTestua);
+                            return;
+                    }
+
+                    // Objektua sortu
                     Ordenagailua ordeEguneratu = new Ordenagailua(
                         row.Cells["Kodea"].Value.ToString(),
                         row.Cells["Modeloa"].Value.ToString(),
-                        0, "", "", "" // Beste datuak ez dira beharrezkoak UPDATE honetarako
+                        0, "", "", ""
                     );
 
                     ordeEguneratu.Id = Convert.ToInt32(row.Cells["ID"].Value);
-                    ordeEguneratu.Egoera = egoeraZenbakia; // Hau da aldatuko dugun balioa
+                    ordeEguneratu.Egoera = egoeraZenbakia;
 
-                    // 4. DBGailuak klaseari deitu objektua bidaliz
                     if (DBGailuak.EguneratuEgoeraPOO(ordeEguneratu))
                     {
-                        MessageBox.Show($"Egoera ondo eguneratu da: {hautatutakoEgoera}");
-                        KargatuDatuak(); // Grid-a freskatu koloreak ikusteko
+                        MessageBox.Show($"Egoera ondo eguneratu da: {egoeraTestua}");
+                        KargatuDatuak();
                     }
                 }
                 catch (Exception ex)
@@ -165,44 +372,35 @@ namespace Inventarioa.formularioak
 
         private void BtnEzabatuOr_Click(object sender, EventArgs e)
         {
-            // 1. Egiaztatu lerro bat hautatuta dagoela
             if (dvgOrdenagailuak.SelectedRows.Count == 0)
             {
                 MessageBox.Show("Mesedez, hautatu ordenagailu bat ezabatzeko.");
                 return;
             }
 
-            // 2. Berrespena eskatu
             using (FormMezua mezua = new FormMezua("Ordenagailu hau historikora mugitu nahi duzu?"))
             {
                 if (mezua.ShowDialog() == DialogResult.Yes)
                 {
                     try
                     {
-                        // 3. Grid-etik hautatutako lerroa hartu
                         DataGridViewRow row = dvgOrdenagailuak.SelectedRows[0];
-
-                        // 4. OBJEKTUA SORTU (Datuak grid-etik ateraz)
-                        // Oharra: Ordenagailua eraikitzaileak (kodea, modeloa, mintegia, ram, rom, cpu) behar ditu
-                        // Gure Grid-ean agian datu guztiak ez daude, baina ID-a eta oinarrizkoak bai.
 
                         Ordenagailua ordeEzabatu = new Ordenagailua(
                             row.Cells["Kodea"].Value.ToString(),
                             row.Cells["Modeloa"].Value.ToString(),
-                            0, // Mintegia (ezabatzeko ez dugu behar)
-                            row.Cells["ram"].Value.ToString(),
-                            row.Cells["rom"].Value.ToString(),
-                            row.Cells["cpu"].Value.ToString()
+                            0,
+                            row.Cells["ram"].Value?.ToString() ?? "",
+                            row.Cells["rom"].Value?.ToString() ?? "",
+                            row.Cells["cpu"].Value?.ToString() ?? ""
                         );
 
-                        // GARRANTZITSUA: ID-a esleitu, DBak jakiteko zein ezabatu
                         ordeEzabatu.Id = Convert.ToInt32(row.Cells["ID"].Value);
 
-                        // 5. DEITU POO METODOARI
                         if (DBGailuak.EzabatuOrdenagailuaPOO(ordeEzabatu))
                         {
                             MessageBox.Show("Ordenagailua ondo ezabatu eta historikora mugitu da.");
-                            KargatuDatuak(); // Grid-a freskatu
+                            KargatuDatuak();
                         }
                     }
                     catch (Exception ex)
@@ -213,34 +411,13 @@ namespace Inventarioa.formularioak
             }
         }
 
-
-
         private void btnBerriaSortuOr_Click(object sender, EventArgs e)
         {
-            this.Hide();
-            OrdeBerriaSortu mintegiak = new OrdeBerriaSortu();
-            mintegiak.ShowDialog();
-            this.Close();
-        }
+            OrdeBerriaSortu ordeBerria = new OrdeBerriaSortu();
+            ordeBerria.ShowDialog(); // Formularioa modal gisa ireki
 
-        private void dvgOrdenagailuak_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
-        {
-            // ZIURTATU zutabea existitzen dela errorea ez emateko
-            if (dvgOrdenagailuak.Columns.Contains("EgoeraCombo"))
-            {
-                foreach (DataGridViewRow row in dvgOrdenagailuak.Rows)
-                {
-                    if (row.Cells["egoera_balioa"].Value != null && row.Cells["egoera_balioa"].Value != DBNull.Value)
-                    {
-                        int balioa = Convert.ToInt32(row.Cells["egoera_balioa"].Value);
-                        if (balioa >= 0 && balioa <= 2) // 0, 1, 2 badira
-                        {
-                            row.Cells["EgoeraCombo"].Value = ((DataGridViewComboBoxCell)row.Cells["EgoeraCombo"]).Items[balioa];
-                        }
-                    }
-                }
-            }
+            // Formularioa itxi ondoren, datuak birkargatu
+            KargatuDatuak();
         }
     }
-
 }

@@ -13,6 +13,7 @@ namespace Inbentarioa
             public static int IdErabiltzailea { get; set; }
             public static string Erabiltzailea { get; set; }
             public static string Rola { get; set; }
+            public static int IdMintegia { get; set; }
         }
         public Sarrera()
         {
@@ -48,6 +49,9 @@ namespace Inbentarioa
                     Saioa.IdErabiltzailea = erabiltzailea.IdErabiltzailea;
                     Saioa.Rola = erabiltzailea.Rola;
                     Saioa.Erabiltzailea = erabiltzailea.Izena;
+                    // Saioa.IdMintegia = erabiltzailea.IdMintegia;
+                    // ?? 0-k esaten du: "IdMintegia null bada, jarri 0"
+                    Saioa.IdMintegia = erabiltzailea.IdMintegia ?? 0;
 
                     using (ByteGuardians ongiEtorri = new ByteGuardians("Ongi etorri, " + Saioa.Erabiltzailea))
                     {

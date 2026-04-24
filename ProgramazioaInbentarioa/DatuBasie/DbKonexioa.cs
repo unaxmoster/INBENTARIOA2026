@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data;
 using MySql.Data.MySqlClient;
 
 namespace Inbentarioa.DatuBasie
@@ -11,13 +12,8 @@ namespace Inbentarioa.DatuBasie
 
         private DbKonexioa()
         {
-            // MySQL-rako sintaxi zuzena (zure zerbitzariko datuekin ordezkatu):
-            //konexioString = "Server=localhost;Database=inbentarioa2026;Uid=root;Pwd=root;";
-
+            // Zure konexio-katea
             konexioString = "Server=anarcocapitalista90;Database=inbentarioa2026;Uid=root2026;Pwd=root2026;";
-
-            // OHARRA: 'root' erabili ohi da MySQL-n defektuz, 
-            // eta pasahitza instalazioan jarri zenuena da.
         }
 
         public static DbKonexioa Instantzia
@@ -42,23 +38,66 @@ namespace Inbentarioa.DatuBasie
         {
             return konexioString;
         }
+
+        // MySqlConnection lortu
+        public MySqlConnection LortuKonexioa()
+        {
+            MySqlConnection konexioa = new MySqlConnection(konexioString);
+            konexioa.Open();
+            return konexioa;
+        }
+
+        // ExecuteQuery - SELECT kontsultetarako (DataTable itzultzen du)
+        public DataTable ExecuteQuery(string query, MySqlParameter[] parametroak = null)
+        {
+            DataTable dt = new DataTable();
+            using (MySqlConnection konexioa = LortuKonexioa())
+            {
+                using (MySqlCommand cmd = new MySqlCommand(query, konexioa))
+                {
+                    if (parametroak != null)
+                    {
+                        cmd.Parameters.AddRange(parametroak);
+                    }
+                    using (MySqlDataAdapter da = new MySqlDataAdapter(cmd))
+                    {
+                        da.Fill(dt);
+                    }
+                }
+            }
+            return dt;
+        }
+
+        // ExecuteNonQuery - INSERT, UPDATE, DELETE kontsultetarako
+        public int ExecuteNonQuery(string query, MySqlParameter[] parametroak = null)
+        {
+            using (MySqlConnection konexioa = LortuKonexioa())
+            {
+                using (MySqlCommand cmd = new MySqlCommand(query, konexioa))
+                {
+                    if (parametroak != null)
+                    {
+                        cmd.Parameters.AddRange(parametroak);
+                    }
+                    return cmd.ExecuteNonQuery();
+                }
+            }
+        }
+
+        // ExecuteScalar - balio bakar bat itzultzen duten kontsultetarako (adibidez COUNT)
+        public object ExecuteScalar(string query, MySqlParameter[] parametroak = null)
+        {
+            using (MySqlConnection konexioa = LortuKonexioa())
+            {
+                using (MySqlCommand cmd = new MySqlCommand(query, konexioa))
+                {
+                    if (parametroak != null)
+                    {
+                        cmd.Parameters.AddRange(parametroak);
+                    }
+                    return cmd.ExecuteScalar();
+                }
+            }
+        }
     }
 }
-
-
-/*
- 
-Nola erabili beste klase batean?
-Datuak irakurri nahi dituzunean, honela deituko zenioke:
-
-C#
-using MySql.Data.MySqlClient;
-
-// ... formularioaren barruan ...
-using (MySqlConnection conn = new MySqlConnection(DbKonexioa.Instantzia.GetKonexioString()))
-{
-    conn.Open();
-    // Hemen zure SQL aginduak...
-}
-
- */

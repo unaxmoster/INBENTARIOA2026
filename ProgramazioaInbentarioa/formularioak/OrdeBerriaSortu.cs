@@ -74,7 +74,20 @@ namespace Inventarioa.formularioak
         {
             try
             {
-                // 1. Objektua sortu datuekin (POO erara)
+                // 1. Datuak balidatu
+                if (string.IsNullOrWhiteSpace(txtIdentifikazioa.Text))
+                {
+                    MessageBox.Show("Identifikazio kodea ezin da hutsik egon.");
+                    return;
+                }
+
+                if (cmbMintegia.SelectedValue == null || cmbMintegia.SelectedIndex == -1)
+                {
+                    MessageBox.Show("Mesedez, aukeratu mintegi bat.");
+                    return;
+                }
+
+                // 2. Objektua sortu datuekin (POO erara)
                 Ordenagailua ordeBerria = new Ordenagailua(
                     txtIdentifikazioa.Text,
                     txtMarka.Text,
@@ -84,17 +97,19 @@ namespace Inventarioa.formularioak
                     txtCPU.Text
                 );
 
-                // 2. Logika klaseari deitu objektu osoa bidaliz
+                // 3. Logika klaseari deitu objektu osoa bidaliz
                 if (DBGailuak.GehituOrdenagailuaPOO(ordeBerria))
                 {
                     MessageBox.Show("Ordenagailua ondo gorde da!");
+
+                    // Formulario hau itxi (DialogResult OK itzuliz)
                     this.DialogResult = DialogResult.OK;
-                    this.Close();
+                    this.Close(); // Honek formularioa itxiko du eta OrdenagailuGuztiak-era bueltatuko da
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Errorea: " + ex.Message);
+                MessageBox.Show("Errorea ordenagailua gehitzean: " + ex.Message);
             }
         }
 

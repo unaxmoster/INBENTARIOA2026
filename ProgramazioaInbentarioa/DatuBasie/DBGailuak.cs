@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Data;
 using MySql.Data.MySqlClient;
-using Inventarioa.Objetuak; // Ziurtatu namespace hau zure klasearena dela
+using Inventarioa.Objetuak;
 
 namespace Inbentarioa.DatuBasie
 {
@@ -426,6 +426,108 @@ namespace Inbentarioa.DatuBasie
                 adapter.Fill(dt);
             }
             return dt;
+        }
+
+        // DBGailuak klasean gehitu beharreko funtzioak
+        // DBGailuak klasearen barruan gehitu (zure existitzen den klasean)
+
+        /// <summary>
+        /// Egiaztatu gailu bat MintegiBuru jakin baten mintegikoa den
+        /// </summary>
+        public static bool GailuaMintegikoaDa(int gailuId, int mintegiBuruarenMintegiId)
+        {
+            string query = @"SELECT g.id_mintegia 
+                     FROM gailuak g 
+                     WHERE g.id_gailua = @id";
+
+            MySqlParameter[] parametroak = { new MySqlParameter("@id", gailuId) };
+
+            try
+            {
+                DataTable dt = DbKonexioa.Instantzia.ExecuteQuery(query, parametroak);
+
+                if (dt.Rows.Count > 0)
+                {
+                    int gailuMintegiId = Convert.ToInt32(dt.Rows[0]["id_mintegia"]);
+                    return gailuMintegiId == mintegiBuruarenMintegiId;
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Errorea GailuaMintegikoaDa: {ex.Message}");
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// Eguneratu gailu baten egoera (baimenak egiaztatuz)
+        /// </summary>
+        public static bool EguneratuEgoeraBaimenekin(int gailuId, int egoeraBerria, string rola, int erabiltzaileMintegiId)
+        {
+            // IKT: denak eguneratu ditzake
+            if (rola == "Ikt")
+            {
+                return EguneratuEgoeraZuzenean(gailuId, egoeraBerria);
+            }
+            // MintegiBurua: bere mintegikoak bakarrik
+            else if (rola == "MintegiBurua")
+            {
+                if (GailuaMintegikoaDa(gailuId, erabiltzaileMintegiId))
+                {
+                    return EguneratuEgoeraZuzenean(gailuId, egoeraBerria);
+                }
+                return false;
+            }
+            // Irakaslea: ezin du eguneratu
+            return false;
+        }
+
+        /// <summary>
+        /// Gailu baten egoera eguneratu (baimenik gabe, datu-basean zuzenean)
+        /// </summary>
+        private static bool EguneratuEgoeraZuzenean(int gailuId, int egoeraBerria)
+        {
+            string query = "UPDATE gailuak SET egoera_balioa = @egoera WHERE id_gailua = @id";
+            MySqlParameter[] parametroak =
+            {
+        new MySqlParameter("@egoera", egoeraBerria),
+        new MySqlParameter("@id", gailuId)
+    };
+
+            try
+            {
+                int eraginDu = DbKonexioa.Instantzia.ExecuteNonQuery(query, parametroak);
+                return eraginDu > 0;
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Errorea EguneratuEgoeraZuzenean: {ex.Message}");
+                return false;
+            }
+        }
+
+        // Ordenagailua objektua erabiliz (existitzen bada)
+        public static bool EguneratuOrdEgoeraPOO(Ordenagailua ordeEguneratu)
+        {
+            return EguneratuEgoeraZuzenean(ordeEguneratu.Id, ordeEguneratu.Egoera);
+        }
+
+        // Inprimagailua objektua erabiliz (existitzen bada)
+        public static bool EguneratuEgoeraPOO(Inprimagailua inpEguneratu)
+        {
+            return EguneratuEgoeraZuzenean(inpEguneratu.Id, inpEguneratu.Egoera);
+        }
+
+
+        private static bool EguneratuEgoeraPOO(int gailuId, int egoeraBerria)
+        {
+            string query = "UPDATE gailuak SET egoera_balioa = @egoera WHERE id_gailua = @id";
+            MySqlParameter[] parametroak = 
+            {
+                new MySqlParameter("@egoera", egoeraBerria),
+                new MySqlParameter("@id", gailuId)
+            };
+            return DbKonexioa.Instantzia.ExecuteNonQuery(query, parametroak) > 0;
         }
 
         //__________________________POO___________________________

@@ -8,14 +8,15 @@ namespace Inbentarioa.DatuBasie
     {
         public static Erabiltzailea Login(string izena, string pasahitza)
         {
-            // ... (Zure Login kodea bere horretan mantendu)
             string konexioa = DbKonexioa.Instantzia.GetKonexioString();
             using (MySqlConnection conn = new MySqlConnection(konexioa))
             {
                 try
                 {
                     conn.Open();
-                    string sql = "SELECT id_erabiltzailea, rola, erabiltzailea FROM erabiltzaileak WHERE erabiltzailea = @user AND pasahitza = @pass";
+                    // 1. ZUZENKETA: Gehitu 'id_mintegia' SELECT kontsultan
+                    string sql = "SELECT id_erabiltzailea, rola, erabiltzailea, id_mintegia FROM erabiltzaileak WHERE erabiltzailea = @user AND pasahitza = @pass";
+
                     MySqlCommand cmd = new MySqlCommand(sql, conn);
                     cmd.Parameters.AddWithValue("@user", izena);
                     cmd.Parameters.AddWithValue("@pass", pasahitza);
@@ -28,7 +29,12 @@ namespace Inbentarioa.DatuBasie
                             {
                                 IdErabiltzailea = reader.GetInt32("id_erabiltzailea"),
                                 Rola = reader.GetString("rola"),
-                                Izena = reader.GetString("erabiltzailea")
+                                Izena = reader.GetString("erabiltzailea"),
+
+                                // 2. ZUZENKETA: Balioa irakurri. Kontuz NULL balioekin!
+                                IdMintegia = reader.IsDBNull(reader.GetOrdinal("id_mintegia"))
+                                             ? (int?)null
+                                             : reader.GetInt32("id_mintegia")
                             };
                         }
                     }
