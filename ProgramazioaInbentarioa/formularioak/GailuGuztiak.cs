@@ -313,6 +313,7 @@ namespace Inbentarioa.formularioak
 
                     string egoeraTestua = row.Cells["EgoeraCombo"].Value.ToString();
                     int egoeraBerria;
+                    string mota = row.Cells["Mota"].Value.ToString(); // "Ordenagailua" edo "Inprimagailua"
 
                     switch (egoeraTestua)
                     {
@@ -324,14 +325,27 @@ namespace Inbentarioa.formularioak
                             return;
                     }
 
+                    int gailuId = Convert.ToInt32(row.Cells["ID"].Value);
                     Gailua gailua = new Gailua();
-                    gailua.Id = Convert.ToInt32(row.Cells["ID"].Value);
+                    gailua.Id = gailuId;
                     gailua.Egoera = egoeraBerria;
 
                     if (DBGailuak.EguneratuEgoeraPOO(gailua))
                     {
+                        // ***** HAU DA FALTA ZEN ZATIA *****
+                        // Egoera "Hondatuta" bada (1), gorde hondatutakoak taulan
+                        if (egoeraBerria == 1)
+                        {
+                            bool gordeOndo = DBGailuak.GordeHondatutakoGailua(gailuId, mota);
+                            if (!gordeOndo)
+                            {
+                                MessageBox.Show("Arazoa gertatu da hondatutako gailua gordetzean.");
+                            }
+                        }
+                        // ********************************
+
                         MessageBox.Show("Egoera ondo eguneratu da.");
-                        KargatuDatuak();
+                        KargatuDatuak(); // Refresh your DataGridView
                     }
                 }
                 catch (Exception ex)

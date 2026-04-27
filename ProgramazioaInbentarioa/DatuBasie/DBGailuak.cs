@@ -496,7 +496,7 @@ namespace Inbentarioa.DatuBasie
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine($"Errorea EguneratuEgoeraZuzenean: {ex.Message}");
+                System.Diagnostics.Debug.WriteLine($"Errorea datuak eguneratzerakoan");
                 return false;
             }
         }
@@ -843,27 +843,28 @@ namespace Inbentarioa.DatuBasie
             }
         }
 
-
-
         public static DataTable GetHondatutakoGailuak()
         {
             DataTable dt = new DataTable();
             string konexioa = DbKonexioa.Instantzia.GetKonexioString();
 
-            // UNION: Lehenengo zatiak Ordenagailuak hartzen ditu, bigarrenak Inprimagailuak
+            // WHERE g.egoera != 0 gehitu (Ondo ez daudenak bakarrik)
             string sql = @"
         SELECT 
             g.id_gailua AS ID, 
             g.identifikazio_kodea AS Kodea, 
             g.marka_modeloa AS Modeloa, 
             m.izena AS Mintegia,
+            h.matxuraKopurua AS 'Zenbat aldiz',
+            DATE_FORMAT(h.hondatutako_data, '%d/%m/%Y') AS 'Azken hondatze data',
+            'Ordenagailua' AS Mota,
             g.egoera AS egoera_balioa,
-            g.id_mintegia,                    -- GEHITU HAU!
-            'Ordenagailua' AS Mota
+            g.id_mintegia
         FROM gailuak g 
         INNER JOIN ordenagailuak o ON g.id_gailua = o.id_gailua
         INNER JOIN mintegiak m ON g.id_mintegia = m.id_mintegia
-        WHERE g.egoera = 1
+        INNER JOIN hondatutakoak h ON g.id_gailua = h.id_gailua
+        WHERE g.egoera != 0              -- ONDO (0) ez daudenak bakarrik
         
         UNION
         
@@ -872,13 +873,16 @@ namespace Inbentarioa.DatuBasie
             g.identifikazio_kodea AS Kodea, 
             g.marka_modeloa AS Modeloa, 
             m.izena AS Mintegia,
+            h.matxuraKopurua AS 'Zenbat aldiz',
+            DATE_FORMAT(h.hondatutako_data, '%d/%m/%Y') AS 'Azken hondatze data',
+            'Inprimagailua' AS Mota,
             g.egoera AS egoera_balioa,
-            g.id_mintegia,                    -- GEHITU HAU!
-            'Inprimagailua' AS Mota
+            g.id_mintegia
         FROM gailuak g 
         INNER JOIN inprimagailuak i ON g.id_gailua = i.id_gailua
         INNER JOIN mintegiak m ON g.id_mintegia = m.id_mintegia
-        WHERE g.egoera = 1";
+        INNER JOIN hondatutakoak h ON g.id_gailua = h.id_gailua
+        WHERE g.egoera != 0              -- ONDO (0) ez daudenak bakarrik";
 
             try
             {
@@ -894,6 +898,8 @@ namespace Inbentarioa.DatuBasie
             }
             return dt;
         }
+
+
         public static bool EzabatuGailuBatenDatuak(int id)
         {
             string konexioa = DbKonexioa.Instantzia.GetKonexioString();

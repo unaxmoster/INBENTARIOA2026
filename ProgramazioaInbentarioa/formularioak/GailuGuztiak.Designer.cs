@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GailuGuztiak));
             dvgGailuak = new DataGridView();
             EZABATUTAKOAK = new Label();
             ATZERA = new Button();
@@ -122,6 +123,7 @@
             Controls.Add(ATZERA);
             Controls.Add(EZABATUTAKOAK);
             Controls.Add(dvgGailuak);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "GailuGuztiak";
             Text = "GailuGuztiak";
             Load += GailuGuztiak_Load;
