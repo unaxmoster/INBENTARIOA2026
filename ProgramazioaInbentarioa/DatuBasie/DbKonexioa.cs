@@ -12,12 +12,12 @@ namespace Inbentarioa.DatuBasie
 
         private DbKonexioa()
         {
-            // Zure konexio-katea
-            // 172.22.160.1
-            //Izenarekin Server=localhost;Database=inbentarioa2026;Uid=root2026;Pwd=root2026;
-            // konexioString = "Server=anarcocapitalista90;Database=inbentarioa2026;Uid=root2026;Pwd=root2026;";
+            // Konexio-katea
             
-            konexioString = "Server=10.33.28.85;Database=inbentarioa2026;Uid=root2026;Pwd=root2026;";
+            //Izenarekin Server=localhost;Database=inbentarioa2026;Uid=root2026;Pwd=root2026;
+             konexioString = "Server=anarcocapitalista90;Database=inbentarioa2026;Uid=root2026;Pwd=root2026;";
+            
+            //konexioString = "Server=10.33.28.85;Database=inbentarioa2026;Uid=root2026;Pwd=root2026;";
 
         }
     
