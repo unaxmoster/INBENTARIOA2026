@@ -10,10 +10,34 @@ namespace Inbentarioa.DatuBasie
         private static readonly object lockObj = new object();
         private string konexioString;
 
-        private DbKonexioa()
+      /*  private DbKonexioa()
         {
             // Zure konexio-katea
-            konexioString = "Server=anarcocapitalista90;Database=inbentarioa2026;Uid=root2026;Pwd=root2026;";
+            // 172.22.160.1
+            //Izenarekin Server=localhost;Database=inbentarioa2026;Uid=root2026;Pwd=root2026;
+            // konexioString = "Server=anarcocapitalista90;Database=inbentarioa2026;Uid=root2026;Pwd=root2026;";
+            konexioString = "Server=172.22.160.1;Database=inbentarioa2026;Uid=root2026;Pwd=root2026;";
+
+        }
+      */
+      private DbKonexioa()
+        {
+            // Lehenik, saiatu izenarekin
+            string server = "anarcocapitalista90";
+
+            // Ezin bada, erabili IPa
+            try
+            {
+                var ips = System.Net.Dns.GetHostAddresses("anarcocapitalista90");
+                if (ips.Length > 0)
+                    server = ips[0].ToString();
+            }
+            catch
+            {
+                server = "192.168.1.XXX"; // Zure IP finkoa
+            }
+
+            konexioString = $"Server={server};Database=inbentarioa2026;Uid=root2026;Pwd=root2026;";
         }
 
         public static DbKonexioa Instantzia
