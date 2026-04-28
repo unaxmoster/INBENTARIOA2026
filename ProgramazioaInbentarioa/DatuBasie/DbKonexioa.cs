@@ -34,7 +34,7 @@ namespace Inbentarioa.DatuBasie
             }
             catch
             {
-                server = "192.168.1.XXX"; // Zure IP finkoa
+                server = "172.22.160.1"; // IP finkoa
             }
 
             konexioString = $"Server={server};Database=inbentarioa2026;Uid=root2026;Pwd=root2026;";
