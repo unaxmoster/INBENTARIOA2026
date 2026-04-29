@@ -347,7 +347,7 @@ namespace Inbentarioa.formularioak
                         MessageBox.Show("Egoera ondo eguneratu da.");
                         KargatuDatuak(); 
                     }
-                    if (egoeraBerria == 0)
+                    if (egoeraBerria == 0 || egoeraBerria == 2)
                     {
                         DBGailuak.KenduHondatutakoGailua(gailuId);
                     }

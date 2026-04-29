@@ -375,6 +375,10 @@ namespace Inventarioa.formularioak
                             }
                         }
                     }
+                    if (egoeraBerria == 0 || egoeraBerria == 2)
+                    {
+                        DBGailuak.KenduHondatutakoGailua(gailuId);
+                    }
 
                     // Gailu objektua sortu (Gailua klasea erabiliz)
                     Gailua gailua = new Gailua();

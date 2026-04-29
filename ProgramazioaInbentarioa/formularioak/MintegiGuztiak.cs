@@ -362,7 +362,7 @@ namespace Inventarioa.formularioak
                             return;
                         }
                     }
-                    if (egoeraBerria == 0)
+                    if (egoeraBerria == 0 || egoeraBerria == 2)
                     {
                         DBGailuak.KenduHondatutakoGailua(idGailua);
                     }
