@@ -332,7 +332,7 @@ namespace Inbentarioa.formularioak
 
                     if (DBGailuak.EguneratuEgoeraPOO(gailua))
                     {
-                        // ***** HAU DA FALTA ZEN ZATIA *****
+                       
                         // Egoera "Hondatuta" bada (1), gorde hondatutakoak taulan
                         if (egoeraBerria == 1)
                         {
@@ -345,7 +345,11 @@ namespace Inbentarioa.formularioak
                         // ********************************
 
                         MessageBox.Show("Egoera ondo eguneratu da.");
-                        KargatuDatuak(); // Refresh your DataGridView
+                        KargatuDatuak(); 
+                    }
+                    if (egoeraBerria == 0)
+                    {
+                        DBGailuak.KenduHondatutakoGailua(gailuId);
                     }
                 }
                 catch (Exception ex)

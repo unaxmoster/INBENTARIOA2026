@@ -337,6 +337,10 @@ namespace Inventarioa.formularioak
                         string mota = row.Cells["Mota"].Value.ToString();
                         DBGailuak.GordeHondatutakoGailua(idGailua, mota);
                     }
+                    if (egoeraBerria == 0)
+                    {
+                        DBGailuak.KenduHondatutakoGailua(idGailua);
+                    }
 
                     Gailua gailua = new Gailua();
                     gailua.Id = idGailua;
@@ -357,7 +361,7 @@ namespace Inventarioa.formularioak
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Errorea: " + ex.Message);
+                    MessageBox.Show("Errorea: ");
                 }
             }
             else

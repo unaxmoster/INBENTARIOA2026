@@ -362,6 +362,10 @@ namespace Inventarioa.formularioak
                             return;
                         }
                     }
+                    if (egoeraBerria == 0)
+                    {
+                        DBGailuak.KenduHondatutakoGailua(idGailua);
+                    }
 
                     Gailua gailuEguneratua = new Gailua();
                     gailuEguneratua.Id = idGailua;

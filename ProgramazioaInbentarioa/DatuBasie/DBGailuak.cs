@@ -115,6 +115,7 @@ namespace Inbentarioa.DatuBasie
                     cmd.Parameters.AddWithValue("@egoera", orde.Egoera);
                     cmd.Parameters.AddWithValue("@id", orde.Id);
                     return cmd.ExecuteNonQuery() > 0;
+                    
                 }
             }
             catch { return false; }
@@ -970,7 +971,30 @@ namespace Inbentarioa.DatuBasie
             }
         }
 
-      
+        public static bool KenduHondatutakoGailua(int idGailua)
+        {
+            string konexioa = DbKonexioa.Instantzia.GetKonexioString();
+            try
+            {
+                using (MySqlConnection conn = new MySqlConnection(konexioa))
+                {
+                    conn.Open();
+                    // Gailua hondatutakoen taulatik ezabatzen dugu
+                    string sql = "DELETE FROM hondatutakoak WHERE id_gailua = @id";
+                    MySqlCommand cmd = new MySqlCommand(sql, conn);
+                    cmd.Parameters.AddWithValue("@id", idGailua);
+
+                    return cmd.ExecuteNonQuery() > 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                // Debug egiteko erabilgarria
+                System.Diagnostics.Debug.WriteLine("Errorea hondatutakoa ezabatzean: " + ex.Message);
+                return false;
+            }
+        }
+
         public static bool MugituEtaEzabatu(int id, string mota)
         {
             string konexioa = DbKonexioa.Instantzia.GetKonexioString();

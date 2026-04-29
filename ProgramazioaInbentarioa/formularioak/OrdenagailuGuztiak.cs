@@ -367,6 +367,10 @@ namespace Inventarioa.formularioak
                             }
                         }
                     }
+                    if (egoeraBerria == 0)
+                    {
+                        DBGailuak.KenduHondatutakoGailua(gailuId);
+                    }
 
                     Ordenagailua ordeEguneratu = new Ordenagailua(
                         row.Cells["Kodea"].Value.ToString(),
